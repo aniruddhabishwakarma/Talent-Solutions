@@ -1,0 +1,237 @@
+{% extends 'user/base.html' %}
+
+{% block title %}Verify Email - Talent Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    .nav-link { color: white !important; }
+    .nav-link:hover { color: #67e8f9 !important; }
+    .nav-logo-text { color: white !important; }
+    .nav-mobile-btn { color: white !important; }
+    #navbar {
+        background: rgba(15, 23, 42, 0.9);
+        backdrop-filter: blur(12px);
+    }
+
+    .verify-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .otp-inputs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .otp-input {
+        width: 48px;
+        height: 56px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        background: #f9fafb;
+        color: #1f2937;
+        transition: all 0.2s ease;
+        outline: none;
+        caret-color: #004A98;
+    }
+
+    .otp-input:focus {
+        border-color: #004A98;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(0, 74, 152, 0.15);
+    }
+
+    .otp-input.filled {
+        border-color: #0891b2;
+        background: #f0fdff;
+    }
+
+    .btn-verify {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #0066cc 0%, #004A98 50%, #001832 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-verify:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 74, 152, 0.3);
+    }
+
+    .btn-resend {
+        background: none;
+        border: none;
+        color: #0891b2;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .btn-resend:hover { text-decoration: underline; }
+    .btn-resend:disabled { color: #9ca3af; cursor: not-allowed; }
+
+    @media (max-width: 480px) {
+        .otp-input { width: 42px; height: 50px; font-size: 20px; }
+        .otp-inputs { gap: 6px; }
+    }
+</style>
+{% endblock %}
+
+{% block main_class %}min-h-screen flex items-center justify-center px-4 pt-20 pb-8{% endblock %}
+
+{% block content %}
+<div class="verify-card w-full max-w-md p-8 md:p-10">
+
+    <!-- Email icon -->
+    <div class="flex justify-center mb-4">
+        <div class="w-16 h-16 rounded-full bg-cyan-50 flex items-center justify-center">
+            <svg class="w-8 h-8 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-2xl font-bold text-center text-gray-900 mb-2">Verify Your Email</h1>
+    <p class="text-center text-gray-500 text-sm mb-8">
+        We sent a 6-digit code to <span class="font-semibold text-gray-700">{{ masked_email }}</span>
+    </p>
+
+    <!-- Verify form -->
+    <form method="POST" action="{% url 'verify_email' %}" class="space-y-6" id="verifyForm">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="verify">
+        <input type="hidden" name="code" id="otpCode">
+
+        <!-- 6 digit boxes -->
+        <div class="otp-inputs" id="otpInputs">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+        </div>
+
+        <!-- Verify button -->
+        <button type="submit" class="btn-verify">Verify</button>
+    </form>
+
+    <!-- Resend -->
+    <div class="text-center mt-5">
+        <p class="text-gray-500 text-sm">
+            Didn't receive the code?
+            <form method="POST" action="{% url 'verify_email' %}" class="inline">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="resend">
+                <button type="submit" class="btn-resend" id="resendBtn"
+                        {% if resend_wait > 0 %}disabled{% endif %}>
+                    {% if resend_wait > 0 %}Resend ({{ resend_wait }}s){% else %}Resend Code{% endif %}
+                </button>
+            </form>
+        </p>
+    </div>
+
+    <!-- Back to login -->
+    <p class="text-center text-sm text-gray-500 mt-4">
+        <a href="{% url 'user_login' %}" class="text-cyan-600 hover:underline font-medium">Back to Login</a>
+    </p>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var inputs   = document.querySelectorAll('.otp-input');
+    var hidden   = document.getElementById('otpCode');
+    var form     = document.getElementById('verifyForm');
+
+    // --- digit navigation ---
+    inputs.forEach(function(input, index) {
+        input.addEventListener('input', function() {
+            // strip non-digits
+            this.value = this.value.replace(/\D/g, '');
+
+            if (this.value.length === 1) {
+                this.classList.add('filled');
+                if (index < inputs.length - 1) inputs[index + 1].focus();
+            } else {
+                this.classList.remove('filled');
+            }
+            sync();
+
+            // auto-submit once all 6 filled
+            if (Array.from(inputs).every(function(i){ return i.value.length === 1; })) {
+                form.submit();
+            }
+        });
+
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value && index > 0) {
+                inputs[index - 1].value = '';
+                inputs[index - 1].classList.remove('filled');
+                inputs[index - 1].focus();
+                sync();
+                e.preventDefault();
+            }
+        });
+
+        // paste support – dump up to 6 digits across the boxes
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            var digits = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+            digits.split('').forEach(function(ch, i) {
+                if (inputs[i]) {
+                    inputs[i].value = ch;
+                    inputs[i].classList.toggle('filled', ch !== '');
+                }
+            });
+            var focusIdx = Math.min(digits.length, 5);
+            inputs[focusIdx].focus();
+            sync();
+            if (digits.length === 6) form.submit();
+        });
+    });
+
+    inputs[0].focus();
+
+    function sync() {
+        hidden.value = Array.from(inputs).map(function(i){ return i.value; }).join('');
+    }
+
+    // --- resend countdown ---
+    var btn     = document.getElementById('resendBtn');
+    var seconds = {{ resend_wait }};
+
+    if (seconds > 0) {
+        btn.disabled = true;
+        btn.textContent = 'Resend (' + seconds + 's)';
+        var timer = setInterval(function() {
+            seconds--;
+            if (seconds <= 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+                btn.textContent = 'Resend Code';
+            } else {
+                btn.textContent = 'Resend (' + seconds + 's)';
+            }
+        }, 1000);
+    }
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,258 @@
+{% extends 'user/base.html' %}
+
+{% block title %}Edit Profile - Talent Solutions{% endblock %}
+
+{% block body_class %}bg-gray-50{% endblock %}
+{% block main_class %}pt-20{% endblock %}
+
+{% block extra_css %}
+<style>
+    .input-field {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #f9fafb;
+    }
+    .input-field:focus {
+        outline: none;
+        border-color: #0ea5e9;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+    .skill-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: #f0f9ff;
+        border: 1.5px solid #bae6fd;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #0369a1;
+    }
+    .skill-tag button {
+        background: none;
+        border: none;
+        color: #7dd3fc;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        padding: 0;
+    }
+    .skill-tag button:hover { color: #0ea5e9; }
+    .file-upload {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        border: 2px dashed #d1d5db;
+        border-radius: 12px;
+        background: #f9fafb;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .file-upload:hover { border-color: #0ea5e9; background: #f0f9ff; }
+    .file-upload.has-file { border-color: #10b981; background: #ecfdf5; }
+    .file-upload input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="bg-white border-b border-gray-100">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center gap-3">
+            <a href="{% url 'user_profile' %}" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Edit Profile</h1>
+                <p class="text-gray-500 text-sm">Update your personal information</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Form -->
+<section class="py-8 sm:py-12">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Profile Picture -->
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Profile Picture</label>
+                    <div class="flex items-center gap-6">
+                        <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-100 flex-shrink-0">
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="w-full h-full object-cover" id="profilePreview">
+                            {% elif user.profile_picture_url %}
+                                <img src="{{ user.profile_picture_url }}" alt="{{ user.username }}" class="w-full h-full object-cover" id="profilePreview">
+                            {% else %}
+                                <div class="w-full h-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center" id="profilePreview">
+                                    <span class="text-white text-3xl font-bold">{{ user.first_name|first|upper }}{{ user.last_name|first|upper }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1">
+                            <div class="file-upload" id="profilePicUpload">
+                                <input type="file" name="profile_picture" id="profile_picture" accept="image/jpeg,image/png,image/jpg">
+                                <svg class="w-6 h-6 text-gray-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <p class="text-sm text-gray-500" id="profilePicText">Click to upload new photo</p>
+                                <p class="text-xs text-gray-400 mt-1">JPG or PNG, max 5MB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Name Fields -->
+                <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                        <input type="text" id="first_name" name="first_name" class="input-field" value="{{ user.first_name }}" placeholder="First name">
+                    </div>
+                    <div>
+                        <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" class="input-field" value="{{ user.last_name }}" placeholder="Last name">
+                    </div>
+                </div>
+
+                <!-- Email & Phone -->
+                <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email" class="input-field" value="{{ user.email }}" required>
+                    </div>
+                    <div>
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel" id="phone_number" name="phone_number" class="input-field" value="{{ user.phone_number|default:'' }}" placeholder="+977-9800000000">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-6">
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <textarea id="address" name="address" class="input-field" rows="3" placeholder="Enter your address">{{ user.address|default:'' }}</textarea>
+                </div>
+
+                <!-- Skills -->
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Skills</label>
+                    <p class="text-xs text-gray-500 mb-3">Type a skill and press Enter to add</p>
+                    <div class="flex flex-wrap gap-2 mb-3" id="skillTags">
+                        {% for skill in user_skills %}
+                        <div class="skill-tag">
+                            <span>{{ skill }}</span>
+                            <button type="button" onclick="removeSkill(this)">&times;</button>
+                            <input type="hidden" name="user_skills" value="{{ skill }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="skillInput" class="input-field flex-1" placeholder="e.g. Python, Web Development">
+                        <button type="button" onclick="addSkill()" class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors text-sm font-semibold">Add</button>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-100">
+                    <button type="submit" class="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-xl hover:from-cyan-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-cyan-500/25">
+                        Save Changes
+                    </button>
+                    <a href="{% url 'user_profile' %}" class="px-6 py-3 border-2 border-gray-200 text-gray-600 font-medium rounded-xl hover:border-gray-300 hover:bg-gray-50 transition-all text-center">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Force navbar into light mode on inner pages
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        navbar.classList.add('bg-white', 'shadow-sm');
+        navbar.classList.remove('bg-slate-900/90', 'backdrop-blur-lg');
+        navbar.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('text-white', 'hover:text-cyan-300');
+            link.classList.add('text-gray-700', 'hover:text-cyan-500');
+        });
+        const logoText = navbar.querySelector('.nav-logo-text');
+        if (logoText) { logoText.classList.remove('text-white'); logoText.classList.add('text-gray-900'); }
+        const mobileBtn = navbar.querySelector('.nav-mobile-btn');
+        if (mobileBtn) { mobileBtn.classList.remove('text-white', 'hover:bg-white/10'); mobileBtn.classList.add('text-gray-700', 'hover:bg-gray-100'); }
+        const userName = navbar.querySelector('.nav-user-name');
+        if (userName) { userName.classList.remove('text-white'); userName.classList.add('text-gray-700'); }
+        const userChevron = navbar.querySelector('.nav-user-chevron');
+        if (userChevron) { userChevron.classList.remove('text-white'); userChevron.classList.add('text-gray-700'); }
+    }
+</script>
+<script>
+    const picInput = document.getElementById('profile_picture');
+    const picUpload = document.getElementById('profilePicUpload');
+    const picText = document.getElementById('profilePicText');
+
+    picInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            picText.textContent = this.files[0].name;
+            picUpload.classList.add('has-file');
+
+            // Live preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('profilePreview');
+                if (preview.tagName === 'IMG') {
+                    preview.src = e.target.result;
+                } else {
+                    const img = document.createElement('img');
+                    img.id = 'profilePreview';
+                    img.src = e.target.result;
+                    img.className = 'w-full h-full object-cover';
+                    preview.parentNode.replaceChild(img, preview);
+                }
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+</script>
+<script>
+    function addSkill() {
+        const input = document.getElementById('skillInput');
+        const name = input.value.trim();
+        if (!name) return;
+
+        // Duplicate check (case-insensitive)
+        const existing = document.querySelectorAll('#skillTags .skill-tag input[type="hidden"]');
+        for (const h of existing) {
+            if (h.value.toLowerCase() === name.toLowerCase()) { input.value = ''; return; }
+        }
+
+        const tag = document.createElement('div');
+        tag.className = 'skill-tag';
+        tag.innerHTML = '<span>' + name + '</span><button type="button" onclick="removeSkill(this)">&times;</button><input type="hidden" name="user_skills" value="' + name.replace(/"/g, '&quot;') + '">';
+        document.getElementById('skillTags').appendChild(tag);
+        input.value = '';
+    }
+
+    function removeSkill(btn) {
+        btn.closest('.skill-tag').remove();
+    }
+
+    document.getElementById('skillInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); addSkill(); }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'user/base.html' %}
+
+{% block title %}{% if query %}Search: {{ query }}{% else %}Search Products{% endif %} - Daily Grocery{% endblock %}
+
+{% block content %}
+<!-- Search Results Section -->
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 pt-32 pb-16">
+    <div class="max-w-7xl mx-auto px-4">
+        {% if query %}
+        <!-- Search Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">
+                Search Results for "<span class="text-primary">{{ query }}</span>"
+            </h1>
+            <p class="text-gray-600">Found {{ total_count }} product{{ total_count|pluralize }}</p>
+        </div>
+
+        {% if products %}
+        <!-- Results Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="group bg-white rounded-2xl border-2 border-gray-200 hover:border-primary hover:shadow-xl transition-all overflow-hidden">
+                <a href="{% url 'user_product_detail' product.slug %}" class="block">
+                    <div class="relative h-64 overflow-hidden bg-gray-100">
+                        {% if product.main_image %}
+                        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        {% else %}
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-200 to-gray-300">
+                            <svg class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                            </svg>
+                        </div>
+                        {% endif %}
+
+                        <!-- Badges -->
+                        <div class="absolute top-3 left-3 flex flex-col gap-2">
+                            {% if product.is_new %}
+                            <span class="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">New</span>
+                            {% endif %}
+                            {% if product.is_on_sale %}
+                            <span class="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full">Sale</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Wishlist Button -->
+                        <button onclick="toggleWishlist({{ product.id }}, event)" class="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition shadow-lg z-10">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </a>
+
+                <div class="p-5">
+                    {% if product.category %}
+                    <p class="text-xs font-bold text-primary uppercase tracking-wider mb-2">{{ product.category.name }}</p>
+                    {% endif %}
+
+                    <a href="{% url 'user_product_detail' product.slug %}">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-primary transition">{{ product.name }}</h3>
+                    </a>
+
+                    <div class="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                        </svg>
+                        {{ product.unit_value }} {{ product.get_unit_of_measurement_display }}
+                    </div>
+
+                    <div class="flex gap-2 mb-4">
+                        {% if product.is_organic %}
+                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">Organic</span>
+                        {% endif %}
+                        {% if product.is_vegan %}
+                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-semibold">Vegan</span>
+                        {% endif %}
+                        {% if product.is_gluten_free %}
+                        <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full font-semibold">Gluten-Free</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                        <div>
+                            <div class="text-2xl font-bold text-primary">NPR {{ product.price }}</div>
+                            {% if product.compare_at_price %}
+                            <div class="text-sm text-gray-500 line-through">NPR {{ product.compare_at_price }}</div>
+                            {% endif %}
+                        </div>
+                        {% if product.is_in_stock %}
+                        <button onclick="quickAddToCart({{ product.id }}, event)" class="w-12 h-12 bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl flex items-center justify-center hover:shadow-lg hover:shadow-primary/50 transition">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                        </button>
+                        {% else %}
+                        <span class="px-3 py-2 bg-red-100 text-red-700 text-xs font-bold rounded-lg">Out of Stock</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- No Results Found -->
+        <div class="text-center py-20">
+            <div class="relative inline-block mb-8">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary-light to-primary rounded-full blur-3xl opacity-20"></div>
+                <div class="relative w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto">
+                    <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900 mb-3">No Products Found</h2>
+            <p class="text-lg text-gray-600 mb-2">We couldn't find any products matching "{{ query }}"</p>
+            <p class="text-gray-500 mb-8">Try different keywords or browse our categories</p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="{% url 'home' %}" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/50 transition">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    Back to Home
+                </a>
+                <button onclick="document.getElementById('searchInput').focus()" class="inline-flex items-center gap-2 px-8 py-4 border-2 border-gray-300 hover:border-primary text-gray-700 hover:text-primary font-bold rounded-xl transition">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                    </svg>
+                    Try Another Search
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty Search State -->
+        <div class="text-center py-20">
+            <div class="relative inline-block mb-8">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary-light to-primary rounded-full blur-3xl opacity-20"></div>
+                <div class="relative w-32 h-32 bg-gradient-to-br from-primary-light to-primary rounded-full flex items-center justify-center mx-auto">
+                    <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <h2 class="text-4xl font-bold text-gray-900 mb-3">Start Your <span class="text-primary">Search</span></h2>
+            <p class="text-lg text-gray-600 mb-8">Find your favorite products, brands, and categories</p>
+
+            <button onclick="document.getElementById('searchInput').focus()" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/50 transition">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                </svg>
+                Start Searching
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

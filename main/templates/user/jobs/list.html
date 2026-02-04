@@ -1,0 +1,239 @@
+{% extends 'user/base.html' %}
+
+{% block title %}Jobs - {{ company.company_name|default:"Talent Solutions" }}{% endblock %}
+
+{% block body_class %}bg-gray-100{% endblock %}
+{% block main_class %}pt-20{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Right Sidebar - Filters (order-2 on desktop) -->
+        <div class="lg:w-80 flex-shrink-0 lg:order-2">
+            <div class="bg-white rounded-lg shadow-sm p-4 sticky top-24">
+                <form method="GET" action="{% url 'user_jobs_list' %}">
+                    <!-- Search -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-900 mb-2">Search</label>
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <input type="text" name="search" value="{{ search }}" placeholder="Job title, company..."
+                                   class="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <!-- Country Filter -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-900 mb-2">Location</label>
+                        <select name="country" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
+                            <option value="">All Countries</option>
+                            {% for code, name in countries %}
+                                <option value="{{ code }}" {% if selected_country == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Apply Button -->
+                    <button type="submit" class="w-full py-2 bg-cyan-600 text-white text-sm font-semibold rounded-lg hover:bg-cyan-700 transition-colors">
+                        Apply Filters
+                    </button>
+
+                    {% if search or selected_country %}
+                    <a href="{% url 'user_jobs_list' %}" class="block text-center text-sm text-gray-500 hover:text-cyan-600 mt-3">
+                        Clear all filters
+                    </a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Content - Job List (order-1 on desktop) -->
+        <div class="flex-1 min-w-0 lg:order-1">
+            {% if jobs %}
+                <div class="space-y-3">
+                    {% for job in jobs %}
+                    <a href="{% url 'user_job_detail' job.slug %}" class="block bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-transparent hover:border-cyan-200">
+                        <div class="p-4 sm:p-5">
+                            <!-- Title Row -->
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <h2 class="text-lg font-semibold text-cyan-700 hover:underline truncate">{{ job.title }}</h2>
+                                    <p class="text-gray-900 font-medium">{{ job.company_name }}</p>
+                                    <p class="text-gray-500 text-sm">{{ job.get_country_display_name }}{% if job.city %}, {{ job.city }}{% endif %}</p>
+                                </div>
+                                {% if job.is_urgent %}
+                                <span class="flex-shrink-0 px-2 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded">Urgent</span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Benefits & Salary -->
+                            <div class="mt-3 flex flex-wrap items-center gap-2">
+                                <span class="inline-flex items-center px-2.5 py-1 bg-green-50 text-green-700 text-xs font-medium rounded-full">
+                                    {{ job.get_salary_display }}/mo
+                                </span>
+                                {% if job.fooding %}
+                                <span class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Food
+                                </span>
+                                {% endif %}
+                                {% if job.lodging %}
+                                <span class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Lodging
+                                </span>
+                                {% endif %}
+                                {% if job.overtime_available %}
+                                <span class="inline-flex items-center px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Overtime
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Footer: vacancies, contract, experience, deadline -->
+                            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    {{ job.vacancies }} opening{{ job.vacancies|pluralize }}
+                                </span>
+                                {% if job.contract_duration %}
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                    </svg>
+                                    {{ job.contract_duration }} month{{ job.contract_duration|pluralize }}
+                                </span>
+                                {% endif %}
+                                {% if job.experience_years %}
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    {{ job.experience_years }}+ yr exp
+                                </span>
+                                {% endif %}
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    Deadline: {{ job.deadline|date:"M d, Y" }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if jobs.has_other_pages %}
+                <div class="flex justify-center mt-8">
+                    <nav class="inline-flex items-center gap-1 bg-white rounded-lg shadow-sm p-1.5">
+                        {% if jobs.has_previous %}
+                        <a href="?page={{ jobs.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_country %}&country={{ selected_country }}{% endif %}"
+                           class="p-2 rounded-md hover:bg-gray-100 text-gray-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+
+                        {% for num in jobs.paginator.page_range %}
+                            {% if jobs.number == num %}
+                            <span class="px-3.5 py-1.5 rounded-md bg-cyan-600 text-white text-sm font-medium">{{ num }}</span>
+                            {% elif num > jobs.number|add:'-3' and num < jobs.number|add:'3' %}
+                            <a href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if selected_country %}&country={{ selected_country }}{% endif %}"
+                               class="px-3.5 py-1.5 rounded-md hover:bg-gray-100 text-gray-600 text-sm font-medium transition-colors">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if jobs.has_next %}
+                        <a href="?page={{ jobs.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if selected_country %}&country={{ selected_country }}{% endif %}"
+                           class="p-2 rounded-md hover:bg-gray-100 text-gray-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </nav>
+                </div>
+                {% endif %}
+
+            {% else %}
+                <!-- No Jobs Found -->
+                <div class="bg-white rounded-lg shadow-sm p-8 text-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">No jobs found</h3>
+                    <p class="text-gray-500 mb-4">Try adjusting your search or filters</p>
+                    <a href="{% url 'user_jobs_list' %}" class="inline-flex items-center gap-2 text-cyan-600 font-medium hover:text-cyan-700">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        Clear filters
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Set navbar to light mode immediately
+    const navbar = document.getElementById('navbar');
+    const navLinks = navbar.querySelectorAll('.nav-link');
+    const navLogoText = navbar.querySelector('.nav-logo-text');
+    const navPhone = navbar.querySelector('.nav-phone');
+    const navMobileBtn = navbar.querySelector('.nav-mobile-btn');
+
+    navbar.classList.add('bg-white', 'shadow-sm');
+
+    navLinks.forEach(link => {
+        link.classList.remove('text-white', 'hover:text-cyan-300');
+        link.classList.add('text-gray-700', 'hover:text-cyan-500');
+    });
+
+    if (navLogoText) {
+        navLogoText.classList.remove('text-white');
+        navLogoText.classList.add('text-gray-900');
+    }
+
+    if (navPhone) {
+        navPhone.classList.remove('text-white', 'hover:text-cyan-300');
+        navPhone.classList.add('text-gray-600', 'hover:text-cyan-500');
+    }
+
+    if (navMobileBtn) {
+        navMobileBtn.classList.remove('text-white', 'hover:bg-white/10');
+        navMobileBtn.classList.add('text-gray-700', 'hover:bg-gray-100');
+    }
+
+    // Set Jobs as active
+    const jobsLink = navbar.querySelector('[data-section="jobs"]');
+    if (jobsLink) {
+        const underline = jobsLink.querySelector('.nav-underline');
+        if (underline) {
+            underline.classList.remove('w-0');
+            underline.classList.add('w-full');
+        }
+    }
+</script>
+{% endblock %}

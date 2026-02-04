@@ -1,0 +1,253 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Edit Company Profile - Admin{% endblock %}
+
+{% block content %}
+<div class="p-2">
+    <!-- Back Button -->
+    <div class="mb-6">
+        <a href="{% url 'company_profile' %}" class="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-semibold">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+            </svg>
+            Back to Company Profile
+        </a>
+    </div>
+
+    <!-- Edit Form -->
+    <div class="max-w-4xl">
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- Basic Information -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h2 class="text-lg font-bold text-gray-900">Basic Information</h2>
+                </div>
+                <div class="p-6 space-y-6">
+                    <!-- Logo -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Company Logo</label>
+                        <div class="flex items-center gap-6">
+                            <div class="w-24 h-24 bg-gray-200 rounded-xl overflow-hidden border-4 border-gray-300 flex items-center justify-center">
+                                {% if company.logo %}
+                                <img id="logoPreview" src="{{ company.logo.url }}" alt="{{ company.company_name }}" class="w-full h-full object-contain">
+                                {% else %}
+                                <img id="logoPreview" src="" alt="Preview" class="w-full h-full object-contain hidden">
+                                <div id="logoPlaceholder" class="w-full h-full flex items-center justify-center bg-gray-200">
+                                    <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10z"/>
+                                    </svg>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <input type="file" name="logo" id="logo" accept="image/*" class="hidden" onchange="previewLogo(event)">
+                                <label for="logo" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg cursor-pointer transition">
+                                    Choose Logo
+                                </label>
+                                <p class="text-xs text-gray-500 mt-2">PNG, JPG or SVG (recommended: 200x200px)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Company Name -->
+                        <div class="md:col-span-2">
+                            <label for="company_name" class="block text-sm font-semibold text-gray-700 mb-2">Company Name <span class="text-red-500">*</span></label>
+                            <input type="text" name="company_name" id="company_name" value="{{ company.company_name }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter company name">
+                        </div>
+
+                        <!-- Tagline -->
+                        <div class="md:col-span-2">
+                            <label for="tagline" class="block text-sm font-semibold text-gray-700 mb-2">Tagline</label>
+                            <input type="text" name="tagline" id="tagline" value="{{ company.tagline|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your company slogan">
+                        </div>
+
+                        <!-- Industry -->
+                        <div>
+                            <label for="industry" class="block text-sm font-semibold text-gray-700 mb-2">Industry</label>
+                            <input type="text" name="industry" id="industry" value="{{ company.industry|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g., Technology, Healthcare">
+                        </div>
+
+                        <!-- Website -->
+                        <div>
+                            <label for="website" class="block text-sm font-semibold text-gray-700 mb-2">Website</label>
+                            <input type="url" name="website" id="website" value="{{ company.website|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://www.example.com">
+                        </div>
+
+                        <!-- Company Type -->
+                        <div>
+                            <label for="company_type" class="block text-sm font-semibold text-gray-700 mb-2">Company Type</label>
+                            <select name="company_type" id="company_type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="">Select type</option>
+                                <option value="private" {% if company.company_type == 'private' %}selected{% endif %}>Private</option>
+                                <option value="public" {% if company.company_type == 'public' %}selected{% endif %}>Public</option>
+                                <option value="startup" {% if company.company_type == 'startup' %}selected{% endif %}>Startup</option>
+                                <option value="ngo" {% if company.company_type == 'ngo' %}selected{% endif %}>NGO</option>
+                                <option value="government" {% if company.company_type == 'government' %}selected{% endif %}>Government</option>
+                            </select>
+                        </div>
+
+                        <!-- Company Size -->
+                        <div>
+                            <label for="company_size" class="block text-sm font-semibold text-gray-700 mb-2">Company Size</label>
+                            <select name="company_size" id="company_size" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="">Select size</option>
+                                <option value="1-10" {% if company.company_size == '1-10' %}selected{% endif %}>1-10 employees</option>
+                                <option value="11-50" {% if company.company_size == '11-50' %}selected{% endif %}>11-50 employees</option>
+                                <option value="51-200" {% if company.company_size == '51-200' %}selected{% endif %}>51-200 employees</option>
+                                <option value="201-500" {% if company.company_size == '201-500' %}selected{% endif %}>201-500 employees</option>
+                                <option value="500+" {% if company.company_size == '500+' %}selected{% endif %}>500+ employees</option>
+                            </select>
+                        </div>
+
+                        <!-- Founded Year -->
+                        <div>
+                            <label for="founded_year" class="block text-sm font-semibold text-gray-700 mb-2">Founded Year</label>
+                            <input type="number" name="founded_year" id="founded_year" value="{{ company.founded_year|default:'' }}" min="1800" max="2030" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g., 2020">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h2 class="text-lg font-bold text-gray-900">Contact Information</h2>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
+                            <input type="email" name="email" id="email" value="{{ company.email }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="info@company.com">
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Phone <span class="text-red-500">*</span></label>
+                            <input type="text" name="phone" id="phone" value="{{ company.phone }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="+1234567890">
+                        </div>
+
+                        <!-- Alternate Phone -->
+                        <div>
+                            <label for="alternate_phone" class="block text-sm font-semibold text-gray-700 mb-2">Alternate Phone</label>
+                            <input type="text" name="alternate_phone" id="alternate_phone" value="{{ company.alternate_phone|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="+1234567890">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h2 class="text-lg font-bold text-gray-900">Address</h2>
+                </div>
+                <div class="p-6 space-y-6">
+                    <!-- Street Address -->
+                    <div>
+                        <label for="address" class="block text-sm font-semibold text-gray-700 mb-2">Street Address <span class="text-red-500">*</span></label>
+                        <textarea name="address" id="address" rows="2" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter street address">{{ company.address }}</textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- City -->
+                        <div>
+                            <label for="city" class="block text-sm font-semibold text-gray-700 mb-2">City <span class="text-red-500">*</span></label>
+                            <input type="text" name="city" id="city" value="{{ company.city }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="City">
+                        </div>
+
+                        <!-- State -->
+                        <div>
+                            <label for="state" class="block text-sm font-semibold text-gray-700 mb-2">State/Province <span class="text-red-500">*</span></label>
+                            <input type="text" name="state" id="state" value="{{ company.state }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="State">
+                        </div>
+
+                        <!-- Country -->
+                        <div>
+                            <label for="country" class="block text-sm font-semibold text-gray-700 mb-2">Country <span class="text-red-500">*</span></label>
+                            <input type="text" name="country" id="country" value="{{ company.country }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Country">
+                        </div>
+
+                        <!-- Postal Code -->
+                        <div>
+                            <label for="postal_code" class="block text-sm font-semibold text-gray-700 mb-2">Postal Code <span class="text-red-500">*</span></label>
+                            <input type="text" name="postal_code" id="postal_code" value="{{ company.postal_code }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Postal Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Us -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h2 class="text-lg font-bold text-gray-900">About Us</h2>
+                </div>
+                <div class="p-6">
+                    <label for="about" class="block text-sm font-semibold text-gray-700 mb-2">Company Description</label>
+                    <textarea name="about" id="about" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tell us about your company...">{{ company.about|default:'' }}</textarea>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                    <h2 class="text-lg font-bold text-gray-900">Social Media</h2>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Facebook -->
+                        <div>
+                            <label for="facebook" class="block text-sm font-semibold text-gray-700 mb-2">Facebook</label>
+                            <input type="url" name="facebook" id="facebook" value="{{ company.facebook|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://facebook.com/...">
+                        </div>
+
+                        <!-- Twitter -->
+                        <div>
+                            <label for="twitter" class="block text-sm font-semibold text-gray-700 mb-2">Twitter / X</label>
+                            <input type="url" name="twitter" id="twitter" value="{{ company.twitter|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://twitter.com/...">
+                        </div>
+
+                        <!-- Instagram -->
+                        <div>
+                            <label for="instagram" class="block text-sm font-semibold text-gray-700 mb-2">Instagram</label>
+                            <input type="url" name="instagram" id="instagram" value="{{ company.instagram|default:'' }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://instagram.com/...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition">
+                    Save Changes
+                </button>
+                <a href="{% url 'company_profile' %}" class="flex-1 px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg text-center transition">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function previewLogo(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('logoPreview');
+    const placeholder = document.getElementById('logoPlaceholder');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            if (placeholder) {
+                placeholder.classList.add('hidden');
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,538 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Edit Job{% endblock %}
+
+{% block extra_style %}
+<style>
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--black);
+    }
+
+    .page-subtitle {
+        color: var(--gray-500);
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .form-card {
+        background: var(--white);
+        border-radius: 16px;
+        border: 1px solid var(--gray-200);
+        padding: 32px;
+    }
+
+    .form-section {
+        margin-bottom: 32px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .form-section:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 20px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+        grid-column: span 2;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--gray-700);
+        margin-bottom: 8px;
+    }
+
+    .form-label span.required {
+        color: var(--error);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    select.form-control {
+        cursor: pointer;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 24px;
+        padding: 12px 0;
+    }
+
+    .radio-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--gray-700);
+    }
+
+    .radio-label input[type="radio"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: var(--primary-color);
+    }
+
+    .skills-input-container {
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 12px;
+        background: var(--white);
+        min-height: 50px;
+    }
+
+    .skills-input-container:focus-within {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    }
+
+    .skills-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .skill-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--primary-color);
+        color: var(--white);
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .skill-tag .remove-skill {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        transition: background 0.2s;
+    }
+
+    .skill-tag .remove-skill:hover {
+        background: rgba(255,255,255,0.4);
+    }
+
+    .skill-input-row {
+        display: flex;
+        gap: 8px;
+    }
+
+    .skill-text-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        padding: 8px 0;
+    }
+
+    .add-skill-btn {
+        padding: 8px 16px;
+        background: var(--gray-100);
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--gray-700);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .add-skill-btn:hover {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-secondary {
+        background: var(--gray-100);
+        color: var(--gray-700);
+    }
+
+    .btn-secondary:hover {
+        background: var(--gray-200);
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+        margin-top: 32px;
+        padding-top: 32px;
+        border-top: 1px solid var(--gray-200);
+    }
+
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full-width {
+            grid-column: span 1;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Edit Job</h1>
+</div>
+
+<div class="form-card">
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <!-- Basic Information -->
+        <div class="form-section">
+            <h2 class="section-title">Basic Information</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Job Title <span class="required">*</span></label>
+                    <input type="text" name="title" class="form-control" placeholder="e.g., Mason, Driver, Chef" value="{{ job.title }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company Name <span class="required">*</span></label>
+                    <input type="text" name="company_name" class="form-control" placeholder="e.g., ABC Construction Co." value="{{ job.company_name }}" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Description <span class="required">*</span></label>
+                    <textarea name="description" class="form-control" placeholder="Enter full job description including responsibilities, benefits, requirements, etc." required>{{ job.description }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location -->
+        <div class="form-section">
+            <h2 class="section-title">Location</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Country <span class="required">*</span></label>
+                    <select name="country" class="form-control" required>
+                        <option value="">Select Country</option>
+                        {% for code, name in countries %}
+                        <option value="{{ code }}" {% if job.country == code %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">City</label>
+                    <input type="text" name="city" class="form-control" placeholder="e.g., Dubai, Riyadh" value="{{ job.city|default:'' }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Details -->
+        <div class="form-section">
+            <h2 class="section-title">Job Details</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Contract Duration (Months)</label>
+                    <input type="number" name="contract_duration" class="form-control" placeholder="e.g., 24" min="1" value="{{ job.contract_duration|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Vacancies <span class="required">*</span></label>
+                    <input type="number" name="vacancies" class="form-control" placeholder="Number of openings" min="1" value="{{ job.vacancies }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Fooding</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="fooding" value="yes" {% if job.fooding %}checked{% endif %}> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="fooding" value="no" {% if not job.fooding %}checked{% endif %}> No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Lodging</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="lodging" value="yes" {% if job.lodging %}checked{% endif %}> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="lodging" value="no" {% if not job.lodging %}checked{% endif %}> No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Overtime Available</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="overtime_available" value="yes" {% if job.overtime_available %}checked{% endif %}> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="overtime_available" value="no" {% if not job.overtime_available %}checked{% endif %}> No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="is_urgent" id="is_urgent" {% if job.is_urgent %}checked{% endif %}>
+                        <label for="is_urgent">Mark as Urgent</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Salary -->
+        <div class="form-section">
+            <h2 class="section-title">Salary</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Salary <span class="required">*</span></label>
+                    <input type="number" name="salary" class="form-control" placeholder="Monthly salary" step="0.01" min="0" value="{{ job.salary }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Currency <span class="required">*</span></label>
+                    <select name="salary_currency" class="form-control" required>
+                        <option value="USD" {% if job.salary_currency == 'USD' %}selected{% endif %}>USD - US Dollar</option>
+                        <option value="AED" {% if job.salary_currency == 'AED' %}selected{% endif %}>AED - UAE Dirham</option>
+                        <option value="SAR" {% if job.salary_currency == 'SAR' %}selected{% endif %}>SAR - Saudi Riyal</option>
+                        <option value="QAR" {% if job.salary_currency == 'QAR' %}selected{% endif %}>QAR - Qatari Riyal</option>
+                        <option value="KWD" {% if job.salary_currency == 'KWD' %}selected{% endif %}>KWD - Kuwaiti Dinar</option>
+                        <option value="BHD" {% if job.salary_currency == 'BHD' %}selected{% endif %}>BHD - Bahraini Dinar</option>
+                        <option value="OMR" {% if job.salary_currency == 'OMR' %}selected{% endif %}>OMR - Omani Rial</option>
+                        <option value="MYR" {% if job.salary_currency == 'MYR' %}selected{% endif %}>MYR - Malaysian Ringgit</option>
+                        <option value="SGD" {% if job.salary_currency == 'SGD' %}selected{% endif %}>SGD - Singapore Dollar</option>
+                        <option value="EUR" {% if job.salary_currency == 'EUR' %}selected{% endif %}>EUR - Euro</option>
+                        <option value="GBP" {% if job.salary_currency == 'GBP' %}selected{% endif %}>GBP - British Pound</option>
+                        <option value="NPR" {% if job.salary_currency == 'NPR' %}selected{% endif %}>NPR - Nepalese Rupee</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="form-section">
+            <h2 class="section-title">Requirements</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Education</label>
+                    <input type="text" name="education" class="form-control" placeholder="e.g., High School, Diploma" value="{{ job.education|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Experience (Years)</label>
+                    <input type="number" name="experience_years" class="form-control" placeholder="Minimum years" min="0" value="{{ job.experience_years }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Minimum Age</label>
+                    <input type="number" name="age_min" class="form-control" placeholder="e.g., 21" min="18" max="65" value="{{ job.age_min|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Maximum Age</label>
+                    <input type="number" name="age_max" class="form-control" placeholder="e.g., 45" min="18" max="65" value="{{ job.age_max|default:'' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <select name="gender" class="form-control">
+                        <option value="any" {% if job.gender == 'any' %}selected{% endif %}>Any</option>
+                        <option value="male" {% if job.gender == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if job.gender == 'female' %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Skills</label>
+                    <div class="skills-input-container">
+                        <div class="skills-tags" id="skillsTags"></div>
+                        <div class="skill-input-row">
+                            <input type="text" class="skill-text-input" id="skillInput" placeholder="Type a skill and press Enter or click Add">
+                            <button type="button" class="add-skill-btn" onclick="addSkill()">Add</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="skills_text" id="skillsHidden" value="">
+                    <p style="color: var(--gray-500); font-size: 12px; margin-top: 8px;">Press Enter or click Add to add each skill</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="form-section">
+            <h2 class="section-title">Status</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Status <span class="required">*</span></label>
+                    <select name="status" class="form-control" required>
+                        <option value="draft" {% if job.status == 'draft' %}selected{% endif %}>Draft</option>
+                        <option value="active" {% if job.status == 'active' %}selected{% endif %}>Active</option>
+                        <option value="closed" {% if job.status == 'closed' %}selected{% endif %}>Closed</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Application Deadline <span class="required">*</span></label>
+                    <input type="date" name="deadline" class="form-control" value="{{ job.deadline|date:'Y-m-d' }}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'job_list' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Update Job
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+// Skills tag management
+let skills = [{% for skill in job.skills.all %}'{{ skill.name }}'{% if not forloop.last %}, {% endif %}{% endfor %}];
+
+function updateSkillsDisplay() {
+    const container = document.getElementById('skillsTags');
+    const hidden = document.getElementById('skillsHidden');
+
+    container.innerHTML = skills.map((skill, index) => `
+        <span class="skill-tag">
+            ${skill}
+            <span class="remove-skill" onclick="removeSkill(${index})">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </span>
+        </span>
+    `).join('');
+
+    hidden.value = skills.join(',');
+}
+
+function addSkill() {
+    const input = document.getElementById('skillInput');
+    const skill = input.value.trim();
+
+    if (skill && !skills.includes(skill)) {
+        skills.push(skill);
+        updateSkillsDisplay();
+        input.value = '';
+    }
+    input.focus();
+}
+
+function removeSkill(index) {
+    skills.splice(index, 1);
+    updateSkillsDisplay();
+}
+
+// Add skill on Enter key
+document.getElementById('skillInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        addSkill();
+    }
+});
+
+// Initialize on page load
+updateSkillsDisplay();
+{% endblock %}

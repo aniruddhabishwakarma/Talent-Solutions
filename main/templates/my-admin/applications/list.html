@@ -1,0 +1,187 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Applications{% endblock %}
+
+{% block extra_style %}
+<style>
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-reviewed { background: #dbeafe; color: #1e40af; }
+    .status-shortlisted { background: #ede9fe; color: #6b21a8; }
+    .status-accepted { background: #dcfce7; color: #166534; }
+    .status-rejected { background: #fee2e2; color: #991b1b; }
+
+    .filter-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        border: 1px solid #e5e7eb;
+        background: white;
+        color: #6b7280;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .filter-btn:hover {
+        border-color: #0ea5e9;
+        color: #0ea5e9;
+    }
+    .filter-btn.active {
+        background: #0ea5e9;
+        border-color: #0ea5e9;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Job Applications</h1>
+            <p class="text-gray-500">Manage all job applications</p>
+        </div>
+    </div>
+
+    <!-- Status Filters -->
+    <div class="flex flex-wrap gap-2 mb-6">
+        <a href="?{% if search %}search={{ search }}&{% endif %}{% if selected_job %}job={{ selected_job }}&{% endif %}" class="filter-btn {% if not selected_status %}active{% endif %}">
+            All ({{ status_counts.all }})
+        </a>
+        <a href="?status=pending{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="filter-btn {% if selected_status == 'pending' %}active{% endif %}">
+            Pending ({{ status_counts.pending }})
+        </a>
+        <a href="?status=reviewed{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="filter-btn {% if selected_status == 'reviewed' %}active{% endif %}">
+            Reviewed ({{ status_counts.reviewed }})
+        </a>
+        <a href="?status=shortlisted{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="filter-btn {% if selected_status == 'shortlisted' %}active{% endif %}">
+            Shortlisted ({{ status_counts.shortlisted }})
+        </a>
+        <a href="?status=accepted{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="filter-btn {% if selected_status == 'accepted' %}active{% endif %}">
+            Accepted ({{ status_counts.accepted }})
+        </a>
+        <a href="?status=rejected{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="filter-btn {% if selected_status == 'rejected' %}active{% endif %}">
+            Rejected ({{ status_counts.rejected }})
+        </a>
+    </div>
+
+    <!-- Search & Filters -->
+    <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+        <form method="GET" class="flex flex-col sm:flex-row gap-4">
+            {% if selected_status %}
+            <input type="hidden" name="status" value="{{ selected_status }}">
+            {% endif %}
+            <div class="flex-1">
+                <input type="text" name="search" value="{{ search }}" placeholder="Search by name, contact, passport..." class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+            </div>
+            <div>
+                <select name="job" class="px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                    <option value="">All Jobs</option>
+                    {% for job in jobs %}
+                    <option value="{{ job.id }}" {% if selected_job == job.id|stringformat:"s" %}selected{% endif %}>{{ job.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-dark transition font-medium">
+                Filter
+            </button>
+        </form>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Applicant</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Job</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Contact</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Passport</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Applied</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for app in applications %}
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-semibold">
+                                    {{ app.full_name|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">{{ app.full_name }}</p>
+                                    <p class="text-sm text-gray-500">{{ app.skills.count }} skills</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="font-medium text-gray-900">{{ app.job.title }}</p>
+                            <p class="text-sm text-gray-500">{{ app.job.company_name }}</p>
+                        </td>
+                        <td class="px-6 py-4 text-gray-600">{{ app.contact_number }}</td>
+                        <td class="px-6 py-4 text-gray-600">{{ app.passport_number }}</td>
+                        <td class="px-6 py-4">
+                            <span class="status-badge status-{{ app.status }}">
+                                {{ app.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-gray-500 text-sm">
+                            {{ app.created_at_datetime|date:"M d, Y" }}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="{% url 'application_detail' app.pk %}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition text-sm font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-12 text-center">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <p class="text-gray-500 text-lg">No applications found</p>
+                                <p class="text-gray-400 text-sm">Applications will appear here once users apply for jobs</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if applications.has_other_pages %}
+        <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+            <p class="text-sm text-gray-500">
+                Showing {{ applications.start_index }} to {{ applications.end_index }} of {{ applications.paginator.count }} applications
+            </p>
+            <div class="flex gap-2">
+                {% if applications.has_previous %}
+                <a href="?page={{ applications.previous_page_number }}{% if selected_status %}&status={{ selected_status }}{% endif %}{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition text-sm">Previous</a>
+                {% endif %}
+                {% if applications.has_next %}
+                <a href="?page={{ applications.next_page_number }}{% if selected_status %}&status={{ selected_status }}{% endif %}{% if search %}&search={{ search }}{% endif %}{% if selected_job %}&job={{ selected_job }}{% endif %}" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition text-sm">Next</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

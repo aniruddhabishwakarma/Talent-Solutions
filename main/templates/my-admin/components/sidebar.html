@@ -1,0 +1,89 @@
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-menu" style="padding-top: 24px;">
+        <!-- Main -->
+        <div class="menu-section">
+            <h3 class="menu-title">Main</h3>
+            <a href="{% url 'admin_dashboard' %}" class="menu-item {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}" data-title="Dashboard">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span class="menu-text">Dashboard</span>
+            </a>
+        </div>
+
+        <!-- Jobs -->
+        <div class="menu-section">
+            <h3 class="menu-title">Jobs</h3>
+            <a href="{% url 'job_list' %}" class="menu-item {% if 'job_' in request.resolver_match.url_name %}active{% endif %}" data-title="All Jobs">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span class="menu-text">All Jobs</span>
+            </a>
+            <a href="{% url 'application_list' %}" class="menu-item {% if 'application_' in request.resolver_match.url_name %}active{% endif %}" data-title="Applications">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span class="menu-text">Applications</span>
+            </a>
+        </div>
+
+        <!-- Company -->
+        <div class="menu-section">
+            <h3 class="menu-title">Company</h3>
+            <a href="{% url 'company_profile' %}" class="menu-item {% if request.resolver_match.url_name == 'company_profile' or request.resolver_match.url_name == 'company_edit' %}active{% endif %}" data-title="Company Profile">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18"></path>
+                    <path d="M9 8h1"></path>
+                    <path d="M9 12h1"></path>
+                    <path d="M9 16h1"></path>
+                    <path d="M14 8h1"></path>
+                    <path d="M14 12h1"></path>
+                    <path d="M14 16h1"></path>
+                    <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+                <span class="menu-text">Company Profile</span>
+            </a>
+        </div>
+
+        <!-- Account -->
+        <div class="menu-section">
+            <h3 class="menu-title">Account</h3>
+            <a href="{% url 'admin_profile' %}" class="menu-item {% if request.resolver_match.url_name == 'admin_profile' or request.resolver_match.url_name == 'admin_edit_profile' or request.resolver_match.url_name == 'admin_change_password' %}active{% endif %}" data-title="My Profile">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="menu-text">My Profile</span>
+            </a>
+        </div>
+
+        <!-- System -->
+        <div class="menu-section">
+            <h3 class="menu-title">System</h3>
+            <a href="{% url 'home' %}" class="menu-item" data-title="View Site">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="menu-text">View Site</span>
+            </a>
+            <a href="{% url 'admin_logout' %}" class="menu-item" style="color: #ef4444;" data-title="Logout">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span class="menu-text">Logout</span>
+            </a>
+        </div>
+    </div>
+</aside>
