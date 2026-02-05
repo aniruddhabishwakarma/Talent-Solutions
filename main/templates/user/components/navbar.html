@@ -39,7 +39,7 @@
                     <span
                         class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#jobs" class="nav-link group relative font-medium transition-colors duration-200 pb-1"
+                <a href="{% url 'home' %}#jobs" class="nav-link group relative font-medium transition-colors duration-200 pb-1"
                     data-section="jobs">Jobs
                     <span
                         class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
@@ -140,7 +140,7 @@
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">About</a>
             <a href="#services"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Services</a>
-            <a href="{% url 'user_jobs_list' %}"
+            <a href="{% url 'home' %}#jobs"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Jobs</a>
             <a href="#contact"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Contact</a>

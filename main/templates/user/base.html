@@ -32,27 +32,6 @@
 
         /* ===== NAVBAR STATES ===== */
 
-        /* 1. Navbar ON HERO (transparent, hero visible behind) */
-        .navbar-on-hero {
-            background: transparent;
-        }
-
-        /* 2. Navbar AFTER SCROLL (same gradient as hero) */
-        .navbar-gradient {
-            background: linear-gradient(90deg, #071a33 0%, #0b2a57 50%, #134a96 100%);
-            box-shadow: 0 10px 35px rgba(2, 6, 23, 0.35);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        /* 3. Glass effect (optional but sexy) */
-        .navbar-glass {
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-        }
-
-
-        /* ================= NAVBAR STATES ================= */
-
         #navbar {
             transition: all .3s ease;
         }
@@ -87,6 +66,14 @@
         #navbar.nav-dark .nav-user-name,
         #navbar.nav-dark .nav-user-chevron,
         #navbar.nav-dark .nav-mobile-btn {
+            color: rgba(255, 255, 255, .92) !important;
+        }
+
+        #navbar.nav-on-hero .nav-link,
+        #navbar.nav-on-hero .nav-logo-text,
+        #navbar.nav-on-hero .nav-user-name,
+        #navbar.nav-on-hero .nav-user-chevron,
+        #navbar.nav-on-hero .nav-mobile-btn {
             color: rgba(255, 255, 255, .92) !important;
         }
 
@@ -189,48 +176,44 @@
             const isAuthDark = document.body.classList.contains('auth-dark');
             const darkSections = ['hero-section', 'services', 'contact', 'footer'];
 
+            function setNav(mode) {
+                navbar.classList.remove('nav-on-hero', 'nav-dark', 'nav-light');
+                navbar.classList.add(mode);
+            }
 
-
-
-            document.addEventListener('DOMContentLoaded', () => {
-                const navbar = document.getElementById('navbar');
-                if (!navbar) return;
-
-                const hasHero = !!document.getElementById('hero-section');
-                const isAuthDark = document.body.classList.contains('auth-dark');
-
-                function setNav(mode) {
-                    navbar.classList.remove('nav-on-hero', 'nav-dark', 'nav-light');
-                    navbar.classList.add(mode);
+            function updateNavbar() {
+                // LOGIN / REGISTER pages (dark bg, no hero)
+                if (isAuthDark && !hasHero) {
+                    setNav('nav-on-hero');
+                    return;
                 }
 
-                function updateNavbar() {
-
-                    // LOGIN / REGISTER
-                    if (isAuthDark && !hasHero) {
-                        setNav('nav-dark');
+                // HOME PAGE (has hero)
+                if (hasHero) {
+                    if (window.scrollY < 40) {
+                        setNav('nav-on-hero');
                         return;
                     }
 
-                    // HOME PAGE
-                    if (hasHero) {
-                        if (window.scrollY < 40) {
-                            setNav('nav-on-hero');
-                            return;
+                    // Detect which section we're scrolled into
+                    const scrollPos = window.scrollY + 120;
+                    let isDark = true;
+
+                    document.querySelectorAll('section, footer').forEach(section => {
+                        const top = section.offsetTop;
+                        const height = section.offsetHeight;
+                        if (scrollPos >= top && scrollPos < top + height) {
+                            isDark = darkSections.includes(section.id);
                         }
-                        setNav('nav-dark');
-                        return;
-                    }
+                    });
 
-                    // OTHER PAGES
-                    setNav('nav-light');
+                    setNav(isDark ? 'nav-dark' : 'nav-light');
+                    return;
                 }
 
-                updateNavbar();
-                window.addEventListener('scroll', updateNavbar);
-                window.addEventListener('resize', updateNavbar);
-            });
-
+                // OTHER PAGES (default light)
+                setNav('nav-light');
+            }
 
             updateNavbar();
             window.addEventListener('scroll', updateNavbar);
@@ -250,63 +233,6 @@
     {% include 'user/components/footer.html' %}
 
     <!-- Global Toast Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbar = document.getElementById('navbar');
-            if (!navbar) return;
-
-            // Sections that should be treated as "dark background"
-            const darkSections = ['hero-section', 'services', 'contact', 'footer'];
-
-            // If this page doesn't have hero section => it's a normal/white page
-            const hasHero = !!document.getElementById('hero-section');
-
-            function setMode(mode) {
-                navbar.classList.toggle('navbar-dark', mode === 'dark');
-                navbar.classList.toggle('navbar-light', mode === 'light');
-            }
-
-            function updateNavbar() {
-                // NON-HOME pages (no hero) => always light mode
-                const isAuthDark = document.body.classList.contains('auth-dark');
-
-                // NON-HOME pages
-                if (!hasHero) {
-                    if (isAuthDark) {
-                        setMode('dark');
-                        navbar.classList.add('navbar-scrolled');
-                    } else {
-                        setMode('light');
-                        navbar.classList.remove('navbar-scrolled');
-                    }
-                    return;
-                }
-
-
-                // HOME page logic (detect current section)
-                const scrollPos = window.scrollY + 120;
-                let isDark = true;
-
-                document.querySelectorAll('section, footer').forEach(section => {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
-                    if (scrollPos >= top && scrollPos < top + height) {
-                        isDark = darkSections.includes(section.id);
-                    }
-                });
-
-                setMode(isDark ? 'dark' : 'light');
-
-                // add scrolled background only for dark sections
-                if (isDark && window.scrollY > 40) navbar.classList.add('navbar-scrolled');
-                else navbar.classList.remove('navbar-scrolled');
-            }
-
-            updateNavbar();
-            window.addEventListener('scroll', updateNavbar);
-            window.addEventListener('resize', updateNavbar);
-        });
-    </script>
 
 
 
