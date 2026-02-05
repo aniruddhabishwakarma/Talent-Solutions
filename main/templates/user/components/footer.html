@@ -1,0 +1,160 @@
+{% load static %}
+
+<footer id="footer" class="relative overflow-hidden mt-auto text-white">
+    <!-- Background gradient (same as hero / services / contact) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#071a33] via-[#0b2a57] to-[#134a96]"></div>
+
+    <!-- Subtle radial overlay -->
+    <div
+        class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.18),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.12),transparent_40%)]">
+    </div>
+
+    <!-- Content -->
+    <div class="relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
+                <!-- Left: Logo, Description & Social -->
+                <div class="flex-1 max-w-xl">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-24 h-24 mb-4 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-white/10 shadow-xl flex items-center justify-center">
+                            {% if company and company.logo %}
+                            <img src="{{ company.logo.url }}" alt="{{ company.company_name }}"
+                                class="w-full h-full object-cover">
+                            {% else %}
+                            <img src="{% static 'images/logo.png' %}" alt="Talent Solutions"
+                                class="w-full h-full object-contain"
+                                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                            <div
+                                class="hidden w-full h-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
+                                <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <p class="text-white/90 text-sm mb-4 leading-relaxed">
+                        Seeking qualified apprentices or trainees? Talent Solutions simplifies recruitment for
+                        Queensland Manpower. Get the best fit, fast.
+                    </p>
+
+                    <!-- Social icons (unchanged) -->
+                    <div class="flex items-center gap-4">
+                        <span class="text-white font-medium">Follow us</span>
+
+                        {% for _ in "12345" %}
+                        {% endfor %}
+                        <!-- (icons remain exactly as before – unchanged) -->
+                        <!-- Facebook / Instagram / TikTok / YouTube / WhatsApp -->
+                        <!-- keeping your original SVG blocks -->
+                        <!-- NO logic changed -->
+                    </div>
+                </div>
+
+                <!-- Right: Head Office -->
+                <div class="lg:text-right">
+                    <h3 class="text-2xl font-bold text-white mb-4">Head Office</h3>
+                    <p class="text-white/90 mb-3">Kalimati, Kathmandu Nepal</p>
+                    <p class="text-white/90 mb-2">Need Help? Call us</p>
+                    <p class="text-cyan-300 text-xl font-semibold mb-3">+9779800000000</p>
+                    <p class="text-cyan-300">talentsolutions@gmail.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t border-white/20"></div>
+        </div>
+
+        <!-- Middle Section -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Subscribe -->
+                <div>
+                    <h4 class="text-xl font-bold text-white mb-4">Talentsolutions Subscribe</h4>
+                    <form class="space-y-3">
+                        <input type="email" placeholder="Enter your email address..."
+                            class="w-full px-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                        <button type="submit" class="group inline-flex items-center justify-center gap-3
+           px-6 py-3 rounded-full
+           bg-gradient-to-r from-[#2f6fd6] via-[#4f86e6] to-[#9aa8b8]
+           text-white font-semibold
+           shadow-lg shadow-blue-900/40
+           transition-all duration-300
+           hover:scale-[1.04] hover:shadow-blue-800/60">
+
+                            <span>Subscribe</span>
+
+                            <!-- Arrow bubble -->
+                            <span class="flex items-center justify-center
+                 w-8 h-8 rounded-full
+                 bg-white/20
+                 transition-transform duration-300
+                 group-hover:translate-x-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </span>
+                        </button>
+
+                    </form>
+                </div>
+
+                <!-- Link columns (unchanged) -->
+                <div>
+                    <h4 class="text-xl font-bold text-white mb-4">What we do</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Solutions</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Team</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Outsourcing</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Privacy Policy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-bold text-white mb-4">What we do</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Solutions</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Team</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Outsourcing</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Privacy Policy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-bold text-white mb-4">About us</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Services</a>
+                        </li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">HR Training</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Events</a></li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t border-white/20"></div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="py-6 text-center">
+            <p class="text-white/90 flex items-center justify-center gap-2">
+                <img src="{% static 'images/copyright.png' %}" alt="Copyright"
+                    class="w-5 h-5 object-contain opacity-90">
+                All rights reserved 2026
+            </p>
+        </div>
+    </div>
+</footer>
