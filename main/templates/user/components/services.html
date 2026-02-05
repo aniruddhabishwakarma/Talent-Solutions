@@ -1,177 +1,131 @@
 {% load static %}
 
-<!-- Services Section -->
+<!-- Services Section - Small Clean Cards with PNG Icons -->
 <section id="services" class="relative overflow-hidden text-white">
 
-    <!-- SAME Hero Gradient Background -->
+    <!-- Background gradient -->
     <div class="absolute inset-0 bg-gradient-to-r from-[#071a33] via-[#0b2a57] to-[#134a96]"></div>
 
-    <!-- Subtle overlay -->
+    <!-- Overlay -->
     <div
-        class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.18),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.12),transparent_40%)]">
+        class="absolute inset-0 opacity-20
+        bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.18),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.12),transparent_40%)]">
     </div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         <!-- Header -->
         <div class="grid lg:grid-cols-2 gap-10 items-start mb-12">
-
             <div>
                 <span
-                    class="inline-flex items-center justify-center px-10 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold tracking-[0.25em] uppercase shadow-sm">
+                    class="inline-flex items-center justify-center px-8 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold tracking-[0.25em] uppercase">
                     OUR SERVICES
                 </span>
 
-                <h2 class="mt-8 text-4xl sm:text-5xl font-extrabold text-white leading-tight">
-                    Services Designed <br />
-                    To Your Needs.
+                <h2 class="mt-6 text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+                    Manpower <br /> Solutions
                 </h2>
             </div>
 
-            <div class="lg:pt-12">
+            <div class="lg:pt-10">
                 <p class="text-white/80 leading-relaxed max-w-xl">
-                    Seeking qualified apprentices or trainees? Talent Solutions simplifies recruitment for businesses.
-                    Get the best fit, fast.
+                    Complete recruitment and deployment services for overseas employment with professional guidance at
+                    every step.
                 </p>
             </div>
-
         </div>
 
         <!-- Services Grid -->
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- CARD 1 -->
-            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
-                <div class="flex items-start gap-4">
-                    <div
-                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
-                            <path d="M9 12h6v2H9v-2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
-                        <p class="text-gray-500 text-sm mt-2">
-                            Find the visa program as per your requirement and this is only sample word
-                        </p>
-                        <a href="#"
-                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">
-                            Get More →
-                        </a>
-                    </div>
+            <!-- Visa Processing -->
+            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                    <img src="{% static 'icons/setting.png' %}"
+                        class="w-6 h-6 object-contain filter brightness-0 invert" />
                 </div>
+                <h3 class="text-lg font-bold text-[#2b4f93]">Visa Processing</h3>
+                <p class="text-gray-600 text-sm mt-2">
+                    Fast and reliable visa assistance for overseas employment.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                    Get More →
+                </a>
             </div>
 
-            <!-- CARD 2 -->
-            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
-                <div class="flex items-start gap-4">
-                    <div
-                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
-                            <path d="M9 12h6v2H9v-2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
-                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
-                            only sample word</p>
-                        <a href="#"
-                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
-                            More →</a>
-                    </div>
+            <!-- Recruitment -->
+            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                    <img src="{% static 'icons/requirment.png' %}"
+                        class="w-6 h-6 object-contain filter brightness-0 invert" />
                 </div>
+                <h3 class="text-lg font-bold text-[#2b4f93]">Recruitment</h3>
+                <p class="text-gray-600 text-sm mt-2">
+                    Skilled manpower sourcing and professional candidate screening.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                    Get More →
+                </a>
             </div>
 
-            <!-- CARD 3 -->
-            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
-                <div class="flex items-start gap-4">
-                    <div
-                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
-                            <path d="M9 12h6v2H9v-2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
-                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
-                            only sample word</p>
-                        <a href="#"
-                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
-                            More →</a>
-                    </div>
+            <!-- Documentation -->
+            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                    <img src="{% static 'icons/docs.png' %}"
+                        class="w-6 h-6 object-contain filter brightness-0 invert" />
                 </div>
+                <h3 class="text-lg font-bold text-[#2b4f93]">Documentation</h3>
+                <p class="text-gray-600 text-sm mt-2">
+                    Complete support for contracts, approvals and legal paperwork.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                    Get More →
+                </a>
             </div>
 
-            <!-- CARD 4 -->
-            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
-                <div class="flex items-start gap-4">
-                    <div
-                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
-                            <path d="M9 12h6v2H9v-2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
-                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
-                            only sample word</p>
-                        <a href="#"
-                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
-                            More →</a>
-                    </div>
+            <!-- Ticketing & Travel -->
+            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                    <img src="{% static 'icons/ticket.png' %}"
+                        class="w-6 h-6 object-contain filter brightness-0 invert" />
                 </div>
+                <h3 class="text-lg font-bold text-[#2b4f93]">Ticketing & Travel</h3>
+                <p class="text-gray-600 text-sm mt-2">
+                    Flight booking and deployment coordination for workers.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                    Get More →
+                </a>
             </div>
 
-            <!-- CARD 5 -->
-            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
-                <div class="flex items-start gap-4">
-                    <div
-                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
-                            <path d="M9 12h6v2H9v-2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
-                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
-                            only sample word</p>
-                        <a href="#"
-                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
-                            More →</a>
-                    </div>
+            <!-- Pre-Departure Training -->
+            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                    <img src="{% static 'icons/travel.png' %}"
+                        class="w-6 h-6 object-contain filter brightness-0 invert" />
                 </div>
+                <h3 class="text-lg font-bold text-[#2b4f93]">Pre-Departure Training</h3>
+                <p class="text-gray-600 text-sm mt-2">
+                    Orientation, safety training and job preparation programs.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                    Get More →
+                </a>
             </div>
 
-            <!-- CARD 6 -->
-            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
-                <div class="flex items-start gap-4">
-                    <div
-                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
-                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
-                            <path d="M9 12h6v2H9v-2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
-                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
-                            only sample word</p>
-                        <a href="#"
-                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
-                            More →</a>
-                    </div>
+            <!-- 24/7 Support -->
+            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                    <img src="{% static 'icons/support.png' %}"
+                        class="w-6 h-6 object-contain filter brightness-0 invert" />
                 </div>
+                <h3 class="text-lg font-bold text-[#2b4f93]">24/7 Support</h3>
+                <p class="text-gray-600 text-sm mt-2">
+                    Continuous assistance for both employers and employees.
+                </p>
+                <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                    Get More →
+                </a>
             </div>
 
         </div>
