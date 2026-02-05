@@ -10,6 +10,7 @@
     <meta name="keywords"
         content="{% block meta_keywords %}jobs, overseas employment, gulf jobs, manpower, recruitment{% endblock %}">
     <meta name="csrfmiddlewaretoken" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -166,8 +167,66 @@
 <body class="{% block body_class %}gradient-bg{% endblock %}">
     <!-- Navbar -->
     {% include 'user/components/navbar.html' %}
+    <!-- Contact Popup Modal -->
+    <div id="contactPopup"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm">
+
+        <div class="bg-white w-[92%] max-w-lg rounded-2xl shadow-2xl relative overflow-hidden">
+
+            <!-- Close Button -->
+            <button onclick="closePopup()" class="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl">
+                ✕
+            </button>
+
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4">
+                <h3 class="text-white text-lg font-bold">Need Help? Let’s Talk 👋</h3>
+                <p class="text-white/90 text-sm">We’ll contact you shortly</p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST" action="{% url 'contact_popup' %}" class="p-6 space-y-4">
+                {% csrf_token %}
+
+                <div>
+                    <label class="text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" name="name" required
+                        class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="tel" name="phone" required
+                        class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="text-sm font-medium text-gray-700">Message</label>
+                    <textarea name="message" rows="3"
+                        class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold hover:scale-[1.02] transition">
+                    Request Callback
+                </button>
+            </form>
+        </div>
+    </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!sessionStorage.getItem("popupShown")) {
+                setTimeout(() => {
+                    document.getElementById("contactPopup").classList.remove("hidden");
+                    sessionStorage.setItem("popupShown", "true");
+                }, 5000);
+            }
+        });
+
+        function closePopup() {
+            document.getElementById("contactPopup").classList.add("hidden");
+        }
         document.addEventListener('DOMContentLoaded', () => {
             const navbar = document.getElementById('navbar');
             if (!navbar) return;

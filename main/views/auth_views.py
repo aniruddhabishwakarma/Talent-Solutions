@@ -13,6 +13,29 @@ from urllib.parse import urlencode
 from django.utils import timezone
 from datetime import timedelta, datetime
 
+from django.shortcuts import redirect
+from django.contrib import messages
+
+
+def contact_popup(request):
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        phone = request.POST.get("phone", "").strip()
+        message = request.POST.get("message", "").strip()
+
+        if not name or not phone:
+            messages.error(request, "Please enter your name and phone number.")
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+
+        # TODO: save to DB / email / whatsapp
+        print("Popup Lead:", name, phone, message)
+
+        messages.success(request, "Thanks! We will contact you shortly.")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
+    return redirect("home")
+
+
 
 def get_tokens_for_user(user):
     """Generate JWT tokens for a user."""

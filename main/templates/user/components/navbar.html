@@ -1,5 +1,50 @@
+<!-- Top Info Bar -->
+<div class="fixed top-0 left-0 right-0 z-[60] bg-gray-100 text-[#00346B] text-[11px] sm:text-xs md:text-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-9">
+
+            <!-- Left: Social -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <span class="hidden sm:inline">Follow us on</span>
+
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-whatsapp"></i></a>
+
+            </div>
+
+            <!-- Right: Support (Desktop) -->
+            <div class="hidden md:flex items-center gap-2">
+                <span>Call Support:</span>
+                <span class="font-medium">Sun–Fri 10AM–5PM</span>
+                <span class="flex items-center gap-1">
+                    📞 +977-9848000000 | +977-8747999999
+                </span>
+            </div>
+
+            <!-- Right: Support (Mobile) -->
+            <div class="md:hidden flex items-center gap-2">
+                <a href="tel:+9779848000000" class="flex items-center gap-1 font-semibold hover:text-blue-600">
+                    📞 <span class="hidden xs:inline">+977-9848000000</span>
+                    <span class="xs:hidden">Call</span>
+                </a>
+
+                <span class="text-gray-400">|</span>
+
+                <a href="tel:+9778747999999" class="flex items-center gap-1 font-semibold hover:text-blue-600">
+                    <span class="hidden xs:inline">+977-8747999999</span>
+                    <span class="xs:hidden">Call</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- User Navbar Component -->
-<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+<nav class="fixed top-9 left-0 right-0 z-50 transition-all duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 md:h-20">
             <!-- Logo -->
@@ -39,7 +84,13 @@
                     <span
                         class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="{% url 'home' %}#jobs" class="nav-link group relative font-medium transition-colors duration-200 pb-1"
+                <a href="#team" class="nav-link group relative font-medium transition-colors duration-200 pb-1"
+                    data-section="team">Team
+                    <span
+                        class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="{% url 'home' %}#jobs"
+                    class="nav-link group relative font-medium transition-colors duration-200 pb-1"
                     data-section="jobs">Jobs
                     <span
                         class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
@@ -140,6 +191,8 @@
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">About</a>
             <a href="#services"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Services</a>
+            <a href="#team"
+                class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Team</a>
             <a href="{% url 'home' %}#jobs"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Jobs</a>
             <a href="#contact"
