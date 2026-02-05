@@ -1,82 +1,137 @@
-<!-- Jobs Section -->
-<section class="min-h-screen flex items-center bg-white" id="jobs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-        <div class="text-center mb-16 reveal">
-            <span class="text-cyan-600 font-semibold text-sm uppercase tracking-wider">Opportunities</span>
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 mb-6">Latest Job Openings</h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Explore our current vacancies and find the perfect opportunity for you
-            </p>
+<!-- Jobs Section (Hero Style) -->
+
+
+
+<section id="jobs" class="relative overflow-hidden text-white">
+    <!-- Background gradient -->
+    <div class="absolute inset-0 bg-gradient-to-r from-[#071a33] via-[#0b2a57] to-[#134a96]"></div>
+
+    <!-- Overlay -->
+    <div
+        class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.18),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.12),transparent_40%)]">
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+
+        <!-- Header -->
+        <div class="grid lg:grid-cols-2 gap-12 items-start mb-14 reveal">
+
+            <!-- Left -->
+            <div>
+                <span
+                    class="inline-flex items-center justify-center px-10 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold tracking-[0.25em] uppercase shadow-sm">
+                    Opportunities
+                </span>
+
+                <h2 class="mt-8 text-4xl sm:text-5xl font-extrabold leading-tight">
+                    Latest <span class="text-[#49A7FF]">Job Openings</span>
+                </h2>
+
+                <p class="mt-5 text-lg sm:text-xl text-white/80 max-w-xl">
+                    Explore our current vacancies and find the perfect opportunity for you.
+                </p>
+            </div>
+
+            <!-- Right -->
+            <div class="lg:pt-12">
+                <p class="text-white/75 leading-relaxed max-w-xl">
+                    We connect skilled workers with trusted international employers. Browse featured roles below and
+                    apply in minutes.
+                </p>
+            </div>
+
         </div>
 
         {% if featured_jobs %}
         <div class="relative reveal">
-            <button type="button" id="carousel-prev"
-                class="hidden absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-11 h-11 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full flex items-center justify-center shadow-lg"
+
+            <!-- Prev -->
+            <button type="button" id="carousel-prev" class="hidden absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-11 h-11
+                       bg-white/15 backdrop-blur border border-white/20 text-white rounded-full
+                       flex items-center justify-center shadow-lg hover:bg-white/20 transition"
                 onclick="carouselSlide(-1)">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
 
+            <!-- Track -->
             <div class="overflow-hidden">
                 <div id="carousel-track"
                     class="flex gap-4 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] reveal-children">
+
                     {% for job in featured_jobs %}
-                    <a href="{% url 'user_job_detail' job.slug %}"
-                        class="flex-shrink-0 w-72 sm:w-80 bg-gray-50 rounded-xl p-6 hover:shadow-lg hover:bg-white border border-gray-100 transition-all duration-300">
-                        <div
-                            class="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-4 shadow-sm">
-                            <span class="text-white text-lg font-bold">{{ job.company_name|first|upper }}</span>
+                    <a href="{% url 'user_job_detail' job.slug %}" class="flex-shrink-0 w-72 sm:w-80 bg-white/95 text-gray-900 rounded-2xl p-6
+                               shadow-xl shadow-blue-900/15 border border-white/30
+                               hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300">
+
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8]
+                                    flex items-center justify-center mb-4 shadow-sm">
+                            <span class="text-white text-lg font-bold">
+                                {{ job.company_name|first|upper }}
+                            </span>
                         </div>
 
                         <div class="flex items-center gap-2 mb-1.5">
-                            <h3 class="text-base font-bold text-cyan-700 truncate">{{ job.title }}</h3>
+                            <h3 class="text-base font-bold text-[#1d4ed8] truncate">{{ job.title }}</h3>
+
                             {% if job.is_urgent %}
                             <span
-                                class="flex-shrink-0 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded">Urgent</span>
+                                class="flex-shrink-0 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded">
+                                Urgent
+                            </span>
                             {% endif %}
                         </div>
 
-                        <p class="text-sm text-gray-500 mb-4">{{ job.company_name }} &bull;
-                            {{ job.get_country_display_name }}</p>
+                        <p class="text-sm text-gray-500 mb-4">
+                            {{ job.company_name }} &bull; {{ job.get_country_display_name }}
+                        </p>
 
                         <div class="flex items-center justify-between">
-                            <span
-                                class="px-3 py-1 bg-green-50 text-green-700 text-sm font-semibold rounded-lg">{{ job.get_salary_display }}</span>
-                            <svg class="w-5 h-5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <span class="px-3 py-1 bg-green-50 text-green-700 text-sm font-semibold rounded-lg">
+                                {{ job.get_salary_display }}
+                            </span>
+
+                            <svg class="w-5 h-5 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
                             </svg>
                         </div>
                     </a>
                     {% endfor %}
+
                 </div>
             </div>
 
-            <button type="button" id="carousel-next"
-                class="hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-11 h-11 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full flex items-center justify-center shadow-lg"
+            <!-- Next -->
+            <button type="button" id="carousel-next" class="hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-11 h-11
+                       bg-white/15 backdrop-blur border border-white/20 text-white rounded-full
+                       flex items-center justify-center shadow-lg hover:bg-white/20 transition"
                 onclick="carouselSlide(1)">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
+
         </div>
-        {% else %}
-        <div class="text-center py-12">
-            <p class="text-gray-500 text-lg">No jobs available at the moment. Check back soon!</p>
-        </div>
-        {% endif %}
 
-        <div class="text-center mt-12 reveal">
-            <a href="{% url 'user_jobs_list' %}" class="inline-flex items-center gap-4 px-7 py-3 rounded-full font-semibold text-white
-               bg-gradient-to-r from-[#2F6FD6] to-[#9FB4CC]
-               hover:from-[#2A63C0] hover:to-[#8FA7C2]
-               transition-all duration-300 shadow-xl">
+        <!-- CENTER BUTTON BELOW CARDS -->
+        <div class="text-center mt-14 reveal">
+            <a href="{% url 'user_jobs_list' %}" class="group inline-flex items-center justify-between gap-6
+                px-7 py-3 rounded-full
+                bg-gradient-to-r from-[#2f6fd6] via-[#4f86e6] to-[#9aa8b8]
+                text-white font-semibold text-lg
+                shadow-xl shadow-blue-900/40
+                transition-all duration-300
+                hover:scale-[1.03] hover:shadow-blue-800/60">
 
-                View All Jobs
+                <span>View All Jobs</span>
 
-                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/20">
+                <span class="flex items-center justify-center
+                    w-10 h-10 rounded-full
+                    bg-white/20
+                    transition-transform duration-300
+                    group-hover:translate-x-1">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -84,6 +139,12 @@
                 </span>
             </a>
         </div>
+
+        {% else %}
+        <div class="text-center py-12">
+            <p class="text-white/70 text-lg">No jobs available at the moment. Check back soon!</p>
+        </div>
+        {% endif %}
 
     </div>
 </section>

@@ -1,59 +1,135 @@
-<!-- About Section -->
-<section class="min-h-screen flex items-center bg-white" id="about">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+<!-- About Section (Enhanced) -->
+<section id="about" class="relative overflow-hidden bg-white">
+    <!-- Background decoration -->
+    <div class="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[#49A7FF]/15 blur-3xl"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-cyan-400/10 blur-3xl"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(73,167,255,0.12),transparent_55%)]"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center reveal">
+
+            <!-- Left Content -->
             <div>
-                <span class="text-[#49A7FF] font-semibold text-sm uppercase tracking-wider">About Us</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-3 mb-6">
-                    Your Trusted Partner for <span class="text-[#49A7FF]">Overseas Employment</span>
+                <span
+                    class="inline-flex items-center justify-center px-10 py-2 rounded-full bg-white border border-gray-200 text-gray-700 text-sm font-semibold tracking-[0.25em] uppercase shadow-sm">
+                    ABOUT US
+                </span>
+
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mt-4 mb-6 leading-tight">
+                    Your Trusted Partner for
+                    <span class="text-[#49A7FF]">Overseas Employment</span>
                 </h2>
-                <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+
+                <p class="text-gray-600 text-lg leading-relaxed">
                     We are a licensed recruitment agency specializing in connecting skilled workers with international
                     employers.
                 </p>
-                <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+
+                <p class="text-gray-600 text-lg mt-5 leading-relaxed">
                     Our mission is to provide safe, legal, and rewarding employment opportunities.
                 </p>
 
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="text-center p-4">
-                        <p class="text-4xl font-bold text-[#49A7FF]">500+</p>
+                <!-- Stats -->
+                <div class="grid grid-cols-2 gap-4 sm:gap-6 mt-10">
+                    <div
+                        class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                        <p class="text-4xl font-extrabold text-[#49A7FF]">500+</p>
                         <p class="text-gray-500 mt-1">Workers Placed</p>
                     </div>
-                    <div class="text-center p-4">
-                        <p class="text-4xl font-bold text-[#49A7FF]">50+</p>
+
+                    <div
+                        class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                        <p class="text-4xl font-extrabold text-[#49A7FF]">50+</p>
                         <p class="text-gray-500 mt-1">Partner Companies</p>
                     </div>
-                    <div class="text-center p-4">
-                        <p class="text-4xl font-bold text-[#49A7FF]">10+</p>
+
+                    <div
+                        class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                        <p class="text-4xl font-extrabold text-[#49A7FF]">10+</p>
                         <p class="text-gray-500 mt-1">Countries</p>
                     </div>
-                    <div class="text-center p-4">
-                        <p class="text-4xl font-bold text-[#49A7FF]">15+</p>
+
+                    <div
+                        class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                        <p class="text-4xl font-extrabold text-[#49A7FF]">15+</p>
                         <p class="text-gray-500 mt-1">Years Experience</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Right Feature Grid -->
             <div class="relative">
-                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-8 lg:p-12">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h4 class="font-bold text-gray-900">Licensed Agency</h4>
-                            <p class="text-sm text-gray-500 mt-1">Government approved</p>
+                <div
+                    class="rounded-3xl p-8 lg:p-12 border border-gray-200 bg-gradient-to-br from-cyan-50 to-blue-50 shadow-xl">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                        <!-- Card 1 -->
+                        <div
+                            class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#49A7FF]/15 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#49A7FF]" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 1l3 5 5 1-3.5 4 1 6-5.5-3-5.5 3 1-6L4 7l5-1 3-5z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Licensed Agency</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Government approved</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-2xl p-6 shadow-lg mt-8">
-                            <h4 class="font-bold text-gray-900">Global Reach</h4>
-                            <p class="text-sm text-gray-500 mt-1">Multiple countries</p>
+
+                        <!-- Card 2 -->
+                        <div
+                            class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 sm:mt-8">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#49A7FF]/15 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#49A7FF]" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 2a10 10 0 100 20 10 10 0 000-20zm7.5 9h-3.2a15.8 15.8 0 00-1.2-5 8.02 8.02 0 014.4 5zM12 4c1.2 1.4 2 3.7 2.3 7H9.7c.3-3.3 1.1-5.6 2.3-7zM4.5 11a8.02 8.02 0 014.4-5 15.8 15.8 0 00-1.2 5H4.5zm0 2h3.2a15.8 15.8 0 001.2 5 8.02 8.02 0 01-4.4-5zM12 20c-1.2-1.4-2-3.7-2.3-7h4.6c-.3 3.3-1.1 5.6-2.3 7zm3.1-1a15.8 15.8 0 001.2-5h3.2a8.02 8.02 0 01-4.4 5z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Global Reach</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Multiple countries</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-2xl p-6 shadow-lg">
-                            <h4 class="font-bold text-gray-900">Best Salary</h4>
-                            <p class="text-sm text-gray-500 mt-1">Competitive packages</p>
+
+                        <!-- Card 3 -->
+                        <div
+                            class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#49A7FF]/15 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#49A7FF]" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 1a11 11 0 100 22 11 11 0 000-22zm1 17.9V19h-2v-.1a7.9 7.9 0 01-5.9-5.9H5v-2h.1A7.9 7.9 0 0111 5.1V5h2v.1a7.9 7.9 0 015.9 5.9H19v2h-.1a7.9 7.9 0 01-5.9 5.9z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Best Salary</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Competitive packages</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-white rounded-2xl p-6 shadow-lg mt-8">
-                            <h4 class="font-bold text-gray-900">24/7 Support</h4>
-                            <p class="text-sm text-gray-500 mt-1">Always available</p>
+
+                        <!-- Card 4 -->
+                        <div
+                            class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 sm:mt-8">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#49A7FF]/15 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-[#49A7FF]" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 2a10 10 0 00-10 10v6a4 4 0 004 4h2v-2H6a2 2 0 01-2-2v-6a8 8 0 0116 0v6a2 2 0 01-2 2h-2v2h2a4 4 0 004-4v-6A10 10 0 0012 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">24/7 Support</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Always available</p>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -1,111 +1,179 @@
+{% load static %}
+
 <!-- Services Section -->
 <section id="services" class="relative overflow-hidden text-white">
-    <!-- Background gradient (same as hero) -->
+
+    <!-- SAME Hero Gradient Background -->
     <div class="absolute inset-0 bg-gradient-to-r from-[#071a33] via-[#0b2a57] to-[#134a96]"></div>
 
-    <!-- Optional subtle overlay (same as hero) -->
+    <!-- Subtle overlay -->
     <div
         class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.18),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.12),transparent_40%)]">
     </div>
 
-    <!-- Content -->
-    <div class="relative min-h-screen flex items-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-            <div class="text-center mb-16 reveal">
-                <span class="text-[#49A7FF] font-semibold text-sm uppercase tracking-wider">Our Services</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mt-3 mb-6">What We Offer</h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                    Comprehensive recruitment services to help you find the perfect overseas opportunity
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+
+        <!-- Header -->
+        <div class="grid lg:grid-cols-2 gap-10 items-start mb-12">
+
+            <div>
+                <span
+                    class="inline-flex items-center justify-center px-10 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold tracking-[0.25em] uppercase shadow-sm">
+                    OUR SERVICES
+                </span>
+
+                <h2 class="mt-8 text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+                    Services Designed <br />
+                    To Your Needs.
+                </h2>
+            </div>
+
+            <div class="lg:pt-12">
+                <p class="text-white/80 leading-relaxed max-w-xl">
+                    Seeking qualified apprentices or trainees? Talent Solutions simplifies recruitment for businesses.
+                    Get the best fit, fast.
                 </p>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal-children">
-                <!-- Service 1 -->
-                <div
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/10 border border-white/10 transition-all duration-300">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Job Placement</h3>
-                    <p class="text-gray-400">We match your skills with the right employers and help you secure the best
-                        positions in your field.</p>
-                </div>
+        </div>
 
-                <!-- Service 2 -->
-                <div
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/10 border border-white/10 transition-all duration-300">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Visa Processing</h3>
-                    <p class="text-gray-400">Complete visa and documentation assistance to ensure a smooth transition to
-                        your new workplace.</p>
-                </div>
+        <!-- Services Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- Service 3 -->
-                <div
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/10 border border-white/10 transition-all duration-300">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            <!-- CARD 1 -->
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
+                            <path d="M9 12h6v2H9v-2z" />
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Pre-Departure Training</h3>
-                    <p class="text-gray-400">Comprehensive orientation and training programs to prepare you for working
-                        abroad.</p>
-                </div>
-
-                <!-- Service 4 -->
-                <div
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/10 border border-white/10 transition-all duration-300">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                        </svg>
+                    <div>
+                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
+                        <p class="text-gray-500 text-sm mt-2">
+                            Find the visa program as per your requirement and this is only sample word
+                        </p>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">
+                            Get More →
+                        </a>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Medical Checkup</h3>
-                    <p class="text-gray-400">Assistance with required medical examinations and health certifications for
-                        overseas employment.</p>
-                </div>
-
-                <!-- Service 5 -->
-                <div
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/10 border border-white/10 transition-all duration-300">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Airport Assistance</h3>
-                    <p class="text-gray-400">Full support from departure to arrival including airport pickup and
-                        accommodation arrangements.</p>
-                </div>
-
-                <!-- Service 6 -->
-                <div
-                    class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/10 border border-white/10 transition-all duration-300">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
-                        <svg class="w-7 h-7 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Post-Deployment Support</h3>
-                    <p class="text-gray-400">Continuous support even after you start working, helping resolve any issues
-                        that may arise.</p>
                 </div>
             </div>
+
+            <!-- CARD 2 -->
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
+                            <path d="M9 12h6v2H9v-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
+                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
+                            only sample word</p>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
+                            More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
+                            <path d="M9 12h6v2H9v-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
+                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
+                            only sample word</p>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
+                            More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
+                            <path d="M9 12h6v2H9v-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
+                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
+                            only sample word</p>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
+                            More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
+                            <path d="M9 12h6v2H9v-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
+                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
+                            only sample word</p>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
+                            More →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 6 -->
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-gray-900">
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-11 h-11 rounded-full bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8] flex items-center justify-center shadow">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 2a2 2 0 00-2 2v1H6a2 2 0 00-2 2v11a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2V4a2 2 0 00-2-2h-4z" />
+                            <path d="M9 12h6v2H9v-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[#1d4ed8] font-bold text-lg">Free Visa Services</h3>
+                        <p class="text-gray-500 text-sm mt-2">Find the visa program as per your requirement and this is
+                            only sample word</p>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 mt-3 text-[#1d4ed8] text-sm font-semibold hover:underline">Get
+                            More →</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

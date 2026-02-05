@@ -1,5 +1,5 @@
 <!-- Top Info Bar -->
-<div class="fixed top-0 left-0 right-0 z-[60] bg-gray-100 text-gray-800 text-[11px] sm:text-xs md:text-sm">
+<div class="fixed top-0 left-0 right-0 z-[60] bg-gray-100 text-[#00346B] text-[11px] sm:text-xs md:text-sm">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-9">
 
@@ -7,11 +7,12 @@
             <div class="flex items-center gap-2 sm:gap-3">
                 <span class="hidden sm:inline">Follow us on</span>
 
-                <a href="#" class="hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-pink-600"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-black"><i class="fab fa-tiktok"></i></a>
-                <a href="#" class="hover:text-red-600"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="hover:text-green-600"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-whatsapp"></i></a>
+
             </div>
 
             <!-- Right: Support (Desktop) -->
@@ -80,6 +81,11 @@
                 </a>
                 <a href="#services" class="nav-link group relative font-medium transition-colors duration-200 pb-1"
                     data-section="services">Services
+                    <span
+                        class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#team" class="nav-link group relative font-medium transition-colors duration-200 pb-1"
+                    data-section="team">Team
                     <span
                         class="nav-underline absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
                 </a>
@@ -185,6 +191,8 @@
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">About</a>
             <a href="#services"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Services</a>
+            <a href="#team"
+                class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Team</a>
             <a href="{% url 'home' %}#jobs"
                 class="block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Jobs</a>
             <a href="#contact"
