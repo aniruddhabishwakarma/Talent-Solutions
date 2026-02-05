@@ -30,51 +30,74 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* ===== NAVBAR STATES ===== */
+
+        /* 1. Navbar ON HERO (transparent, hero visible behind) */
+        .navbar-on-hero {
+            background: transparent;
+        }
+
+        /* 2. Navbar AFTER SCROLL (same gradient as hero) */
+        .navbar-gradient {
+            background: linear-gradient(90deg, #071a33 0%, #0b2a57 50%, #134a96 100%);
+            box-shadow: 0 10px 35px rgba(2, 6, 23, 0.35);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* 3. Glass effect (optional but sexy) */
+        .navbar-glass {
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+
+        /* ================= NAVBAR STATES ================= */
+
         #navbar {
             transition: all .3s ease;
         }
 
-        /* Default state = DARK (for hero/gradient pages) */
-        #navbar.navbar-dark {
-            background: transparent;
+        /* HERO TOP → transparent (hero gradient visible) */
+        #navbar.nav-on-hero {
+            background: transparent !important;
+            box-shadow: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        #navbar.navbar-dark .nav-link,
-        #navbar.navbar-dark .nav-logo-text,
-        #navbar.navbar-dark .nav-user-name,
-        #navbar.navbar-dark .nav-user-chevron,
-        #navbar.navbar-dark .nav-mobile-btn {
-            color: rgba(255, 255, 255, .92) !important;
-        }
-
-        /* When scrolled on dark sections */
-        #navbar.navbar-dark.navbar-scrolled {
-            background: rgba(7, 26, 51, 0.78);
+        /* DARK GLASS → login/register + scrolled dark sections */
+        #navbar.nav-dark {
+            background: rgba(7, 26, 51, 0.55);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* LIGHT mode (for white pages) */
-        #navbar.navbar-light {
+        /* LIGHT → white sections */
+        #navbar.nav-light {
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
+            box-shadow: 0 8px 30px rgba(2, 6, 23, .08);
         }
 
-        #navbar.navbar-light .nav-link,
-        #navbar.navbar-light .nav-logo-text,
-        #navbar.navbar-light .nav-user-name,
-        #navbar.navbar-light .nav-user-chevron,
-        #navbar.navbar-light .nav-mobile-btn {
-            color: rgba(15, 23, 42, 0.92) !important;
+        /* TEXT COLORS */
+        #navbar.nav-dark .nav-link,
+        #navbar.nav-dark .nav-logo-text,
+        #navbar.nav-dark .nav-user-name,
+        #navbar.nav-dark .nav-user-chevron,
+        #navbar.nav-dark .nav-mobile-btn {
+            color: rgba(255, 255, 255, .92) !important;
         }
 
-        #navbar.navbar-light .nav-link:hover {
-            color: #49A7FF !important;
+        #navbar.nav-light .nav-link,
+        #navbar.nav-light .nav-logo-text,
+        #navbar.nav-light .nav-user-name,
+        #navbar.nav-light .nav-user-chevron,
+        #navbar.nav-light .nav-mobile-btn {
+            color: rgba(15, 23, 42, .92) !important;
         }
+
 
         /* Gradient Background - matches hero section */
         .gradient-bg {
@@ -162,92 +185,59 @@
             const navbar = document.getElementById('navbar');
             if (!navbar) return;
 
-            const navLinks = navbar.querySelectorAll('.nav-link');
-            const logoText = navbar.querySelector('.nav-logo-text');
-            const userName = navbar.querySelector('.nav-user-name');
-            const userChevron = navbar.querySelector('.nav-user-chevron');
-            const mobileBtn = navbar.querySelector('.nav-mobile-btn');
-
-            // sections that NEED white text
+            const hasHero = !!document.getElementById('hero-section');
+            const isAuthDark = document.body.classList.contains('auth-dark');
             const darkSections = ['hero-section', 'services', 'contact', 'footer'];
 
-            function updateNavbar() {
-                const scrollPos = window.scrollY + 120;
-                let currentSection = 'hero-section';
-                let isDark = true;
 
-                document.querySelectorAll('section, footer').forEach(section => {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
 
-                    if (scrollPos >= top && scrollPos < top + height) {
-                        currentSection = section.id;
-                        isDark = darkSections.includes(section.id);
-                    }
-                });
 
-                /* ===== BACKGROUND ===== */
-                if (isDark) {
-                    if (window.scrollY > 40) {
-                        navbar.classList.add('bg-[#071a33]/80', 'backdrop-blur-lg');
-                    } else {
-                        navbar.classList.remove('bg-[#071a33]/80', 'backdrop-blur-lg');
-                    }
-                    navbar.classList.remove('bg-white', 'shadow-sm');
-                } else {
-                    navbar.classList.add('bg-white', 'shadow-sm');
-                    navbar.classList.remove('bg-[#071a33]/80', 'backdrop-blur-lg');
+            document.addEventListener('DOMContentLoaded', () => {
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const hasHero = !!document.getElementById('hero-section');
+                const isAuthDark = document.body.classList.contains('auth-dark');
+
+                function setNav(mode) {
+                    navbar.classList.remove('nav-on-hero', 'nav-dark', 'nav-light');
+                    navbar.classList.add(mode);
                 }
 
-                /* ===== TEXT COLORS ===== */
-                navLinks.forEach(link => {
-                    if (isDark) {
-                        link.classList.add('text-white', 'hover:text-cyan-300');
-                        link.classList.remove('text-gray-700', 'hover:text-cyan-500');
-                    } else {
-                        link.classList.remove('text-white', 'hover:text-cyan-300');
-                        link.classList.add('text-gray-700', 'hover:text-cyan-500');
+                function updateNavbar() {
+
+                    // LOGIN / REGISTER
+                    if (isAuthDark && !hasHero) {
+                        setNav('nav-dark');
+                        return;
                     }
 
-                    // underline logic
-                    const underline = link.querySelector('.nav-underline');
-                    if (underline) {
-                        if (link.dataset.section === currentSection) {
-                            underline.classList.add('w-full');
-                            underline.classList.remove('w-0');
-                        } else {
-                            underline.classList.remove('w-full');
-                            underline.classList.add('w-0');
+                    // HOME PAGE
+                    if (hasHero) {
+                        if (window.scrollY < 40) {
+                            setNav('nav-on-hero');
+                            return;
                         }
+                        setNav('nav-dark');
+                        return;
                     }
-                });
 
-                if (logoText) {
-                    logoText.classList.toggle('text-white', isDark);
-                    logoText.classList.toggle('text-gray-900', !isDark);
+                    // OTHER PAGES
+                    setNav('nav-light');
                 }
 
-                if (userName) {
-                    userName.classList.toggle('text-white', isDark);
-                    userName.classList.toggle('text-gray-700', !isDark);
-                }
+                updateNavbar();
+                window.addEventListener('scroll', updateNavbar);
+                window.addEventListener('resize', updateNavbar);
+            });
 
-                if (userChevron) {
-                    userChevron.classList.toggle('text-white', isDark);
-                    userChevron.classList.toggle('text-gray-700', !isDark);
-                }
-
-                if (mobileBtn) {
-                    mobileBtn.classList.toggle('text-white', isDark);
-                    mobileBtn.classList.toggle('text-gray-700', !isDark);
-                }
-            }
 
             updateNavbar();
             window.addEventListener('scroll', updateNavbar);
             window.addEventListener('resize', updateNavbar);
         });
     </script>
+
 
 
     <!-- Toast Container -->
@@ -278,11 +268,20 @@
 
             function updateNavbar() {
                 // NON-HOME pages (no hero) => always light mode
+                const isAuthDark = document.body.classList.contains('auth-dark');
+
+                // NON-HOME pages
                 if (!hasHero) {
-                    setMode('light');
-                    navbar.classList.remove('navbar-scrolled');
+                    if (isAuthDark) {
+                        setMode('dark');
+                        navbar.classList.add('navbar-scrolled');
+                    } else {
+                        setMode('light');
+                        navbar.classList.remove('navbar-scrolled');
+                    }
                     return;
                 }
+
 
                 // HOME page logic (detect current section)
                 const scrollPos = window.scrollY + 120;
