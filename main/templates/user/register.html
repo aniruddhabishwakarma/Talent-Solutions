@@ -101,7 +101,7 @@
 </style>
 {% endblock %}
 
-{% block main_class %}min-h-screen flex items-center justify-center px-4 pt-24 pb-8{% endblock %}
+{% block main_class %}min-h-screen flex items-center justify-center px-4 pt-28 md:pt-32 pb-8{% endblock %}
 {% block body_class %}gradient-bg auth-dark{% endblock %}
 {% block content %}
 <div class="register-card w-full max-w-2xl p-6 md:p-8">
@@ -220,7 +220,8 @@
         if password_error %
     }
     passwordError.classList.remove('hidden'); {
-        % endif %
+        %
+        endif %
     }
 
     function validatePasswords() {

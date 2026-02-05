@@ -2,7 +2,7 @@
 
 {% block title %}Jobs - {{ company.company_name|default:"Talent Solutions" }}{% endblock %}
 
-{% block body_class %}bg-gray-100{% endblock %}
+{% block body_class %}gradient-bg{% endblock %}
 {% block main_class %}pt-20{% endblock %}
 
 {% block content %}
@@ -197,33 +197,11 @@
 
 {% block extra_js %}
 <script>
-    // Set navbar to light mode immediately
+    // Set navbar to transparent on gradient (like hero)
     const navbar = document.getElementById('navbar');
-    const navLinks = navbar.querySelectorAll('.nav-link');
-    const navLogoText = navbar.querySelector('.nav-logo-text');
-    const navPhone = navbar.querySelector('.nav-phone');
-    const navMobileBtn = navbar.querySelector('.nav-mobile-btn');
-
-    navbar.classList.add('bg-white', 'shadow-sm');
-
-    navLinks.forEach(link => {
-        link.classList.remove('text-white', 'hover:text-cyan-300');
-        link.classList.add('text-gray-700', 'hover:text-cyan-500');
-    });
-
-    if (navLogoText) {
-        navLogoText.classList.remove('text-white');
-        navLogoText.classList.add('text-gray-900');
-    }
-
-    if (navPhone) {
-        navPhone.classList.remove('text-white', 'hover:text-cyan-300');
-        navPhone.classList.add('text-gray-600', 'hover:text-cyan-500');
-    }
-
-    if (navMobileBtn) {
-        navMobileBtn.classList.remove('text-white', 'hover:bg-white/10');
-        navMobileBtn.classList.add('text-gray-700', 'hover:bg-gray-100');
+    if (navbar) {
+        navbar.classList.remove('nav-light', 'nav-dark', 'bg-white', 'shadow-sm');
+        navbar.classList.add('nav-on-hero');
     }
 
     // Set Jobs as active

@@ -87,16 +87,20 @@
                             {{ job.company_name }} &bull; {{ job.get_country_display_name }}
                         </p>
 
-                        <div class="flex items-center justify-between">
+                        <div class="mt-5 flex items-center justify-between gap-3">
+                            <!-- Salary -->
                             <span class="px-3 py-1 bg-green-50 text-green-700 text-sm font-semibold rounded-lg">
                                 {{ job.get_salary_display }}
                             </span>
 
-                            <svg class="w-5 h-5 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
+                            <!-- Apply Button -->
+                            <span class="px-4 py-1.5 text-sm font-semibold text-white rounded-lg
+               bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8]
+               shadow hover:opacity-90 transition">
+                                Apply Now
+                            </span>
                         </div>
+
                     </a>
                     {% endfor %}
 

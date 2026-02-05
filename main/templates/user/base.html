@@ -33,6 +33,7 @@
 
         /* ===== NAVBAR STATES ===== */
 
+
         #navbar {
             transition: all .3s ease;
         }
@@ -233,7 +234,8 @@
 
             const hasHero = !!document.getElementById('hero-section');
             const isAuthDark = document.body.classList.contains('auth-dark');
-            const darkSections = ['hero-section', 'services', 'contact', 'footer'];
+            const isGradientPage = document.body.classList.contains('gradient-bg');
+            const darkSections = ['hero-section', 'services', 'jobs', 'contact', 'footer'];
 
             function setNav(mode) {
                 navbar.classList.remove('nav-on-hero', 'nav-dark', 'nav-light');
@@ -243,6 +245,12 @@
             function updateNavbar() {
                 // LOGIN / REGISTER pages (dark bg, no hero)
                 if (isAuthDark && !hasHero) {
+                    setNav('nav-on-hero');
+                    return;
+                }
+
+                // GRADIENT PAGES (like jobs list) - always transparent
+                if (isGradientPage && !hasHero) {
                     setNav('nav-on-hero');
                     return;
                 }
