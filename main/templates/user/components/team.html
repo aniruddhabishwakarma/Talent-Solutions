@@ -1,7 +1,7 @@
 {% load static %}
 
-<!-- Team Section (Screenshot Style) -->
-<section id="team" class="bg-[#f3f3f1]">
+<!-- Team Section - Compact Cards -->
+<section id="team" class="bg-white py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         <!-- Top Header Row -->
@@ -30,95 +30,119 @@
 
         </div>
 
-        <!-- Cards Grid -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Team Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
             <!-- Card 1 -->
-            <div class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                <div class="bg-[#b56b6b] p-4">
-                    <img src="{% static 'images/teamuser.png' %}" alt="teamuser" class="w-full h-40 object-contain" />
+            <div
+                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
+
+
+                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
+            flex items-center justify-center p-5 rounded-t-xl">
+                    <img src="{% static 'images/teamuser.png' %}" class="h-40 object-contain" />
                 </div>
-                <div class="p-4">
-                    <h3 class="text-gray-900 font-bold text-lg leading-none">Dinesh Paudel</h3>
-                    <p class="text-gray-500 text-sm mt-1">IT Engineer</p>
-                    <p class="text-gray-400 text-xs mt-2 leading-relaxed">
-                        Hello i am dinesh pulpuol software Engineer form lalitpur.
+
+
+
+                <div class="p-4 text-center">
+                    <h3 class="text-base font-bold text-gray-900">Dinesh Paudel</h3>
+                    <p class="text-blue-600 text-sm font-medium mb-2">Senior IT Engineer</p>
+
+                    <p class="text-gray-600 text-sm mb-3">
+                        Software engineer specializing in scalable solutions.
                     </p>
 
-                    <div class="flex items-center gap-3 mt-3 text-gray-500">
-                        <a href="#" class="hover:text-gray-900">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="hover:text-gray-900">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="hover:text-gray-900">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
+                    <div class="flex justify-center gap-4 text-lg">
+                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
+                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
+                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 2 -->
-            <div class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                <div class="bg-[#b56b6b] p-4">
-                    <img src="{% static 'images/teamuser.png' %}" alt="teamuser" class="w-full h-40 object-contain" />
+            <div
+                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
+                <!-- Photo with border gap -->
+                <!-- Photo with proper gap and no cut -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
+            flex items-center justify-center p-5 rounded-t-xl">
+                    <img src="{% static 'images/teamuser.png' %}" class="h-40 object-contain" />
                 </div>
-                <div class="p-4">
-                    <h3 class="text-gray-900 font-bold text-lg leading-none">Dinesh Paudel</h3>
-                    <p class="text-gray-500 text-sm mt-1">IT Engineer</p>
-                    <p class="text-gray-400 text-xs mt-2 leading-relaxed">
-                        Hello i am dinesh pulpuol software Engineer form lalitpur.
+
+
+
+                <div class="p-4 text-center">
+                    <h3 class="text-base font-bold text-gray-900">Sarah Chen</h3>
+                    <p class="text-blue-600 text-sm font-medium mb-2">Project Manager</p>
+                    <p class="text-gray-600 text-sm mb-3">
+                        Expert in agile workflows and client delivery.
                     </p>
 
-                    <div class="flex items-center gap-3 mt-3 text-gray-500">
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-whatsapp"></i></a>
+                    <div class="flex justify-center gap-4 text-lg">
+                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
+                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
+                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 3 -->
-            <div class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                <div class="bg-[#b56b6b] p-4">
-                    <img src="{% static 'images/teamuser.png' %}" alt="teamuser" class="w-full h-40 object-contain" />
+            <div
+                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
+                <!-- Photo with border gap -->
+                <!-- Photo with proper gap and no cut -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
+            flex items-center justify-center p-5 rounded-t-xl">
+                    <img src="{% static 'images/teamuser.png' %}" class="h-40 object-contain" />
                 </div>
-                <div class="p-4">
-                    <h3 class="text-gray-900 font-bold text-lg leading-none">Dinesh Paudel</h3>
-                    <p class="text-gray-500 text-sm mt-1">IT Engineer</p>
-                    <p class="text-gray-400 text-xs mt-2 leading-relaxed">
-                        Hello i am dinesh pulpuol software Engineer form lalitpur.
+
+
+
+                <div class="p-4 text-center">
+                    <h3 class="text-base font-bold text-gray-900">Michael Rodriguez</h3>
+                    <p class="text-blue-600 text-sm font-medium mb-2">Lead UX Designer</p>
+                    <p class="text-gray-600 text-sm mb-3">
+                        Creating modern and user-friendly experiences.
                     </p>
 
-                    <div class="flex items-center gap-3 mt-3 text-gray-500">
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-whatsapp"></i></a>
+                    <div class="flex justify-center gap-4 text-lg">
+                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
+                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
+                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 4 -->
-            <div class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                <div class="bg-[#b56b6b] p-4">
-                    <img src="{% static 'images/teamuser.png' %}" alt="teamuser" class="w-full h-40 object-contain" />
+            <div
+                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
+                <!-- Photo with border gap -->
+                <!-- Photo with proper gap and no cut -->
+                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
+            flex items-center justify-center p-5 rounded-t-xl">
+                    <img src="{% static 'images/teamuser.png' %}" class="h-40 object-contain" />
                 </div>
-                <div class="p-4">
-                    <h3 class="text-gray-900 font-bold text-lg leading-none">Dinesh Paudel</h3>
-                    <p class="text-gray-500 text-sm mt-1">IT Engineer</p>
-                    <p class="text-gray-400 text-xs mt-2 leading-relaxed">
-                        Hello i am dinesh pulpuol software Engineer form lalitpur.
+
+
+
+                <div class="p-4 text-center">
+                    <h3 class="text-base font-bold text-gray-900">Priya Sharma</h3>
+                    <p class="text-blue-600 text-sm font-medium mb-2">Senior Data Analyst</p>
+                    <p class="text-gray-600 text-sm mb-3">
+                        Turning data into powerful insights.
                     </p>
 
-                    <div class="flex items-center gap-3 mt-3 text-gray-500">
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-gray-900"><i class="fab fa-whatsapp"></i></a>
+                    <div class="flex justify-center gap-4 text-lg">
+                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
+                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
+                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
                     </div>
                 </div>
             </div>
 
         </div>
+
     </div>
 </section>

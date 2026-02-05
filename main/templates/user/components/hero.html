@@ -54,22 +54,24 @@
 
             <!-- Right (hidden on mobile, visible on lg+) -->
             <div class="relative reveal hidden lg:flex justify-center lg:justify-end">
-                <!-- Top dotted (smaller + moved inside nicely) -->
-                <img src="{% static 'images/dotted.png' %}" alt=""
-                    class="absolute -top-6 left-6 w-40 opacity-80 pointer-events-none select-none" />
 
+                <!-- Top dotted (bigger + behind photo) -->
+                <!-- Top dotted (fixed position inside hero) -->
+                <img src="{% static 'images/dotted.png' %}" alt=""
+                    class="absolute left-0 w-56 opacity-80 pointer-events-none select-none z-0" />
                 <!-- Image Card -->
-                <div class="relative w-full max-w-lg">
-                    <div class="rounded-[3rem] overflow-hidden shadow-2xl ring-1 ring-white/10">
+                <div class="relative w-full max-w-md z-10">
+                    <div class="rounded-[3rem] overflow-hidden shadow-2xl">
                         <img src="{% static 'images/user.png' %}" alt="Professional"
-                            class="w-full h-[520px] object-cover" />
+                            class="w-full h-[460px] object-cover" />
                     </div>
                 </div>
 
-                <!-- Bottom dotted (smaller + moved inside nicely) -->
+                <!-- Bottom dotted (bigger + behind photo) -->
                 <img src="{% static 'images/dotted.png' %}" alt=""
-                    class="absolute -bottom-6 right-6 w-40 opacity-80 pointer-events-none select-none" />
+                    class="absolute -bottom-10 right-0 w-56 opacity-80 pointer-events-none select-none z-0" />
             </div>
+
         </div>
     </div>
 </section>
