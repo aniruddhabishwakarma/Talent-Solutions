@@ -30,11 +30,59 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        #navbar {
+            transition: all .3s ease;
+        }
+
+        /* Default state = DARK (for hero/gradient pages) */
+        #navbar.navbar-dark {
+            background: transparent;
+        }
+
+        #navbar.navbar-dark .nav-link,
+        #navbar.navbar-dark .nav-logo-text,
+        #navbar.navbar-dark .nav-user-name,
+        #navbar.navbar-dark .nav-user-chevron,
+        #navbar.navbar-dark .nav-mobile-btn {
+            color: rgba(255, 255, 255, .92) !important;
+        }
+
+        /* When scrolled on dark sections */
+        #navbar.navbar-dark.navbar-scrolled {
+            background: rgba(7, 26, 51, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* LIGHT mode (for white pages) */
+        #navbar.navbar-light {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
+        }
+
+        #navbar.navbar-light .nav-link,
+        #navbar.navbar-light .nav-logo-text,
+        #navbar.navbar-light .nav-user-name,
+        #navbar.navbar-light .nav-user-chevron,
+        #navbar.navbar-light .nav-mobile-btn {
+            color: rgba(15, 23, 42, 0.92) !important;
+        }
+
+        #navbar.navbar-light .nav-link:hover {
+            color: #49A7FF !important;
+        }
+
         /* Gradient Background - matches hero section */
         .gradient-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background: linear-gradient(90deg, #071a33 0%, #0b2a57 50%, #134a96 100%);
             min-height: 100vh;
         }
+
+
 
         /* White Background (for pages that need it) */
         .white-bg {
@@ -109,6 +157,97 @@
     <!-- Navbar -->
     {% include 'user/components/navbar.html' %}
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+
+            const navLinks = navbar.querySelectorAll('.nav-link');
+            const logoText = navbar.querySelector('.nav-logo-text');
+            const userName = navbar.querySelector('.nav-user-name');
+            const userChevron = navbar.querySelector('.nav-user-chevron');
+            const mobileBtn = navbar.querySelector('.nav-mobile-btn');
+
+            // sections that NEED white text
+            const darkSections = ['hero-section', 'services', 'contact', 'footer'];
+
+            function updateNavbar() {
+                const scrollPos = window.scrollY + 120;
+                let currentSection = 'hero-section';
+                let isDark = true;
+
+                document.querySelectorAll('section, footer').forEach(section => {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        currentSection = section.id;
+                        isDark = darkSections.includes(section.id);
+                    }
+                });
+
+                /* ===== BACKGROUND ===== */
+                if (isDark) {
+                    if (window.scrollY > 40) {
+                        navbar.classList.add('bg-[#071a33]/80', 'backdrop-blur-lg');
+                    } else {
+                        navbar.classList.remove('bg-[#071a33]/80', 'backdrop-blur-lg');
+                    }
+                    navbar.classList.remove('bg-white', 'shadow-sm');
+                } else {
+                    navbar.classList.add('bg-white', 'shadow-sm');
+                    navbar.classList.remove('bg-[#071a33]/80', 'backdrop-blur-lg');
+                }
+
+                /* ===== TEXT COLORS ===== */
+                navLinks.forEach(link => {
+                    if (isDark) {
+                        link.classList.add('text-white', 'hover:text-cyan-300');
+                        link.classList.remove('text-gray-700', 'hover:text-cyan-500');
+                    } else {
+                        link.classList.remove('text-white', 'hover:text-cyan-300');
+                        link.classList.add('text-gray-700', 'hover:text-cyan-500');
+                    }
+
+                    // underline logic
+                    const underline = link.querySelector('.nav-underline');
+                    if (underline) {
+                        if (link.dataset.section === currentSection) {
+                            underline.classList.add('w-full');
+                            underline.classList.remove('w-0');
+                        } else {
+                            underline.classList.remove('w-full');
+                            underline.classList.add('w-0');
+                        }
+                    }
+                });
+
+                if (logoText) {
+                    logoText.classList.toggle('text-white', isDark);
+                    logoText.classList.toggle('text-gray-900', !isDark);
+                }
+
+                if (userName) {
+                    userName.classList.toggle('text-white', isDark);
+                    userName.classList.toggle('text-gray-700', !isDark);
+                }
+
+                if (userChevron) {
+                    userChevron.classList.toggle('text-white', isDark);
+                    userChevron.classList.toggle('text-gray-700', !isDark);
+                }
+
+                if (mobileBtn) {
+                    mobileBtn.classList.toggle('text-white', isDark);
+                    mobileBtn.classList.toggle('text-gray-700', !isDark);
+                }
+            }
+
+            updateNavbar();
+            window.addEventListener('scroll', updateNavbar);
+            window.addEventListener('resize', updateNavbar);
+        });
+    </script>
 
 
     <!-- Toast Container -->
@@ -122,61 +261,55 @@
 
     <!-- Global Toast Script -->
     <script>
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
 
-            const toast = document.createElement('div');
-            toast.className = 'toast bg-white rounded-xl shadow-2xl border-l-4 p-4 max-w-sm';
+            // Sections that should be treated as "dark background"
+            const darkSections = ['hero-section', 'services', 'contact', 'footer'];
 
-            let borderColor, iconHtml;
-            if (type === 'error') {
-                borderColor = 'border-red-500';
-                iconHtml =
-                    '<svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>';
-            } else if (type === 'info') {
-                borderColor = 'border-blue-500';
-                iconHtml =
-                    '<svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>';
-            } else {
-                borderColor = 'border-green-500';
-                iconHtml =
-                    '<svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>';
+            // If this page doesn't have hero section => it's a normal/white page
+            const hasHero = !!document.getElementById('hero-section');
+
+            function setMode(mode) {
+                navbar.classList.toggle('navbar-dark', mode === 'dark');
+                navbar.classList.toggle('navbar-light', mode === 'light');
             }
 
-            toast.classList.add(borderColor);
+            function updateNavbar() {
+                // NON-HOME pages (no hero) => always light mode
+                if (!hasHero) {
+                    setMode('light');
+                    navbar.classList.remove('navbar-scrolled');
+                    return;
+                }
 
-            toast.innerHTML = `
-                <div class="flex items-center gap-3">
-                    ${iconHtml}
-                    <p class="font-medium text-gray-900">${message}</p>
-                    <button onclick="this.closest('.toast').remove()" class="ml-4 text-gray-400 hover:text-gray-600">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                        </svg>
-                    </button>
-                </div>
-            `;
+                // HOME page logic (detect current section)
+                const scrollPos = window.scrollY + 120;
+                let isDark = true;
 
-            container.appendChild(toast);
+                document.querySelectorAll('section, footer').forEach(section => {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        isDark = darkSections.includes(section.id);
+                    }
+                });
 
-            // Animate in
-            setTimeout(() => toast.classList.add('show'), 10);
+                setMode(isDark ? 'dark' : 'light');
 
-            // Auto remove after 4 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
-        }
+                // add scrolled background only for dark sections
+                if (isDark && window.scrollY > 40) navbar.classList.add('navbar-scrolled');
+                else navbar.classList.remove('navbar-scrolled');
+            }
 
-        function hideToast() {
-            const toasts = document.querySelectorAll('.toast');
-            toasts.forEach(toast => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            });
-        }
+            updateNavbar();
+            window.addEventListener('scroll', updateNavbar);
+            window.addEventListener('resize', updateNavbar);
+        });
     </script>
+
+
 
     <!-- Django Messages as Toast -->
     <!-- <script>
