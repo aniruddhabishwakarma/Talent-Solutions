@@ -70,6 +70,44 @@ def send_verification_code(user, code):
     _send('support', user.email, subject, plain, html)
 
 
+# ── 0b. Admin password-reset code ──────────────────────────────────────────
+# Sender: support@
+
+def send_admin_reset_code(user, code):
+    """6-digit OTP sent to the admin when they request a password reset."""
+    if not user.email:
+        return
+
+    name = user.first_name or user.username
+    subject = "Password Reset Code – Talent Solutions Admin"
+
+    html = f"""
+    <div style="font-family:'Segoe UI',sans-serif; max-width:560px; margin:0 auto; color:#374151;">
+      <h2 style="color:#0891b2; margin-bottom:8px;">Password Reset</h2>
+      <p>Hi <strong>{name}</strong>,</p>
+      <p>Use the code below to reset your admin account password.</p>
+      <div style="text-align:center; margin:28px 0;">
+        <span style="display:inline-block; padding:16px 36px; background:#f0fdff;
+                     border:2px solid #0891b2; border-radius:12px;
+                     font-size:32px; font-weight:700; color:#0891b2; letter-spacing:8px;">
+          {code}
+        </span>
+      </div>
+      <p style="color:#6b7280; font-size:14px;">
+         This code is valid for <strong>10 minutes</strong>. Do not share it with anyone.</p>
+      <p style="color:#9ca3af; font-size:12px; margin-top:24px;">— Talent Solutions (Admin)</p>
+    </div>"""
+
+    plain = (
+        f"Hi {name},\n\n"
+        f"Your password reset code is: {code}\n\n"
+        f"This code is valid for 10 minutes. Do not share it with anyone.\n\n"
+        f"— Talent Solutions (Admin)"
+    )
+
+    _send('support', user.email, subject, plain, html)
+
+
 # ── 1. Application submitted – confirmation to applicant ──────────────────
 # Sender: welcome@
 

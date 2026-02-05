@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Verify Code - Talent Solutions Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15vh 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0066cc 0%, #004A98 50%, #001832 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 74, 152, 0.3);
+        }
+
+        /* OTP boxes */
+        .otp-inputs { display: flex; gap: 10px; justify-content: center; }
+        .otp-input {
+            width: 48px;
+            height: 56px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: #f9fafb;
+            color: #1f2937;
+            transition: all 0.2s ease;
+            outline: none;
+            caret-color: #004A98;
+        }
+        .otp-input:focus { border-color: #004A98; background: white; box-shadow: 0 0 0 3px rgba(0,74,152,0.15); }
+        .otp-input.filled { border-color: #0891b2; background: #f0fdff; }
+
+        .btn-resend { background: none; border: none; color: #0891b2; font-size: 14px; font-weight: 600; cursor: pointer; padding: 0; }
+        .btn-resend:hover { text-decoration: underline; }
+        .btn-resend:disabled { color: #9ca3af; cursor: not-allowed; }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 12px; }
+        .toast { background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); padding: 16px 20px; display: flex; align-items: center; gap: 12px; animation: slideIn 0.3s ease-out; border-left: 4px solid; max-width: 400px; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .toast-success { border-left-color: #10b981; }
+        .toast-error { border-left-color: #ef4444; }
+
+        @media (max-width: 480px) { .otp-input { width: 42px; height: 50px; font-size: 20px; } .otp-inputs { gap: 6px; } }
+        @media (max-width: 640px) { body { padding: 10vh 16px; } .card { padding: 24px !important; } }
+    </style>
+</head>
+<body>
+    <!-- Toasts -->
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <div class="toast toast-{{ message.tags }}">
+            {% if message.tags == 'error' %}
+                <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+            {% else %}
+                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            {% endif %}
+            <p class="font-medium text-gray-900">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="card p-8 md:p-10">
+        <!-- Icon -->
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 flex items-center justify-center shadow-lg">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Verify Your Email</h1>
+            <p class="text-gray-500 text-sm">We sent a 6-digit code to <span class="font-semibold text-gray-700">{{ masked_email }}</span></p>
+        </div>
+
+        <!-- OTP Form -->
+        <form method="POST" action="{% url 'admin_reset_otp' %}" class="space-y-6" id="otpForm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="verify">
+            <input type="hidden" name="code" id="otpCode">
+
+            <div class="otp-inputs" id="otpInputs">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+                <input type="text" inputmode="numeric" maxlength="1" class="otp-input" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn-primary">Verify</button>
+        </form>
+
+        <!-- Resend -->
+        <div class="text-center mt-5">
+            <p class="text-gray-500 text-sm">
+                Didn't receive the code?
+                <form method="POST" action="{% url 'admin_reset_otp' %}" class="inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="resend">
+                    <button type="submit" class="btn-resend" id="resendBtn"
+                            {% if resend_wait > 0 %}disabled{% endif %}>
+                        {% if resend_wait > 0 %}Resend ({{ resend_wait }}s){% else %}Resend Code{% endif %}
+                    </button>
+                </form>
+            </p>
+        </div>
+
+        <!-- Back to login -->
+        <p class="text-center text-sm text-gray-500 mt-4">
+            <a href="{% url 'admin_login' %}" class="text-blue-600 hover:underline font-medium">← Back to Login</a>
+        </p>
+    </div>
+
+    <script>
+        (function() {
+            var inputs  = document.querySelectorAll('.otp-input');
+            var hidden  = document.getElementById('otpCode');
+            var form    = document.getElementById('otpForm');
+
+            inputs.forEach(function(input, index) {
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '');
+                    if (this.value.length === 1) {
+                        this.classList.add('filled');
+                        if (index < inputs.length - 1) inputs[index + 1].focus();
+                    } else {
+                        this.classList.remove('filled');
+                    }
+                    sync();
+                    if (Array.from(inputs).every(function(i){ return i.value.length === 1; })) form.submit();
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !this.value && index > 0) {
+                        inputs[index - 1].value = '';
+                        inputs[index - 1].classList.remove('filled');
+                        inputs[index - 1].focus();
+                        sync();
+                        e.preventDefault();
+                    }
+                });
+
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    var digits = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                    digits.split('').forEach(function(ch, i) {
+                        if (inputs[i]) { inputs[i].value = ch; inputs[i].classList.toggle('filled', ch !== ''); }
+                    });
+                    inputs[Math.min(digits.length, 5)].focus();
+                    sync();
+                    if (digits.length === 6) form.submit();
+                });
+            });
+
+            inputs[0].focus();
+
+            function sync() { hidden.value = Array.from(inputs).map(function(i){ return i.value; }).join(''); }
+
+            // Resend countdown
+            var btn     = document.getElementById('resendBtn');
+            var seconds = {{ resend_wait }};
+            if (seconds > 0) {
+                btn.disabled = true;
+                btn.textContent = 'Resend (' + seconds + 's)';
+                var timer = setInterval(function() {
+                    seconds--;
+                    if (seconds <= 0) { clearInterval(timer); btn.disabled = false; btn.textContent = 'Resend Code'; }
+                    else { btn.textContent = 'Resend (' + seconds + 's)'; }
+                }, 1000);
+            }
+        })();
+
+        // Toast auto-dismiss
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toast').forEach(function(toast) {
+                setTimeout(function() {
+                    toast.style.animation = 'slideIn 0.3s ease-out reverse';
+                    setTimeout(function() { toast.remove(); }, 300);
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

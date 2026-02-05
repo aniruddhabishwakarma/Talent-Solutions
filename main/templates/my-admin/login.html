@@ -5,246 +5,418 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Admin Login - Talent Solutions</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            font-family: 'Inter', sans-serif;
+            background: #08101e;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 15vh 16px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .login-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        /* ── animated background orbs ── */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+        }
+        .orb-1 {
+            width: 480px; height: 480px;
+            background: radial-gradient(circle, #1a3a6b 0%, transparent 70%);
+            top: -180px; left: -140px;
+            animation: drift1 10s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 360px; height: 360px;
+            background: radial-gradient(circle, #0e7490 0%, transparent 70%);
+            bottom: -120px; right: -100px;
+            animation: drift2 12s ease-in-out infinite;
+        }
+        .orb-3 {
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, #6d28d9 0%, transparent 70%);
+            top: 55%; left: 65%;
+            animation: drift3 9s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        .orb-4 {
+            width: 160px; height: 160px;
+            background: radial-gradient(circle, #0ea5e9 0%, transparent 70%);
+            top: 15%; right: 18%;
+            animation: drift4 11s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes drift1 { 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(40px,50px) scale(1.08); } }
+        @keyframes drift2 { 0%,100%{ transform: translate(0,0) scale(1); } 50%{ transform: translate(-50px,-30px) scale(1.1); } }
+        @keyframes drift3 { 0%,100%{ transform: translate(0,0); } 40%{ transform: translate(-30px,40px); } 70%{ transform: translate(20px,-20px); } }
+        @keyframes drift4 { 0%,100%{ transform: translate(0,0); } 60%{ transform: translate(-20px,30px); } }
+
+        /* ── subtle grid ── */
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 56px 56px;
+            pointer-events: none;
+        }
+
+        /* ── card ── */
+        .card {
+            position: relative;
+            z-index: 10;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
+            padding: 44px 38px 36px;
+            background: rgba(255,255,255,0.035);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 0;
+            box-shadow:
+                0 0 60px rgba(0,0,0,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        /* top accent line – animated gradient */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #0ea5e9 30%, #7c3aed 60%, transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer-line 4s linear infinite;
+        }
+        @keyframes shimmer-line {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ── title ── */
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            letter-spacing: -0.4px;
+            margin-bottom: 30px;
+        }
+
+        /* ── input group ── */
+        .input-group { margin-bottom: 18px; }
+
+        .input-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.38);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 17px; height: 17px;
+            color: rgba(255,255,255,0.22);
+            pointer-events: none;
+            transition: color 0.3s;
         }
 
         .input-field {
             width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #e5e7eb;
+            padding: 13px 16px 13px 44px;
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.09);
             border-radius: 8px;
+            color: #fff;
             font-size: 14px;
-            transition: all 0.3s ease;
-            background: #f9fafb;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+            outline: none;
         }
+        .input-field::placeholder { color: rgba(255,255,255,0.2); }
 
         .input-field:focus {
-            outline: none;
-            border-color: #004A98;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(0, 74, 152, 0.1);
+            border-color: rgba(14, 165, 233, 0.6);
+            background: rgba(14, 165, 233, 0.07);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
         }
+        .input-wrap:focus-within .input-icon { color: rgba(14, 165, 233, 0.7); }
 
-        .input-field::placeholder {
-            color: #9ca3af;
+        /* password toggle */
+        .pwd-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255,255,255,0.25);
+            transition: color 0.2s;
+            padding: 4px;
+            display: flex;
+            align-items: center;
         }
+        .pwd-toggle:hover { color: rgba(255,255,255,0.55); }
+        .pwd-toggle svg { width: 18px; height: 18px; }
 
-        .btn-login {
+        /* forgot link */
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            text-decoration: none;
+            margin-top: 10px;
+            transition: color 0.25s;
+        }
+        .forgot-link:hover { color: #38bdf8; }
+
+        /* ── sign-in button ── */
+        .btn-signin {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #0066cc 0%, #004A98 50%, #001832 100%);
-            color: white;
+            margin-top: 24px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #7c3aed 100%);
+            background-size: 200% 200%;
+            animation: btn-bg 6s ease infinite;
+            color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.4px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 74, 152, 0.3);
+        @keyframes btn-bg {
+            0%,100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
+        .btn-signin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(14, 165, 233, 0.45);
+        }
+        .btn-signin:active { transform: translateY(0); }
 
+        /* shimmer sweep on hover */
+        .btn-signin::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            transition: left 0.55s ease;
+        }
+        .btn-signin:hover::after { left: 140%; }
+
+        /* ── divider ── */
         .divider {
             display: flex;
             align-items: center;
-            gap: 16px;
-            color: #9ca3af;
-            font-size: 14px;
+            gap: 14px;
+            margin: 24px 0 20px;
         }
-
-        .divider::before,
-        .divider::after {
-            content: '';
+        .divider-line {
             flex: 1;
             height: 1px;
-            background: #e5e7eb;
+            background: rgba(255,255,255,0.08);
+        }
+        .divider-text {
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.5px;
         }
 
-        /* Toast notifications */
+        /* ── register row ── */
+        .register-row {
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.35);
+        }
+        .register-row a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+        .register-row a:hover {
+            color: #7dd3fc;
+            text-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+        }
+
+        /* ── toasts ── */
         .toast-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 24px; right: 24px;
             z-index: 100;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
-
         .toast {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            padding: 16px 20px;
+            background: rgba(14, 18, 30, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-left: 3px solid;
+            border-radius: 10px;
+            padding: 14px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
-            animation: slideIn 0.3s ease-out;
-            border-left: 4px solid;
-            max-width: 400px;
+            animation: slideIn 0.3s cubic-bezier(.22,.68,0,1.2);
+            max-width: 340px;
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
         }
+        @keyframes slideIn { from { transform: translateX(110%); opacity:0; } to { transform: translateX(0); opacity:1; } }
+        .toast-success { border-left-color: #34d399; }
+        .toast-error   { border-left-color: #f87171; }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .toast-success { border-left-color: #10b981; }
-        .toast-error { border-left-color: #ef4444; }
-        .toast-warning { border-left-color: #f59e0b; }
-        .toast-info { border-left-color: #0ea5e9; }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            body {
-                padding: 10vh 16px;
-            }
-            .login-card {
-                padding: 24px !important;
-            }
+        /* ── responsive ── */
+        @media (max-width: 480px) {
+            .card { padding: 32px 22px 28px; }
         }
     </style>
 </head>
 <body>
-    <!-- Toast Messages -->
-    {% if messages %}
-    <div class="toast-container">
-        {% for message in messages %}
-        <div class="toast toast-{{ message.tags }}" id="toast-{{ forloop.counter }}">
-            {% if message.tags == 'error' %}
-                <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                </svg>
-            {% elif message.tags == 'success' %}
-                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-            {% else %}
-                <svg class="w-6 h-6 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                </svg>
-            {% endif %}
-            <p class="font-medium text-gray-900">{{ message }}</p>
-        </div>
-        {% endfor %}
+
+<!-- background layer -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="orb orb-4"></div>
+<div class="grid-bg"></div>
+
+<!-- toasts -->
+{% if messages %}
+<div class="toast-container">
+    {% for message in messages %}
+    <div class="toast toast-{{ message.tags }}">
+        {% if message.tags == 'error' %}
+            <svg class="flex-shrink-0" width="18" height="18" fill="currentColor" style="color:#f87171" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+        {% else %}
+            <svg class="flex-shrink-0" width="18" height="18" fill="currentColor" style="color:#34d399" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        {% endif %}
+        <p>{{ message }}</p>
     </div>
-    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
 
-    <div class="login-card p-8 md:p-10">
-        <!-- Logo & Title -->
-        <div class="text-center mb-8">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 flex items-center justify-center shadow-lg">
-                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.63 0-6.58-3.88-7-9h14c-.42 5.12-3.37 9-7 9z"/>
+<!-- card -->
+<div class="card">
+    <h1 class="card-title">Admin Login</h1>
+
+    <form method="POST" action="{% url 'admin_login' %}">
+        {% csrf_token %}
+
+        <!-- identifier -->
+        <div class="input-group">
+            <label class="input-label">Username / Email / Phone</label>
+            <div class="input-wrap">
+                <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
+                <input type="text" name="identifier" class="input-field" placeholder="Enter identifier" required autofocus>
             </div>
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Admin Login</h1>
-            <p class="text-gray-500 text-sm">Sign in to access your dashboard</p>
         </div>
 
-        <!-- Login Form -->
-        <form method="POST" action="{% url 'admin_login' %}" class="space-y-5">
-            {% csrf_token %}
-
-            <!-- Identifier Field -->
-            <div>
-                <label for="identifier" class="block text-sm font-medium text-gray-700 mb-2">Username / Email / Phone</label>
-                <input
-                    type="text"
-                    id="identifier"
-                    name="identifier"
-                    class="input-field"
-                    placeholder="Enter username, email or phone"
-                    required
-                    autofocus
-                >
-            </div>
-
-            <!-- Password Field -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="input-field"
-                    placeholder="Enter your password"
-                    required
-                >
-            </div>
-
-            <!-- Login Button -->
-            <button type="submit" class="btn-login mt-6">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+        <!-- password -->
+        <div class="input-group">
+            <label class="input-label">Password</label>
+            <div class="input-wrap">
+                <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z"/>
                 </svg>
-                Sign In
-            </button>
-        </form>
-
-        <!-- Divider -->
-        <div class="divider my-6">
-            <span>or</span>
+                <input type="password" name="password" id="passwordField" class="input-field" placeholder="Enter password" required>
+                <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Toggle password">
+                    <!-- eye-open -->
+                    <svg id="eyeOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7s-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <!-- eye-off (hidden by default) -->
+                    <svg id="eyeOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                    </svg>
+                </button>
+            </div>
+            <a href="{% url 'admin_forgot_password' %}" class="forgot-link">Forgot Password?</a>
         </div>
 
-        <!-- Register Link -->
-        <p class="text-center text-sm text-gray-600">
-            Don't have an account?
-            <a href="{% url 'admin_register' %}" class="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 hover:underline">
-                Register here
-            </a>
-        </p>
+        <!-- sign in -->
+        <button type="submit" class="btn-signin">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+            </svg>
+            Sign In
+        </button>
+    </form>
+
+    <!-- divider -->
+    <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">or</span>
+        <div class="divider-line"></div>
     </div>
 
-    <script>
-        // Auto-dismiss toasts after 5 seconds
-        document.addEventListener('DOMContentLoaded', function() {
-            const toasts = document.querySelectorAll('.toast');
-            toasts.forEach(toast => {
-                setTimeout(() => {
-                    toast.style.animation = 'slideIn 0.3s ease-out reverse';
-                    setTimeout(() => toast.remove(), 300);
-                }, 5000);
-            });
-        });
-    </script>
+    <!-- register -->
+    <p class="register-row">
+        Don't have an account? <a href="{% url 'admin_register' %}">Register here</a>
+    </p>
+</div>
+
+<script>
+(function() {
+    // password show / hide toggle
+    var field  = document.getElementById('passwordField');
+    var btn    = document.getElementById('pwdToggle');
+    var eyeOn  = document.getElementById('eyeOpen');
+    var eyeOff = document.getElementById('eyeOff');
+    var shown  = false;
+
+    btn.addEventListener('click', function() {
+        shown = !shown;
+        field.type     = shown ? 'text' : 'password';
+        eyeOn.style.display  = shown ? 'none'  : 'block';
+        eyeOff.style.display = shown ? 'block' : 'none';
+    });
+
+    // toast auto-dismiss
+    document.querySelectorAll('.toast').forEach(function(t) {
+        setTimeout(function() {
+            t.style.animation = 'slideIn 0.3s cubic-bezier(.22,.68,0,1.2) reverse';
+            setTimeout(function(){ t.remove(); }, 320);
+        }, 5000);
+    });
+})();
+</script>
 </body>
 </html>

@@ -174,6 +174,142 @@ def admin_login(request):
     return render(request, 'my-admin/login.html')
 
 
+# =============================================================================
+# ADMIN FORGOT PASSWORD (3-step: email → OTP → new password)
+# =============================================================================
+
+def admin_forgot_password(request):
+    """Step 1 – admin enters their registered email."""
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+
+        if not email:
+            messages.error(request, 'Please enter your email address.')
+            return render(request, 'my-admin/forgot_password.html')
+
+        user = User.objects.filter(email=email, role='admin').first()
+
+        if not user:
+            # Same message whether email exists or not — don't leak info
+            messages.success(request, 'If this email is registered, you will receive a code.')
+            return render(request, 'my-admin/forgot_password.html')
+
+        # Generate OTP
+        code = f"{random.randint(100000, 999999)}"
+        now = timezone.now()
+        request.session['admin_reset_code'] = code
+        request.session['admin_reset_user_id'] = user.id
+        request.session['admin_reset_expiry'] = (now + timedelta(minutes=10)).isoformat()
+        request.session['admin_reset_sent_at'] = now.isoformat()
+
+        from main.emails import send_admin_reset_code
+        send_admin_reset_code(user, code)
+
+        messages.success(request, 'A verification code has been sent to your email.')
+        return redirect('admin_reset_otp')
+
+    return render(request, 'my-admin/forgot_password.html')
+
+
+def admin_reset_otp(request):
+    """Step 2 – admin enters the 6-digit code."""
+    if 'admin_reset_code' not in request.session:
+        return redirect('admin_login')
+
+    # Expired?
+    expiry = datetime.fromisoformat(request.session['admin_reset_expiry'])
+    if timezone.now() > expiry:
+        for key in ('admin_reset_code', 'admin_reset_user_id', 'admin_reset_expiry', 'admin_reset_sent_at'):
+            request.session.pop(key, None)
+        messages.error(request, 'Verification code has expired. Please try again.')
+        return redirect('admin_forgot_password')
+
+    if request.method == 'POST':
+        if request.POST.get('action') == 'resend':
+            sent_at = datetime.fromisoformat(request.session['admin_reset_sent_at'])
+            if (timezone.now() - sent_at).total_seconds() < 30:
+                messages.error(request, 'Please wait before requesting a new code.')
+            else:
+                code = f"{random.randint(100000, 999999)}"
+                now = timezone.now()
+                request.session['admin_reset_code'] = code
+                request.session['admin_reset_expiry'] = (now + timedelta(minutes=10)).isoformat()
+                request.session['admin_reset_sent_at'] = now.isoformat()
+
+                user = User.objects.get(id=request.session['admin_reset_user_id'])
+                from main.emails import send_admin_reset_code
+                send_admin_reset_code(user, code)
+                messages.success(request, 'A new code has been sent to your email.')
+            return redirect('admin_reset_otp')
+
+        # Verify code
+        entered_code = request.POST.get('code', '').strip()
+        if entered_code == request.session['admin_reset_code']:
+            # Code correct — let them set a new password
+            request.session['admin_reset_verified'] = True
+            request.session.pop('admin_reset_code', None)
+            request.session.pop('admin_reset_expiry', None)
+            request.session.pop('admin_reset_sent_at', None)
+            return redirect('admin_reset_password')
+        else:
+            messages.error(request, 'Invalid verification code. Please try again.')
+
+    # Build masked email for the template
+    user = User.objects.get(id=request.session['admin_reset_user_id'])
+    email = user.email or ''
+    if '@' in email:
+        local, domain = email.split('@', 1)
+        masked = (local[:2] + '***' + local[-1]) if len(local) > 3 else (local[0] + '***')
+        masked_email = masked + '@' + domain
+    else:
+        masked_email = email
+
+    sent_at = datetime.fromisoformat(request.session['admin_reset_sent_at'])
+    resend_wait = int(max(0, 30 - (timezone.now() - sent_at).total_seconds()))
+
+    return render(request, 'my-admin/reset_otp.html', {
+        'masked_email': masked_email,
+        'resend_wait': resend_wait,
+    })
+
+
+def admin_reset_password(request):
+    """Step 3 – admin sets their new password."""
+    if not request.session.get('admin_reset_verified'):
+        return redirect('admin_login')
+
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password', '')
+        confirm_password = request.POST.get('confirm_password', '')
+
+        errors = []
+        if not new_password or not confirm_password:
+            errors.append('Both fields are required.')
+        if new_password and len(new_password) < 8:
+            errors.append('Password must be at least 8 characters.')
+        if new_password and new_password != confirm_password:
+            errors.append('Passwords do not match.')
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return render(request, 'my-admin/reset_password.html')
+
+        # Update password
+        user = User.objects.get(id=request.session['admin_reset_user_id'])
+        user.set_password(new_password)
+        user.save()
+
+        # Clear all reset session data
+        request.session.pop('admin_reset_user_id', None)
+        request.session.pop('admin_reset_verified', None)
+
+        messages.success(request, 'Password has been reset successfully. Please login.')
+        return redirect('admin_login')
+
+    return render(request, 'my-admin/reset_password.html')
+
+
 @admin_required
 def admin_logout(request):
     """Logout admin user by clearing JWT cookies."""

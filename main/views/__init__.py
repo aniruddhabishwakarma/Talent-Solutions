@@ -2,6 +2,9 @@ from .auth_views import (
     # Admin auth
     admin_register,
     admin_login,
+    admin_forgot_password,
+    admin_reset_otp,
+    admin_reset_password,
     admin_logout,
     admin_dashboard,
     # User auth
@@ -70,6 +73,9 @@ __all__ = [
     # Admin auth
     'admin_register',
     'admin_login',
+    'admin_forgot_password',
+    'admin_reset_otp',
+    'admin_reset_password',
     'admin_logout',
     'admin_dashboard',
     # Admin profile

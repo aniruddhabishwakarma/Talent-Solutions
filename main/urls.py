@@ -4,6 +4,9 @@ from main.views import (
     # Admin auth
     admin_register,
     admin_login,
+    admin_forgot_password,
+    admin_reset_otp,
+    admin_reset_password,
     admin_logout,
     admin_dashboard,
     # Admin profile
@@ -93,6 +96,9 @@ urlpatterns = [
     # Admin authentication
     path('my-admin/register/', admin_register, name='admin_register'),
     path('my-admin/login/', admin_login, name='admin_login'),
+    path('my-admin/forgot-password/', admin_forgot_password, name='admin_forgot_password'),
+    path('my-admin/reset-otp/', admin_reset_otp, name='admin_reset_otp'),
+    path('my-admin/reset-password/', admin_reset_password, name='admin_reset_password'),
     path('my-admin/logout/', admin_logout, name='admin_logout'),
     path('my-admin/dashboard/', admin_dashboard, name='admin_dashboard'),
 
