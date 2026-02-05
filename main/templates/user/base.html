@@ -157,7 +157,8 @@
             transition: width 0.3s ease;
         }
 
-        .nav-link:hover::after {
+        .nav-link:hover::after,
+        .nav-link.active::after {
             width: 100%;
         }
     </style>
@@ -235,11 +236,17 @@
             const hasHero = !!document.getElementById('hero-section');
             const isAuthDark = document.body.classList.contains('auth-dark');
             const isGradientPage = document.body.classList.contains('gradient-bg');
-            const darkSections = ['hero-section', 'services', 'jobs', 'contact', 'footer'];
+            const darkSections = ['hero-section', 'services', 'jobs', 'footer'];
 
             function setNav(mode) {
                 navbar.classList.remove('nav-on-hero', 'nav-dark', 'nav-light');
                 navbar.classList.add(mode);
+            }
+
+            function setActiveLink(sectionId) {
+                navbar.querySelectorAll('.nav-link[data-section]').forEach(link => {
+                    link.classList.toggle('active', link.dataset.section === sectionId);
+                });
             }
 
             function updateNavbar() {
@@ -259,22 +266,26 @@
                 if (hasHero) {
                     if (window.scrollY < 40) {
                         setNav('nav-on-hero');
+                        setActiveLink('hero-section');
                         return;
                     }
 
                     // Detect which section we're scrolled into
                     const scrollPos = window.scrollY + 120;
                     let isDark = true;
+                    let activeSection = 'hero-section';
 
                     document.querySelectorAll('section, footer').forEach(section => {
                         const top = section.offsetTop;
                         const height = section.offsetHeight;
                         if (scrollPos >= top && scrollPos < top + height) {
                             isDark = darkSections.includes(section.id);
+                            activeSection = section.id;
                         }
                     });
 
                     setNav(isDark ? 'nav-dark' : 'nav-light');
+                    setActiveLink(activeSection);
                     return;
                 }
 

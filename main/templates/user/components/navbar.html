@@ -7,12 +7,9 @@
             <div class="flex items-center gap-2 sm:gap-3">
                 <span class="hidden sm:inline">Follow us on</span>
 
-                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-tiktok"></i></a>
-                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="hover:text-[#00346B]"><i class="fab fa-whatsapp"></i></a>
-
+                <a href="{% if company.facebook %}{{ company.facebook }}{% else %}#{% endif %}" {% if company.facebook %}target="_blank" rel="noopener noreferrer"{% endif %} class="hover:text-[#00346B]"><i class="fab fa-facebook-f"></i></a>
+                <a href="{% if company.instagram %}{{ company.instagram }}{% else %}#{% endif %}" {% if company.instagram %}target="_blank" rel="noopener noreferrer"{% endif %} class="hover:text-[#00346B]"><i class="fab fa-instagram"></i></a>
+                <a href="{% if company.twitter %}{{ company.twitter }}{% else %}#{% endif %}" {% if company.twitter %}target="_blank" rel="noopener noreferrer"{% endif %} class="hover:text-[#00346B]"><i class="fab fa-x-twitter"></i></a>
             </div>
 
             <!-- Right: Support (Desktop) -->
@@ -20,23 +17,25 @@
                 <span>Call Support:</span>
                 <span class="font-medium">Sun–Fri 10AM–5PM</span>
                 <span class="flex items-center gap-1">
-                    📞 +977-9848000000 | +977-8747999999
+                    📞 {{ company.phone }}
+                    {% if company.alternate_phone %} | {{ company.alternate_phone }}{% endif %}
                 </span>
             </div>
 
             <!-- Right: Support (Mobile) -->
             <div class="md:hidden flex items-center gap-2">
-                <a href="tel:+9779848000000" class="flex items-center gap-1 font-semibold hover:text-blue-600">
-                    📞 <span class="hidden xs:inline">+977-9848000000</span>
+                <a href="tel:{{ company.phone }}" class="flex items-center gap-1 font-semibold hover:text-blue-600">
+                    📞 <span class="hidden xs:inline">{{ company.phone }}</span>
                     <span class="xs:hidden">Call</span>
                 </a>
 
+                {% if company.alternate_phone %}
                 <span class="text-gray-400">|</span>
-
-                <a href="tel:+9778747999999" class="flex items-center gap-1 font-semibold hover:text-blue-600">
-                    <span class="hidden xs:inline">+977-8747999999</span>
+                <a href="tel:{{ company.alternate_phone }}" class="flex items-center gap-1 font-semibold hover:text-blue-600">
+                    <span class="hidden xs:inline">{{ company.alternate_phone }}</span>
                     <span class="xs:hidden">Call</span>
                 </a>
+                {% endif %}
             </div>
 
         </div>
