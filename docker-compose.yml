@@ -5,39 +5,10 @@ services:
     env_file:
       - .env
     volumes:
-      # db_data persists the SQLite file across restarts
+      # SQLite db persists here
       - ./data/db:/app/db_data
-      # media persists uploaded photos/files across restarts
+      # Uploaded photos/files persist here
       - ./data/media:/app/media
-    expose:
-      - "8000"
-    depends_on: []
-
-  nginx:
-    image: nginx:alpine
-    restart: always
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      # nginx needs the same media mount to serve /media/ directly
-      - ./data/media:/app/media:ro
-      # certbot challenge & certs (created by certbot container)
-      - ./certbot/www:/var/www/certbot:ro
-      - ./certbot/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - app
-
-  # Run once to obtain SSL cert:
-  #   docker compose run --rm certbot certonly --webroot \
-  #     -w /var/www/certbot \
-  #     -d yourdomain.com -d www.yourdomain.com
-  # Then reload nginx:
-  #   docker compose exec nginx nginx -s reload
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./certbot/www:/var/www/certbot
-      - ./certbot/letsencrypt:/etc/letsencrypt
-    entrypoint: ["echo", "certbot container ready — see comments in docker-compose.yml"]
+      # Bind to localhost only — main system Nginx proxies to this
+      - "127.0.0.1:8002:8000"
