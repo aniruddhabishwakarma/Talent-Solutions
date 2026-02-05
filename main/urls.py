@@ -1,5 +1,6 @@
 from django.urls import path
 from django.shortcuts import redirect
+from main.views.auth_views import contact_popup
 from main.views import (
     # Admin auth
     admin_register,
@@ -22,6 +23,7 @@ from main.views import (
     job_edit,
     job_delete,
     job_detail,
+
     # Skills
     skill_list,
     skill_add,
@@ -85,11 +87,12 @@ urlpatterns = [
     path('jobs/<slug:slug>/', user_job_detail, name='user_job_detail'),
     path('jobs/<slug:slug>/apply/', apply_for_job, name='apply_for_job'),
     path('jobs/<slug:slug>/apply/success/', application_success, name='application_success'),
+  
 
     # My applications
     path('my-applications/', user_my_applications, name='user_my_applications'),
     path('my-applications/<int:pk>/', user_application_detail, name='user_application_detail'),
-
+  path("contact-popup/", contact_popup, name="contact_popup"),
     # Admin panel - redirect to dashboard
     path('my-admin/', lambda request: redirect('admin_dashboard'), name='admin_home'),
 
