@@ -6,233 +6,242 @@
 
 {% block extra_css %}
 <style>
-    /* ===== FULL-SCREEN WRAPPER ===== */
-    .register-screen {
-        min-height: 100vh;
+    /* ====== IMPORTANT: match your fixed header heights ======
+       Top info bar = ~40px
+       Navbar        = ~80px (md:h-20)
+       Total         = 120px
+       If you change header heights later, update this value.
+    */
+    :root {
+        --fixed-header: 120px;
+    }
+
+    /* No scroll on this page */
+    html,
+    body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /* This class is applied to your <main> via main_class block */
+    .auth-main {
+        height: calc(100vh - var(--fixed-header));
+        margin-top: var(--fixed-header);
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
-        padding-top: 100px;
-        position: relative;
+        padding: 0 16px;
     }
 
-    /* ===== AMBIENT RADIAL LIGHT ===== */
-    .register-screen::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background:
-            radial-gradient(ellipse 700px 550px at 18% 55%, rgba(34,211,238,0.07) 0%, transparent 70%),
-            radial-gradient(ellipse 500px 450px at 82% 45%, rgba(74,144,226,0.09) 0%, transparent 70%),
-            radial-gradient(circle 250px at 50% 15%, rgba(255,255,255,0.025) 0%, transparent 70%);
-        pointer-events: none;
-    }
-
-    /* ===== DECORATIVE RINGS ===== */
-    .deco-ring {
-        position: absolute;
-        border-radius: 50%;
-        border: 1px solid rgba(255,255,255,0.06);
-        pointer-events: none;
-    }
-    .deco-ring-1 { width: 380px; height: 380px; top: -120px; left: -100px; }
-    .deco-ring-2 { width: 240px; height: 240px; bottom: -60px; right: -50px; border-color: rgba(73,167,255,0.1); }
-    .deco-ring-3 { width: 140px; height: 140px; top: 25%; right: 18%; border-color: rgba(255,255,255,0.04); }
-    .deco-ring-4 { width: 90px;  height: 90px;  bottom: 30%; left: 12%; border-color: rgba(73,167,255,0.07); }
-
-    /* ===== DOTTED PATTERN DECORATIONS ===== */
-    .deco-dots {
-        position: absolute;
-        pointer-events: none;
-        opacity: 0.5;
-    }
-    .deco-dots-tl { top: 8%; left: 5%; width: 180px; }
-    .deco-dots-br { bottom: 6%; right: 4%; width: 160px; transform: rotate(180deg); }
-
-    /* ===== GLASS CARD (centered) ===== */
+    /* Card */
     .register-card {
-        background: white;
+        width: 100%;
+        max-width: 420px;
+        /* smaller so it fits */
+        background: #fff;
         border-radius: 18px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, .18);
+        padding: 18px 18px;
     }
 
-    /* card header */
-    .card-header { text-align: center; margin-bottom: 18px; }
-    .card-header h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 3px; }
-    .card-header p  { font-size: 13px; color: rgba(255,255,255,0.4); }
+    /* Headings tighter */
+    .register-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0f172a;
+        text-align: center;
+        margin-bottom: 2px;
+    }
 
-    /* inputs */
-    .input-wrap { margin-bottom: 10px; }
-    .input-wrap label {
+    .register-subtitle {
+        text-align: center;
+        color: #64748b;
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* Inputs */
+    .field-label {
         display: block;
-        font-size: 11px;
-        font-weight: 500;
-        color: rgba(255,255,255,0.55);
+        font-size: 12px;
+        color: #475569;
         margin-bottom: 4px;
-        letter-spacing: 0.015em;
+        font-weight: 600;
     }
+
     .input-field {
         width: 100%;
         padding: 9px 12px;
         border: 1px solid #e5e7eb;
-        border-radius: 8px;
+        border-radius: 10px;
         font-size: 13px;
-        background: #f9fafb;
-        transition: 0.25s ease;
+        background: #f8fafc;
+        transition: .2s ease;
     }
-    .input-field::placeholder { color: rgba(255,255,255,0.28); }
+
     .input-field:focus {
         outline: none;
         border-color: #004A98;
         background: #fff;
-        box-shadow: 0 0 0 2px rgba(0, 74, 152, 0.12);
+        box-shadow: 0 0 0 3px rgba(0, 74, 152, .10);
     }
-    .terms-row label a:hover { color: #7cc8ff; }
 
-    /* register button — matches hero CTA pill */
+    /* Buttons */
     .btn-register {
         width: 100%;
         padding: 10px;
         background: linear-gradient(135deg, #0066cc, #004A98, #001832);
-        color: white;
-        border-radius: 8px;
+        color: #fff;
+        border-radius: 12px;
         font-size: 14px;
-        font-weight: 600;
-        transition: 0.25s ease;
+        font-weight: 700;
+        transition: .2s ease;
+        margin-top: 6px;
     }
+
     .btn-register:hover {
         transform: translateY(-1px);
-        box-shadow: 0 8px 16px rgba(0, 74, 152, 0.25);
+        box-shadow: 0 10px 18px rgba(0, 74, 152, .22);
     }
-    .btn-register:active { transform: translateY(0); }
 
-    /* divider */
     .divider {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin: 14px 0;
+        margin: 12px 0;
+        color: #94a3b8;
+        font-size: 12px;
+        justify-content: center;
     }
-    .divider::before, .divider::after {
-        content: '';
+
+    .divider:before,
+    .divider:after {
+        content: "";
         flex: 1;
         height: 1px;
-        background: rgba(255,255,255,0.12);
+        background: #e5e7eb;
     }
-    .divider span { font-size: 13px; color: rgba(255,255,255,0.38); white-space: nowrap; }
 
-    /* google button */
     .btn-google {
         width: 100%;
-        padding: 9px;
+        padding: 10px;
         border: 1px solid #e5e7eb;
-        border-radius: 8px;
+        border-radius: 12px;
         font-size: 13px;
-        font-weight: 500;
-        background: white;
+        font-weight: 700;
+        background: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        transition: 0.25s;
-    }
-    .btn-google:hover {
-        background: #f9fafb;
+        gap: 10px;
+        transition: .2s ease;
     }
 
-    .divider {
+    .btn-google:hover {
+        background: #f8fafc;
+    }
+
+    /* Terms */
+    .terms {
         display: flex;
         align-items: center;
-        gap: 12px;
-        color: #9ca3af;
-        font-size: 12px;
+        gap: 10px;
+        padding-top: 6px;
     }
-    .login-row a {
-        color: #49A7FF;
-        font-weight: 600;
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-    .login-row a:hover { color: #7cc8ff; }
 
-    /* prevent scrolling */
-    body {
-        overflow: hidden;
+    .terms span {
+        font-size: 12px;
+        color: #475569;
+    }
+
+    /* small spacing */
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* tiny footer text */
+    .login-link {
+        text-align: center;
+        font-size: 12px;
+        color: #475569;
+        margin-top: 10px;
+    }
+
+    .login-link a {
+        color: #2563eb;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
     }
 </style>
 {% endblock %}
 
-{% block main_class %}
-h-screen flex items-center justify-center px-4 pt-[140px] md:pt-[160px] pb-6
-{% endblock %}
+{% block main_class %}auth-main{% endblock %}
 
 {% block content %}
-<div class="register-card w-full max-w-xl p-5 md:p-6">
+<div class="register-card">
+    <h1 class="register-title">Create Account</h1>
+    <p class="register-subtitle">Join us and find your dream job</p>
 
-    <!-- Title -->
-    <h1 class="text-xl font-bold text-center text-gray-900">Create Account</h1>
-    <p class="text-center text-gray-500 text-sm mb-4">Join us and find your dream job</p>
-
-    <!-- Form -->
-    <form method="POST" action="{% url 'user_register' %}" class="space-y-2.5">
+    <form method="POST" action="{% url 'user_register' %}" class="stack">
         {% csrf_token %}
 
-        <!-- Names -->
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid-2">
             <div>
-                <label class="text-xs text-gray-600">First Name</label>
+                <label class="field-label">First Name</label>
                 <input type="text" name="first_name" class="input-field" required>
             </div>
             <div>
-                <label class="text-xs text-gray-600">Last Name</label>
+                <label class="field-label">Last Name</label>
                 <input type="text" name="last_name" class="input-field" required>
             </div>
         </div>
 
-        <!-- Username + Email -->
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid-2">
             <div>
-                <label class="text-xs text-gray-600">Username</label>
+                <label class="field-label">Username</label>
                 <input type="text" name="username" class="input-field" required>
             </div>
             <div>
-                <label class="text-xs text-gray-600">Email</label>
+                <label class="field-label">Email</label>
                 <input type="email" name="email" class="input-field" required>
             </div>
+        </div>
 
-        <!-- Passwords -->
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid-2">
             <div>
-                <label class="text-xs text-gray-600">Password</label>
+                <label class="field-label">Password</label>
                 <input type="password" name="password" class="input-field" required>
             </div>
             <div>
-                <label class="text-xs text-gray-600">Confirm</label>
+                <label class="field-label">Confirm</label>
                 <input type="password" name="password2" class="input-field" required>
             </div>
-
-        <!-- Terms -->
-        <div class="flex items-center pt-1">
-            <input type="checkbox" required class="h-4 w-4">
-            <span class="ml-2 text-xs text-gray-600">
-                I agree to Terms & Privacy Policy
-            </span>
         </div>
 
-        <!-- Button -->
-        <button type="submit" class="btn-register mt-1">
-            Create Account
-        </button>
+        <label class="terms">
+            <input type="checkbox" required class="h-4 w-4">
+            <span>I agree to Terms &amp; Privacy Policy</span>
+        </label>
+
+        <button type="submit" class="btn-register">Create Account</button>
     </form>
 
-    <!-- Divider -->
-    <div class="divider my-3">
-        <span>Or signup with</span>
-    </div>
+    <div class="divider"><span>Or signup with</span></div>
 
-    <!-- Google -->
     <a href="{% url 'google_login' %}" class="btn-google">
-        <svg class="w-4 h-4" viewBox="0 0 24 24">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" style="width:16px;height:16px;">
             <path fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
             <path fill="#34A853"
@@ -245,12 +254,9 @@ h-screen flex items-center justify-center px-4 pt-[140px] md:pt-[160px] pb-6
         Continue with Google
     </a>
 
-    <!-- Login link -->
-    <p class="text-center text-xs text-gray-600 mt-3">
+    <p class="login-link">
         Already have an account?
-        <a href="{% url 'user_login' %}" class="font-semibold text-blue-600 hover:underline">
-            Sign In
-        </a>
+        <a href="{% url 'user_login' %}">Sign In</a>
     </p>
 </div>
 {% endblock %}
