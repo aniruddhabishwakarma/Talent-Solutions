@@ -12,65 +12,30 @@
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
+    /* ===== INPUT FIELDS (FIXED) ===== */
     .input-field {
         width: 100%;
         padding: 12px 14px;
         border: 1px solid #e5e7eb;
         border-radius: 10px;
         font-size: 14px;
-        color: rgba(255,255,255,0.72);
-    }
-    .feat-pill i { color: #49A7FF; font-size: 13px; }
-
-    .input-field:focus {
-        outline: none;
-        border-color: #004A98;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(0, 74, 152, 0.12);
-    }
-
-    /* card top icon + title */
-    .card-header { text-align: center; margin-bottom: 14px; }
-    .card-icon {
-        width: 40px; height: 40px;
-        background: linear-gradient(135deg, #2f6fd6, #4f86e6);
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        margin: 0 auto 10px;
-        box-shadow: 0 6px 16px rgba(47,111,214,0.4);
-    }
-    .card-header h2 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 2px; }
-    .card-header p  { font-size: 12px; color: rgba(255,255,255,0.4); }
-
-    /* inputs */
-    .input-wrap { margin-bottom: 10px; }
-    .input-wrap label {
-        display: block;
-        font-size: 11px;
-        font-weight: 500;
-        color: rgba(255,255,255,0.55);
-        margin-bottom: 4px;
-        letter-spacing: 0.015em;
-    }
-    .input-field {
-        width: 100%;
-        padding: 9px 12px;
-        background: rgba(255,255,255,0.07);
-        border: 1px solid rgba(255,255,255,0.14);
-        border-radius: 10px;
-        font-size: 13px;
-        color: #fff;
-        transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+        background: #f9fafb;
+        color: #111827;
+        transition: all 0.2s ease;
         outline: none;
     }
-    .input-field::placeholder { color: rgba(255,255,255,0.28); }
+
+    .input-field::placeholder {
+        color: #9ca3af;
+    }
+
     .input-field:focus {
         border-color: #49A7FF;
-        background: rgba(255,255,255,0.1);
-        box-shadow: 0 0 0 3px rgba(73,167,255,0.18);
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(73, 167, 255, 0.15);
     }
 
-    /* submit button — matches hero CTA pill */
+    /* LOGIN BUTTON */
     .btn-login {
         width: 100%;
         padding: 12px;
@@ -82,31 +47,38 @@
         font-weight: 600;
         cursor: pointer;
         margin-top: 4px;
-        box-shadow: 0 8px 28px rgba(47,111,214,0.4);
+        box-shadow: 0 8px 28px rgba(47, 111, 214, 0.4);
         transition: transform 0.25s, box-shadow 0.25s;
     }
+
     .btn-login:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 36px rgba(47,111,214,0.5);
+        box-shadow: 0 12px 36px rgba(47, 111, 214, 0.5);
     }
-    .btn-login:active { transform: translateY(0); }
 
-    /* divider */
+    .btn-login:active {
+        transform: translateY(0);
+    }
+
+    /* DIVIDER */
     .divider {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin: 12px 0;
+        gap: 14px;
+        color: #9ca3af;
+        font-size: 13px;
+        margin: 14px 0;
     }
-    .divider::before, .divider::after {
+
+    .divider::before,
+    .divider::after {
         content: '';
         flex: 1;
         height: 1px;
-        background: rgba(255,255,255,0.12);
+        background: #e5e7eb;
     }
-    .divider span { font-size: 13px; color: rgba(255,255,255,0.38); white-space: nowrap; }
 
-    /* google button */
+    /* GOOGLE BUTTON */
     .btn-google {
         width: 100%;
         padding: 11px;
@@ -124,39 +96,15 @@
         gap: 8px;
         transition: background 0.25s, border-color 0.25s;
     }
+
     .btn-google:hover {
-        background: rgba(255,255,255,0.12);
-        border-color: rgba(255,255,255,0.22);
-    }
-
-    .divider {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        color: #9ca3af;
-        font-size: 13px;
-    }
-    .signup-row a:hover { color: #7cc8ff; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
-        .login-split       { justify-content: center; width: 100%; padding: 0 24px; }
-        .login-brand       { display: none; }
-        .login-card        { width: 380px; }
-    }
-
-    @media (max-width: 640px) {
-        .login-card {
-            padding: 20px !important;
-        }
+        background: #f9fafb;
     }
 </style>
 {% endblock %}
 
-{# ✅ Fits exactly in 100vh without overlap #}
 {% block main_class %}
-min-h-screen flex items-center justify-center px-4
-pt-24 md:pt-28 pb-6
+min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28 pb-6
 {% endblock %}
 
 {% block content %}
@@ -164,38 +112,42 @@ pt-24 md:pt-28 pb-6
     <div class="login-card w-full p-7 md:p-8 max-h-[calc(100vh-140px)] overflow-auto">
 
         <!-- Title -->
-        <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-6">Login</h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-6">
+            Login
+        </h1>
 
         <!-- Login Form -->
         <form method="POST" action="{% url 'user_login' %}" class="space-y-4">
             {% csrf_token %}
 
-            <!-- Email Field -->
+            <!-- Identifier -->
             <div>
-                <label for="identifier" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input type="text" id="identifier" name="identifier" class="input-field" placeholder="Email or Username"
-                    required autocomplete="email">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Email or Username
+                </label>
+                <input type="text" name="identifier" class="input-field" placeholder="Enter email or username" required>
             </div>
 
-            <!-- Password Field -->
+            <!-- Password -->
             <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input type="password" id="password" name="password" class="input-field" placeholder="Password" required
-                    autocomplete="current-password">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Password
+                </label>
+                <input type="password" name="password" class="input-field" placeholder="Enter password" required>
             </div>
 
             <!-- Login Button -->
-            <button type="submit" class="btn-login mt-2">
+            <button type="submit" class="btn-login">
                 Login
             </button>
         </form>
 
         <!-- Divider -->
-        <div class="divider my-5">
+        <div class="divider">
             <span>Or Sign in with</span>
         </div>
 
-        <!-- Google Sign In -->
+        <!-- Google -->
         <a href="{% url 'google_login' %}" class="btn-google">
             <svg class="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4"
@@ -210,11 +162,10 @@ pt-24 md:pt-28 pb-6
             Continue with Google
         </a>
 
-        <!-- Sign Up Link -->
+        <!-- Signup -->
         <p class="text-center text-sm text-gray-600 mt-5">
             Don’t have an account?
-            <a href="{% url 'user_register' %}"
-                class="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-red-500 hover:underline">
+            <a href="{% url 'user_register' %}" class="font-semibold hover:underline" style="color:#49A7FF;">
                 Signup
             </a>
         </p>
