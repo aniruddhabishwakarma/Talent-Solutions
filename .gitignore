@@ -8,9 +8,19 @@ __pycache__/
 
 # Database
 db.sqlite3
+db_data/
 
 # Media
 media/
+
+# Docker runtime data (db + uploads live here on the host)
+data/
+
+# Collected static (built inside Docker image)
+staticfiles/
+
+# Let's Encrypt certs (on the Droplet only)
+certbot/
 
 # IDE
 .vscode/

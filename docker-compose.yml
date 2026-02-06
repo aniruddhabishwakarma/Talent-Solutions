@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      # SQLite db persists here
+      - ./data/db:/app/db_data
+      # Uploaded photos/files persist here
+      - ./data/media:/app/media
+    ports:
+      # Bind to localhost only — main system Nginx proxies to this
+      - "127.0.0.1:8002:8000"

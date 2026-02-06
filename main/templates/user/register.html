@@ -1,16 +1,76 @@
 {% extends 'user/base.html' %}
+{% load static %}
 
 {% block title %}Create Account - Talent Solutions{% endblock %}
 {% block body_class %}gradient-bg auth-dark{% endblock %}
 
 {% block extra_css %}
 <style>
+    /* ===== FULL-SCREEN WRAPPER ===== */
+    .register-screen {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 100px;
+        position: relative;
+    }
+
+    /* ===== AMBIENT RADIAL LIGHT ===== */
+    .register-screen::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 700px 550px at 18% 55%, rgba(34,211,238,0.07) 0%, transparent 70%),
+            radial-gradient(ellipse 500px 450px at 82% 45%, rgba(74,144,226,0.09) 0%, transparent 70%),
+            radial-gradient(circle 250px at 50% 15%, rgba(255,255,255,0.025) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    /* ===== DECORATIVE RINGS ===== */
+    .deco-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.06);
+        pointer-events: none;
+    }
+    .deco-ring-1 { width: 380px; height: 380px; top: -120px; left: -100px; }
+    .deco-ring-2 { width: 240px; height: 240px; bottom: -60px; right: -50px; border-color: rgba(73,167,255,0.1); }
+    .deco-ring-3 { width: 140px; height: 140px; top: 25%; right: 18%; border-color: rgba(255,255,255,0.04); }
+    .deco-ring-4 { width: 90px;  height: 90px;  bottom: 30%; left: 12%; border-color: rgba(73,167,255,0.07); }
+
+    /* ===== DOTTED PATTERN DECORATIONS ===== */
+    .deco-dots {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .deco-dots-tl { top: 8%; left: 5%; width: 180px; }
+    .deco-dots-br { bottom: 6%; right: 4%; width: 160px; transform: rotate(180deg); }
+
+    /* ===== GLASS CARD (centered) ===== */
     .register-card {
         background: white;
         border-radius: 18px;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
     }
 
+    /* card header */
+    .card-header { text-align: center; margin-bottom: 18px; }
+    .card-header h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .card-header p  { font-size: 13px; color: rgba(255,255,255,0.4); }
+
+    /* inputs */
+    .input-wrap { margin-bottom: 10px; }
+    .input-wrap label {
+        display: block;
+        font-size: 11px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 4px;
+        letter-spacing: 0.015em;
+    }
     .input-field {
         width: 100%;
         padding: 9px 12px;
@@ -20,14 +80,16 @@
         background: #f9fafb;
         transition: 0.25s ease;
     }
-
+    .input-field::placeholder { color: rgba(255,255,255,0.28); }
     .input-field:focus {
         outline: none;
         border-color: #004A98;
         background: #fff;
         box-shadow: 0 0 0 2px rgba(0, 74, 152, 0.12);
     }
+    .terms-row label a:hover { color: #7cc8ff; }
 
+    /* register button — matches hero CTA pill */
     .btn-register {
         width: 100%;
         padding: 10px;
@@ -38,12 +100,28 @@
         font-weight: 600;
         transition: 0.25s ease;
     }
-
     .btn-register:hover {
         transform: translateY(-1px);
         box-shadow: 0 8px 16px rgba(0, 74, 152, 0.25);
     }
+    .btn-register:active { transform: translateY(0); }
 
+    /* divider */
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 14px 0;
+    }
+    .divider::before, .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.12);
+    }
+    .divider span { font-size: 13px; color: rgba(255,255,255,0.38); white-space: nowrap; }
+
+    /* google button */
     .btn-google {
         width: 100%;
         padding: 9px;
@@ -58,7 +136,6 @@
         gap: 8px;
         transition: 0.25s;
     }
-
     .btn-google:hover {
         background: #f9fafb;
     }
@@ -70,14 +147,13 @@
         color: #9ca3af;
         font-size: 12px;
     }
-
-    .divider::before,
-    .divider::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: #e5e7eb;
+    .login-row a {
+        color: #49A7FF;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.2s;
     }
+    .login-row a:hover { color: #7cc8ff; }
 
     /* prevent scrolling */
     body {
@@ -123,7 +199,6 @@ h-screen flex items-center justify-center px-4 pt-[140px] md:pt-[160px] pb-6
                 <label class="text-xs text-gray-600">Email</label>
                 <input type="email" name="email" class="input-field" required>
             </div>
-        </div>
 
         <!-- Passwords -->
         <div class="grid grid-cols-2 gap-2">
@@ -135,7 +210,6 @@ h-screen flex items-center justify-center px-4 pt-[140px] md:pt-[160px] pb-6
                 <label class="text-xs text-gray-600">Confirm</label>
                 <input type="password" name="password2" class="input-field" required>
             </div>
-        </div>
 
         <!-- Terms -->
         <div class="flex items-center pt-1">

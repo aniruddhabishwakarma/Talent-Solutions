@@ -412,12 +412,14 @@
                     // Detect which section we're scrolled into
                     const scrollPos = window.scrollY + 120;
                     let isDark = true;
+                    let activeSection = 'hero-section';
 
                     document.querySelectorAll('section, footer').forEach(section => {
                         const top = section.offsetTop;
                         const height = section.offsetHeight;
                         if (scrollPos >= top && scrollPos < top + height) {
                             isDark = darkSections.includes(section.id);
+                            activeSection = section.id;
                         }
                     });
 
