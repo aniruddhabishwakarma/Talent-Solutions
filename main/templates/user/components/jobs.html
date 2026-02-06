@@ -1,7 +1,4 @@
 <!-- Jobs Section (Hero Style) -->
-
-
-
 <section id="jobs" class="relative overflow-hidden text-white">
     <!-- Background gradient -->
     <div class="absolute inset-0 bg-gradient-to-r from-[#071a33] via-[#0b2a57] to-[#134a96]"></div>
@@ -15,7 +12,6 @@
 
         <!-- Header -->
         <div class="grid lg:grid-cols-2 gap-12 items-start mb-14 reveal">
-
             <!-- Left -->
             <div>
                 <span
@@ -39,88 +35,61 @@
                     apply in minutes.
                 </p>
             </div>
-
         </div>
 
         {% if featured_jobs %}
-        <div class="relative reveal">
 
-            <!-- Prev -->
-            <button type="button" id="carousel-prev" class="hidden absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-11 h-11
-                       bg-white/15 backdrop-blur border border-white/20 text-white rounded-full
-                       flex items-center justify-center shadow-lg hover:bg-white/20 transition"
-                onclick="carouselSlide(-1)">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
+        <!-- Jobs Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+            {% for job in featured_jobs %}
+            <a href="{% url 'user_job_detail' job.slug %}" class="bg-white/95 text-gray-900 rounded-2xl p-5
+              shadow-lg shadow-blue-900/10 border border-white/30
+              hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
 
-            <!-- Track -->
-            <div class="overflow-hidden">
-                <div id="carousel-track"
-                    class="flex gap-4 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] reveal-children">
-
-                    {% for job in featured_jobs %}
-                    <a href="{% url 'user_job_detail' job.slug %}" class="flex-shrink-0 w-72 sm:w-80 bg-white/95 text-gray-900 rounded-2xl p-6
-                               shadow-xl shadow-blue-900/15 border border-white/30
-                               hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300">
-
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8]
-                                    flex items-center justify-center mb-4 shadow-sm">
-                            <span class="text-white text-lg font-bold">
-                                {{ job.company_name|first|upper }}
-                            </span>
-                        </div>
-
-                        <div class="flex items-center gap-2 mb-1.5">
-                            <h3 class="text-base font-bold text-[#1d4ed8] truncate">{{ job.title }}</h3>
-
-                            {% if job.is_urgent %}
-                            <span
-                                class="flex-shrink-0 px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded">
-                                Urgent
-                            </span>
-                            {% endif %}
-                        </div>
-
-                        <p class="text-sm text-gray-500 mb-4">
-                            {{ job.company_name }} &bull; {{ job.get_country_display_name }}
-                        </p>
-
-                        <div class="mt-5 flex items-center justify-between gap-3">
-                            <!-- Salary -->
-                            <span class="px-3 py-1 bg-green-50 text-green-700 text-sm font-semibold rounded-lg">
-                                {{ job.get_salary_display }}
-                            </span>
-
-                            <!-- Apply Button -->
-                            <span class="px-4 py-1.5 text-sm font-semibold text-white rounded-lg
-               bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8]
-               shadow hover:opacity-90 transition">
-                                Apply Now
-                            </span>
-                        </div>
-
-                    </a>
-                    {% endfor %}
-
+                <!-- Company Icon -->
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8]
+                    flex items-center justify-center mb-3 shadow-sm">
+                    <span class="text-white text-sm font-bold">
+                        {{ job.company_name|first|upper }}
+                    </span>
                 </div>
-            </div>
 
-            <!-- Next -->
-            <button type="button" id="carousel-next" class="hidden absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-11 h-11
-                       bg-white/15 backdrop-blur border border-white/20 text-white rounded-full
-                       flex items-center justify-center shadow-lg hover:bg-white/20 transition"
-                onclick="carouselSlide(1)">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
+                <!-- Title -->
+                <div class="flex items-center gap-2 mb-1">
+                    <h3 class="text-sm font-bold text-[#1d4ed8] truncate">
+                        {{ job.title }}
+                    </h3>
 
+                    {% if job.is_urgent %}
+                    <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded">
+                        Urgent
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Company + Country -->
+                <p class="text-xs text-gray-500 mb-3">
+                    {{ job.company_name }} • {{ job.get_country_display_name }}
+                </p>
+
+                <!-- Salary + Apply -->
+                <div class="mt-4 flex items-center justify-between gap-2">
+                    <span class="px-2 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-lg">
+                        {{ job.get_salary_display }}
+                    </span>
+
+                    <span class="px-3 py-1 text-xs font-semibold text-white rounded-lg
+                         bg-gradient-to-r from-[#49A7FF] to-[#1d4ed8]
+                         shadow hover:opacity-90 transition">
+                        Apply
+                    </span>
+                </div>
+            </a>
+            {% endfor %}
         </div>
 
-        <!-- CENTER BUTTON BELOW CARDS -->
-        <div class="text-center mt-14 reveal">
+        <!-- ✅ View All Jobs button RIGHT BELOW the cards -->
+        <div class="text-center mt-10 reveal">
             <a href="{% url 'user_jobs_list' %}" class="group inline-flex items-center justify-between gap-6
                 px-7 py-3 rounded-full
                 bg-gradient-to-r from-[#2f6fd6] via-[#4f86e6] to-[#9aa8b8]
