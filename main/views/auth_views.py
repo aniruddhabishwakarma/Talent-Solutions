@@ -625,8 +625,8 @@ def google_login(request):
     # Google OAuth authorization URL
     google_auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
 
-    # Build the callback URL
-    callback_url = request.build_absolute_uri('/auth/google/callback/')
+    # Build the callback URL using SITE_URL (not build_absolute_uri which breaks behind nginx)
+    callback_url = f"{settings.SITE_URL}/auth/google/callback/"
 
     # OAuth parameters
     params = {
@@ -672,8 +672,8 @@ def google_callback(request):
         messages.error(request, 'No authorization code received.')
         return redirect('user_login')
 
-    # Build the callback URL (must match exactly)
-    callback_url = request.build_absolute_uri('/auth/google/callback/')
+    # Build the callback URL (must match exactly what was sent to Google)
+    callback_url = f"{settings.SITE_URL}/auth/google/callback/"
 
     # Exchange code for tokens
     token_url = "https://oauth2.googleapis.com/token"
