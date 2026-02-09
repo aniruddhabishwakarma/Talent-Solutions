@@ -1,0 +1,184 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Delete {{ member.name }}{% endblock %}
+
+{% block extra_style %}
+<style>
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .breadcrumb {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+        color: var(--gray-500);
+        margin-bottom: 12px;
+    }
+
+    .breadcrumb a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .delete-card {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+    }
+
+    .warning-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 24px;
+        background: #fee2e2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        color: #dc2626;
+    }
+
+    .delete-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 12px;
+    }
+
+    .delete-message {
+        color: var(--gray-600);
+        margin-bottom: 24px;
+        line-height: 1.6;
+    }
+
+    .member-preview {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 24px;
+        margin: 24px 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .member-preview img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--gray-300);
+    }
+
+    .member-preview-info {
+        text-align: left;
+    }
+
+    .member-preview-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 4px;
+    }
+
+    .member-preview-position {
+        color: var(--gray-600);
+        font-size: 14px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 32px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-danger {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #b91c1c;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    .btn-secondary {
+        background: var(--gray-100);
+        color: var(--gray-700);
+    }
+
+    .btn-secondary:hover {
+        background: var(--gray-200);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="breadcrumb">
+        <a href="{% url 'team_list' %}"><i class="fa-solid fa-users"></i> Team Members</a>
+        <span>/</span>
+        <span>Delete</span>
+    </div>
+</div>
+
+<div class="delete-card">
+    <div class="warning-icon">
+        <i class="fa-solid fa-trash-alt"></i>
+    </div>
+
+    <h1 class="delete-title">Delete Team Member?</h1>
+
+    <p class="delete-message">
+        Are you sure you want to delete this team member? This action cannot be undone.
+        The member will be permanently removed from the website.
+    </p>
+
+    <div class="member-preview">
+        <img src="{{ member.photo.url }}" alt="{{ member.name }}">
+        <div class="member-preview-info">
+            <div class="member-preview-name">{{ member.name }}</div>
+            <div class="member-preview-position">{{ member.position }}</div>
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i> Yes, Delete
+            </button>
+            <a href="{% url 'team_list' %}" class="btn btn-secondary">
+                <i class="fa-solid fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

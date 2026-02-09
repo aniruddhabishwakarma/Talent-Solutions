@@ -1,0 +1,232 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Add Team Member{% endblock %}
+
+{% block extra_style %}
+<style>
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 8px;
+    }
+
+    .breadcrumb {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+        color: var(--gray-500);
+    }
+
+    .breadcrumb a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+
+    .form-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 32px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 8px;
+    }
+
+    label .required {
+        color: #ef4444;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="number"],
+    textarea,
+    input[type="file"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+    }
+
+    .help-text {
+        font-size: 12px;
+        color: var(--gray-500);
+        margin-top: 4px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--gray-200);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-secondary {
+        background: var(--gray-100);
+        color: var(--gray-700);
+    }
+
+    .btn-secondary:hover {
+        background: var(--gray-200);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="breadcrumb">
+        <a href="{% url 'team_list' %}"><i class="fa-solid fa-users"></i> Team Members</a>
+        <span>/</span>
+        <span>Add New</span>
+    </div>
+    <h1 class="page-title">Add Team Member</h1>
+</div>
+
+<div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Name <span class="required">*</span></label>
+                <input type="text" name="name" required placeholder="e.g., John Doe">
+            </div>
+
+            <div class="form-group">
+                <label>Position <span class="required">*</span></label>
+                <input type="text" name="position" required placeholder="e.g., CEO">
+            </div>
+
+            <div class="form-group full">
+                <label>Bio <span class="required">*</span></label>
+                <textarea name="bio" required placeholder="Short description about the team member (max 300 characters)" maxlength="300"></textarea>
+                <div class="help-text">Maximum 300 characters</div>
+            </div>
+
+            <div class="form-group full">
+                <label>Photo <span class="required">*</span></label>
+                <input type="file" name="photo" accept="image/jpeg,image/jpg,image/png,image/webp" required>
+                <div class="help-text">JPG, PNG, or WEBP (max 5MB). Recommended: square image, min 400x400px</div>
+            </div>
+
+            <div class="form-group">
+                <label>Facebook URL</label>
+                <input type="url" name="facebook_url" placeholder="https://facebook.com/username">
+            </div>
+
+            <div class="form-group">
+                <label>Instagram URL</label>
+                <input type="url" name="instagram_url" placeholder="https://instagram.com/username">
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="text" name="whatsapp_number" placeholder="+9779841234567">
+                <div class="help-text">Include country code (e.g., +977...)</div>
+            </div>
+
+            <div class="form-group">
+                <label>Display Order</label>
+                <input type="number" name="display_order" value="0" min="0">
+                <div class="help-text">Lower numbers appear first (0, 1, 2...)</div>
+            </div>
+
+            <div class="form-group full">
+                <div class="checkbox-group">
+                    <input type="checkbox" name="is_active" id="is_active" checked>
+                    <label for="is_active" style="margin: 0;">Show on website</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-check"></i> Add Team Member
+            </button>
+            <a href="{% url 'team_list' %}" class="btn btn-secondary">
+                <i class="fa-solid fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

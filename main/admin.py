@@ -55,7 +55,7 @@ class CompanyAdmin(admin.ModelAdmin):
             'fields': ('about', 'founded_year', 'company_size', 'company_type')
         }),
         ('Social Media', {
-            'fields': ('facebook', 'twitter', 'instagram')
+            'fields': ('facebook', 'twitter', 'instagram', 'tiktok', 'youtube', 'whatsapp')
         }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at'),

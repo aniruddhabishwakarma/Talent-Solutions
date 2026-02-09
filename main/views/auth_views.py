@@ -1057,12 +1057,16 @@ def edit_documents(request):
 
 def home(request):
     """Home page view."""
-    from main.models import Job
+    from main.models import Job, TeamMember
 
     # Get latest active jobs for home page carousel
     featured_jobs = Job.objects.filter(status='active').order_by('-is_urgent', '-created_at')[:6]
 
+    # Get active team members for team section
+    team_members = TeamMember.objects.filter(is_active=True).order_by('display_order', 'id')
+
     context = {
         'featured_jobs': featured_jobs,
+        'team_members': team_members,
     }
     return render(request, 'user/home.html', context)

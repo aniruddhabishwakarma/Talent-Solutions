@@ -56,10 +56,24 @@
                 <!-- Right: Head Office -->
                 <div class="lg:text-right">
                     <h3 class="text-2xl font-bold text-white mb-4">Head Office</h3>
+                    {% if company %}
+                    <p class="text-white/90 mb-3">{{ company.address }}, {{ company.city }}, {{ company.country }}</p>
+                    <p class="text-white/90 mb-2">Need Help? Call us</p>
+                    {% if company.phone %}
+                    <p class="text-cyan-300 text-xl font-semibold mb-1">{{ company.phone }}</p>
+                    {% endif %}
+                    {% if company.alternate_phone %}
+                    <p class="text-cyan-300 text-lg font-medium mb-3">{{ company.alternate_phone }}</p>
+                    {% endif %}
+                    {% if company.email %}
+                    <p class="text-cyan-300">{{ company.email }}</p>
+                    {% endif %}
+                    {% else %}
                     <p class="text-white/90 mb-3">Kalimati, Kathmandu Nepal</p>
                     <p class="text-white/90 mb-2">Need Help? Call us</p>
                     <p class="text-cyan-300 text-xl font-semibold mb-3">+9779800000000</p>
                     <p class="text-cyan-300">talentsolutions@gmail.com</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

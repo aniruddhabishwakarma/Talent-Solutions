@@ -1,7 +1,7 @@
 {% load static %}
 
-<!-- Team Section - Compact Cards (Manpower Company) -->
-<section id="team" class="bg-white py-20">
+<!-- Team Section - Dynamic from Database -->
+<section id="team" class="bg-white py-2">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         <!-- Top Header Row -->
@@ -30,105 +30,55 @@
 
         </div>
 
-        <!-- Team Grid -->
+        <!-- Team Grid - Dynamic -->
+        {% if team_members %}
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <!-- RAM -->
-            <div
-                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
-                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
-                    flex items-center justify-center p-5 rounded-t-xlxl">
-                    <img src="{% static 'images/ram.jpg' %}" class="h-40 object-contain" />
-                </div>
-
-                <div class="p-4 text-center">
-                    <h3 class="text-base font-bold text-gray-900">Ram Thapa</h3>
-                    <p class="text-blue-600 text-sm font-medium mb-2">Recruitment Manager</p>
-
-                    <p class="text-gray-600 text-sm mb-3">
-                        Leads candidate sourcing, screening, and placement for international employers.
-                    </p>
-
-                    <div class="flex justify-center gap-4 text-lg">
-                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
-                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
-                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- HARI -->
+            {% for member in team_members %}
             <div
                 class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
                 <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
                     flex items-center justify-center p-5 rounded-t-xl">
-                    <img src="{% static 'images/hari.jpg' %}" class="h-40 object-contain" />
+                    <img src="{{ member.photo.url }}" class="h-40 object-contain" alt="{{ member.name }}" />
                 </div>
 
                 <div class="p-4 text-center">
-                    <h3 class="text-base font-bold text-gray-900">Hari Gurung</h3>
-                    <p class="text-blue-600 text-sm font-medium mb-2">Visa Processing Officer</p>
+                    <h3 class="text-base font-bold text-gray-900">{{ member.name }}</h3>
+                    <p class="text-blue-600 text-sm font-medium mb-2">{{ member.position }}</p>
 
                     <p class="text-gray-600 text-sm mb-3">
-                        Handles visa documentation, embassy coordination, and application approvals.
+                        {{ member.bio }}
                     </p>
 
                     <div class="flex justify-center gap-4 text-lg">
-                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
-                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
-                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
+                        {% if member.facebook_url %}
+                        <a href="{{ member.facebook_url }}" target="_blank" rel="noopener" title="Facebook">
+                            <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600 transition"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if member.instagram_url %}
+                        <a href="{{ member.instagram_url }}" target="_blank" rel="noopener" title="Instagram">
+                            <i class="fab fa-instagram text-gray-400 hover:text-pink-500 transition"></i>
+                        </a>
+                        {% endif %}
+
+                        {% if member.whatsapp_url %}
+                        <a href="{{ member.whatsapp_url }}" target="_blank" rel="noopener" title="WhatsApp">
+                            <i class="fab fa-whatsapp text-gray-400 hover:text-green-500 transition"></i>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-
-            <!-- RITA -->
-            <div
-                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
-                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
-                    flex items-center justify-center p-5 rounded-t-xl">
-                    <img src="{% static 'images/rita.jpg' %}" class="h-40 object-contain" />
-                </div>
-
-                <div class="p-4 text-center">
-                    <h3 class="text-base font-bold text-gray-900">Rita Sharma</h3>
-                    <p class="text-blue-600 text-sm font-medium mb-2">Documentation Specialist</p>
-
-                    <p class="text-gray-600 text-sm mb-3">
-                        Ensures all legal paperwork, contracts, and approvals are processed accurately.
-                    </p>
-
-                    <div class="flex justify-center gap-4 text-lg">
-                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
-                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
-                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SITA -->
-            <div
-                class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden">
-                <div class="h-44 w-full bg-gradient-to-br from-[#071a33] to-[#134a96]
-                    flex items-center justify-center p-5 rounded-t-xl">
-                    <img src="{% static 'images/sita.jpg' %}" class="h-40 object-contain" />
-                </div>
-
-                <div class="p-4 text-center">
-                    <h3 class="text-base font-bold text-gray-900">Sita Karki</h3>
-                    <p class="text-blue-600 text-sm font-medium mb-2">Deployment Coordinator</p>
-
-                    <p class="text-gray-600 text-sm mb-3">
-                        Manages travel arrangements, training schedules, and worker deployment.
-                    </p>
-
-                    <div class="flex justify-center gap-4 text-lg">
-                        <i class="fab fa-facebook-f text-gray-400 hover:text-blue-600"></i>
-                        <i class="fab fa-instagram text-gray-400 hover:text-pink-500"></i>
-                        <i class="fab fa-whatsapp text-gray-400 hover:text-green-500"></i>
-                    </div>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
+        {% else %}
+        <!-- Empty State (when no team members are added) -->
+        <div class="text-center py-20">
+            <i class="fa-solid fa-users text-gray-300" style="font-size: 64px; margin-bottom: 16px;"></i>
+            <p class="text-gray-400">No team members added yet.</p>
+        </div>
+        {% endif %}
+
     </div>
 </section>

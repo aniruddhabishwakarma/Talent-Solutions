@@ -2,8 +2,8 @@ services:
   app:
     build: .
     restart: always
-    env_file:
-      - .env
+    environment:
+      - ENVIRONMENT=production
     volumes:
       # SQLite db persists here
       - ./data/db:/app/db_data

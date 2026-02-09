@@ -23,12 +23,17 @@ from main.views import (
     job_edit,
     job_delete,
     job_detail,
-
     # Skills
     skill_list,
     skill_add,
     skill_edit,
     skill_delete,
+    # Team
+    team_list,
+    team_add,
+    team_edit,
+    team_delete,
+    team_toggle_status,
     # User auth
     user_register,
     user_login,
@@ -126,6 +131,13 @@ urlpatterns = [
     path('my-admin/skills/add/', skill_add, name='skill_add'),
     path('my-admin/skills/<slug:slug>/edit/', skill_edit, name='skill_edit'),
     path('my-admin/skills/<slug:slug>/delete/', skill_delete, name='skill_delete'),
+
+    # Team
+    path('my-admin/team/', team_list, name='team_list'),
+    path('my-admin/team/add/', team_add, name='team_add'),
+    path('my-admin/team/<int:pk>/edit/', team_edit, name='team_edit'),
+    path('my-admin/team/<int:pk>/delete/', team_delete, name='team_delete'),
+    path('my-admin/team/<int:pk>/toggle/', team_toggle_status, name='team_toggle_status'),
 
     # Applications
     path('my-admin/applications/', application_list, name='application_list'),

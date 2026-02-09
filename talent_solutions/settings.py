@@ -9,10 +9,34 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ═══════════════════════════════════════════════════════════════
+# ENVIRONMENT DETECTION (like Spring Boot profiles!)
+# ═══════════════════════════════════════════════════════════════
+# Set ENVIRONMENT variable to switch between configs:
+#   - 'local'      → uses .env.local (development)
+#   - 'production' → uses .env.production (server)
+#
+# How to set:
+#   Windows:   set ENVIRONMENT=production
+#   Linux:     export ENVIRONMENT=production
+#   Default:   local (if not set)
+# ═══════════════════════════════════════════════════════════════
+
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'local')
+
+# Load the appropriate .env file based on environment
+if ENVIRONMENT == 'production':
+    env_file = BASE_DIR / '.env.production'
+    print(f"[PRODUCTION] Loading config from {env_file}")
+else:
+    env_file = BASE_DIR / '.env.local'
+    print(f"[LOCAL] Loading config from {env_file}")
+
+# Load environment variables from the selected file
+load_dotenv(env_file)
 
 
 # Quick-start development settings - unsuitable for production

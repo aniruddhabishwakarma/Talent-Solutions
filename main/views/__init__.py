@@ -69,6 +69,14 @@ from .application_views import (
     application_delete,
 )
 
+from .team_views import (
+    team_list,
+    team_add,
+    team_edit,
+    team_delete,
+    team_toggle_status,
+)
+
 __all__ = [
     # Admin auth
     'admin_register',
@@ -126,4 +134,10 @@ __all__ = [
     'application_detail',
     'application_update_status',
     'application_delete',
+    # Team
+    'team_list',
+    'team_add',
+    'team_edit',
+    'team_delete',
+    'team_toggle_status',
 ]

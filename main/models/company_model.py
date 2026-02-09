@@ -50,6 +50,9 @@ class Company(models.Model):
     facebook = models.URLField(blank=True, null=True, help_text='Facebook page URL')
     twitter = models.URLField(blank=True, null=True, help_text='Twitter/X profile URL')
     instagram = models.URLField(blank=True, null=True, help_text='Instagram profile URL')
+    tiktok = models.URLField(blank=True, null=True, help_text='TikTok profile URL')
+    youtube = models.URLField(blank=True, null=True, help_text='YouTube channel URL')
+    whatsapp = models.URLField(blank=True, null=True, help_text='WhatsApp business URL')
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

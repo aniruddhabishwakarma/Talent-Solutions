@@ -1,0 +1,304 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Team Members{% endblock %}
+
+{% block extra_style %}
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--black);
+    }
+
+    .page-subtitle {
+        color: var(--gray-500);
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        flex: 1;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: var(--gray-500);
+        margin-bottom: 4px;
+    }
+
+    .stat-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--black);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .table-container {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: var(--gray-50);
+    }
+
+    th {
+        text-align: left;
+        padding: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--gray-600);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        padding: 16px;
+        border-top: 1px solid var(--gray-100);
+    }
+
+    .member-photo {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--gray-200);
+    }
+
+    .member-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .member-name {
+        font-weight: 600;
+        color: var(--black);
+        margin-bottom: 2px;
+    }
+
+    .member-position {
+        font-size: 13px;
+        color: var(--gray-500);
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge-danger {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .action-btns {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-center: center;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-edit {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .btn-edit:hover {
+        background: #bfdbfe;
+    }
+
+    .btn-delete {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .btn-delete:hover {
+        background: #fecaca;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--gray-400);
+    }
+
+    .empty-state i {
+        font-size: 64px;
+        margin-bottom: 16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
+    <div>
+        <h1 class="page-title">Team Members</h1>
+        <p class="page-subtitle">Manage team members displayed on the homepage</p>
+    </div>
+    <a href="{% url 'team_add' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Add Team Member
+    </a>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-label">Total Members</div>
+        <div class="stat-value">{{ members.count }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Active</div>
+        <div class="stat-value" style="color: #22c55e;">{{ active_count }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Inactive</div>
+        <div class="stat-value" style="color: #ef4444;">{{ inactive_count }}</div>
+    </div>
+</div>
+
+<div class="table-container">
+    {% if members %}
+    <table>
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Member</th>
+                <th>Bio</th>
+                <th>Social Links</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td><strong>#{{ member.display_order }}</strong></td>
+                <td>
+                    <div class="member-info">
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-photo">
+                        <div>
+                            <div class="member-name">{{ member.name }}</div>
+                            <div class="member-position">{{ member.position }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td style="max-width: 300px; color: var(--gray-600); font-size: 13px;">
+                    {{ member.bio|truncatewords:15 }}
+                </td>
+                <td>
+                    <div style="display: flex; gap: 8px; font-size: 16px;">
+                        {% if member.facebook_url %}
+                        <i class="fab fa-facebook-f" style="color: #1877f2;" title="Facebook"></i>
+                        {% endif %}
+                        {% if member.instagram_url %}
+                        <i class="fab fa-instagram" style="color: #e4405f;" title="Instagram"></i>
+                        {% endif %}
+                        {% if member.whatsapp_number %}
+                        <i class="fab fa-whatsapp" style="color: #25d366;" title="WhatsApp"></i>
+                        {% endif %}
+                        {% if not member.facebook_url and not member.instagram_url and not member.whatsapp_number %}
+                        <span style="color: var(--gray-400); font-size: 13px;">None</span>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'team_toggle_status' member.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="badge {% if member.is_active %}badge-success{% else %}badge-danger{% endif %}" style="cursor: pointer; border: none;">
+                            {% if member.is_active %}Active{% else %}Inactive{% endif %}
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <div class="action-btns">
+                        <a href="{% url 'team_edit' member.pk %}" class="btn-icon btn-edit" title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <a href="{% url 'team_delete' member.pk %}" class="btn-icon btn-delete" title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <i class="fa-solid fa-users"></i>
+        <p>No team members yet.</p>
+        <a href="{% url 'team_add' %}" class="btn btn-primary" style="margin-top: 20px;">
+            <i class="fa-solid fa-plus"></i> Add Your First Team Member
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
