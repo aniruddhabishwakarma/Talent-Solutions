@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from main.models import User, Company, Skill, Job, JobApplication
+from main.models import User, Company, Skill, Job, JobApplication, ContactMessage
 
 
 @admin.register(User)
@@ -56,6 +56,9 @@ class CompanyAdmin(admin.ModelAdmin):
         }),
         ('Social Media', {
             'fields': ('facebook', 'twitter', 'instagram', 'tiktok', 'youtube', 'whatsapp')
+        }),
+        ('Google Maps', {
+            'fields': ('google_maps_embed',)
         }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at'),
@@ -143,6 +146,34 @@ class JobApplicationAdmin(admin.ModelAdmin):
         }),
         ('Timestamps', {
             'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    """
+    Contact Message admin configuration
+    """
+    list_display = ['full_name', 'email', 'subject', 'submitted_at', 'is_read', 'replied_at']
+    list_filter = ['is_read', 'submitted_at', 'replied_at']
+    search_fields = ['full_name', 'email', 'subject', 'message']
+    readonly_fields = ['submitted_at']
+    list_editable = ['is_read']
+
+    fieldsets = (
+        ('Sender Information', {
+            'fields': ('full_name', 'email', 'phone')
+        }),
+        ('Message', {
+            'fields': ('subject', 'message')
+        }),
+        ('Status', {
+            'fields': ('is_read', 'replied_at', 'admin_notes')
+        }),
+        ('Metadata', {
+            'fields': ('submitted_at',),
             'classes': ('collapse',)
         }),
     )

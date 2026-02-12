@@ -77,6 +77,10 @@ from .team_views import (
     team_toggle_status,
 )
 
+from .contact_views import (
+    submit_contact,
+)
+
 __all__ = [
     # Admin auth
     'admin_register',
@@ -140,4 +144,6 @@ __all__ = [
     'team_edit',
     'team_delete',
     'team_toggle_status',
+    # Contact
+    'submit_contact',
 ]

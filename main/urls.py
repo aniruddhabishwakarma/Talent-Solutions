@@ -64,6 +64,8 @@ from main.views import (
     application_detail,
     application_update_status,
     application_delete,
+    # Contact
+    submit_contact,
 )
 
 urlpatterns = [
@@ -97,7 +99,10 @@ urlpatterns = [
     # My applications
     path('my-applications/', user_my_applications, name='user_my_applications'),
     path('my-applications/<int:pk>/', user_application_detail, name='user_application_detail'),
-  path("contact-popup/", contact_popup, name="contact_popup"),
+
+    # Contact
+    path("contact-popup/", contact_popup, name="contact_popup"),
+    path("contact/submit/", submit_contact, name="submit_contact"),
     # Admin panel - redirect to dashboard
     path('my-admin/', lambda request: redirect('admin_dashboard'), name='admin_home'),
 

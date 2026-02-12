@@ -54,6 +54,9 @@ class Company(models.Model):
     youtube = models.URLField(blank=True, null=True, help_text='YouTube channel URL')
     whatsapp = models.URLField(blank=True, null=True, help_text='WhatsApp business URL')
 
+    # Google Maps
+    google_maps_embed = models.TextField(blank=True, null=True, help_text='Google Maps embed iframe code')
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
