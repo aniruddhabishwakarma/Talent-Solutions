@@ -6,15 +6,17 @@
 
 {% block extra_css %}
 <style>
-    /* ====== IMPORTANT: match your fixed header heights ======
-       Top info bar = ~40px
-       Navbar        = ~80px (md:h-20)
-       Total         = 120px
-       If you change header heights later, update this value.
-    */
     :root {
         --fixed-header: 120px;
     }
+
+    /* No scroll on this page */
+    html,
+    body {
+        height: 100%;
+        overflow-x: hidden;
+    }
+
 
     /* This class is applied to your <main> via main_class block */
     .auth-main {
