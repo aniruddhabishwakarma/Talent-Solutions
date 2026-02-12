@@ -50,6 +50,20 @@
             </a>
         </div>
 
+        <!-- Messages -->
+        <div class="menu-section">
+            <h3 class="menu-title">Messages</h3>
+            <a href="{% url 'contact_messages_list' %}" class="menu-item {% if 'contact_message' in request.resolver_match.url_name %}active{% endif %}" data-title="Contact Messages">
+                <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span class="menu-text">Contact Messages</span>
+                {% if unread_contact_count > 0 %}
+                <span class="menu-badge">{{ unread_contact_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+
         <!-- Company -->
         <div class="menu-section">
             <h3 class="menu-title">Company</h3>

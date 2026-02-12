@@ -66,6 +66,11 @@ from main.views import (
     application_delete,
     # Contact
     submit_contact,
+    # Contact Admin
+    contact_messages_list,
+    contact_message_detail,
+    contact_message_delete,
+    contact_message_toggle_read,
 )
 
 urlpatterns = [
@@ -149,4 +154,10 @@ urlpatterns = [
     path('my-admin/applications/<int:pk>/', application_detail, name='application_detail'),
     path('my-admin/applications/<int:pk>/update-status/', application_update_status, name='application_update_status'),
     path('my-admin/applications/<int:pk>/delete/', application_delete, name='application_delete'),
+
+    # Contact Messages
+    path('my-admin/contact-messages/', contact_messages_list, name='contact_messages_list'),
+    path('my-admin/contact-messages/<int:pk>/', contact_message_detail, name='contact_message_detail'),
+    path('my-admin/contact-messages/<int:pk>/delete/', contact_message_delete, name='contact_message_delete'),
+    path('my-admin/contact-messages/<int:pk>/toggle-read/', contact_message_toggle_read, name='contact_message_toggle_read'),
 ]

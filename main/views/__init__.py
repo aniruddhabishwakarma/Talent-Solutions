@@ -81,6 +81,13 @@ from .contact_views import (
     submit_contact,
 )
 
+from .contact_admin_views import (
+    contact_messages_list,
+    contact_message_detail,
+    contact_message_delete,
+    contact_message_toggle_read,
+)
+
 __all__ = [
     # Admin auth
     'admin_register',
@@ -146,4 +153,9 @@ __all__ = [
     'team_toggle_status',
     # Contact
     'submit_contact',
+    # Contact Admin
+    'contact_messages_list',
+    'contact_message_detail',
+    'contact_message_delete',
+    'contact_message_toggle_read',
 ]
