@@ -64,6 +64,34 @@
 {% include "user/components/team.html" %}
 {% include "user/components/services.html" %}
 {% include "user/components/contact.html" %}
+
+<!-- Floating WhatsApp Button -->
+<a href="{% if company.whatsapp %}{{ company.whatsapp }}{% else %}https://wa.me/1234567890{% endif %}"
+   target="_blank" rel="noopener noreferrer"
+   class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[100] group"
+   aria-label="Contact us on WhatsApp">
+    <!-- Main Button -->
+    <div class="relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16
+                bg-[#25D366] rounded-full shadow-2xl
+                hover:bg-[#20BA5A] hover:scale-110
+                transition-all duration-300 ease-out
+                active:scale-95
+                cursor-pointer">
+        <!-- Pulse Animation Rings -->
+        <div class="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-20"></div>
+        <div class="absolute inset-0 rounded-full bg-[#25D366] opacity-30 group-hover:opacity-0 transition-opacity"></div>
+
+        <!-- WhatsApp Icon -->
+        <i class="fab fa-whatsapp text-white text-xl sm:text-2xl md:text-3xl relative z-10"></i>
+
+        <!-- Tooltip (Desktop Only) -->
+        <span class="absolute right-full mr-3 px-3 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg
+                     opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                     whitespace-nowrap pointer-events-none hidden md:block">
+            Chat with us
+        </span>
+    </div>
+</a>
 {% endblock %}
 
 {% block footer %}{% endblock %}
