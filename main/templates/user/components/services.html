@@ -35,11 +35,13 @@
             </div>
         </div>
 
-        <!-- Services Grid -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Services Grid/Slider -->
+        <div class="services-container">
+            <!-- Mobile: Horizontal Scroll -->
+            <div class="flex md:hidden overflow-x-auto gap-4 snap-x snap-mandatory pb-4 scrollbar-hide -mx-4 px-4">
 
             <!-- Visa Processing -->
-            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+            <div class="flex-shrink-0 w-[280px] bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition snap-center">
                 <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
                     <img src="{% static 'icons/setting.png' %}"
                         class="w-6 h-6 object-contain filter brightness-0 invert" />
@@ -54,7 +56,7 @@
             </div>
 
             <!-- Recruitment -->
-            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+            <div class="flex-shrink-0 w-[280px] bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition snap-center">
                 <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
                     <img src="{% static 'icons/requirment.png' %}"
                         class="w-6 h-6 object-contain filter brightness-0 invert" />
@@ -69,7 +71,7 @@
             </div>
 
             <!-- Documentation -->
-            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+            <div class="flex-shrink-0 w-[280px] bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition snap-center">
                 <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
                     <img src="{% static 'icons/docs.png' %}"
                         class="w-6 h-6 object-contain filter brightness-0 invert" />
@@ -84,7 +86,7 @@
             </div>
 
             <!-- Ticketing & Travel -->
-            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+            <div class="flex-shrink-0 w-[280px] bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition snap-center">
                 <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
                     <img src="{% static 'icons/ticket.png' %}"
                         class="w-6 h-6 object-contain filter brightness-0 invert" />
@@ -99,7 +101,7 @@
             </div>
 
             <!-- Pre-Departure Training -->
-            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+            <div class="flex-shrink-0 w-[280px] bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition snap-center">
                 <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
                     <img src="{% static 'icons/travel.png' %}"
                         class="w-6 h-6 object-contain filter brightness-0 invert" />
@@ -114,7 +116,7 @@
             </div>
 
             <!-- 24/7 Support -->
-            <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+            <div class="flex-shrink-0 w-[280px] bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition snap-center">
                 <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
                     <img src="{% static 'icons/support.png' %}"
                         class="w-6 h-6 object-contain filter brightness-0 invert" />
@@ -128,6 +130,132 @@
                 </a>
             </div>
 
+            </div>
+
+            <!-- Tablet/Desktop: Grid -->
+            <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Visa Processing -->
+                <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                        <img src="{% static 'icons/setting.png' %}"
+                            class="w-6 h-6 object-contain filter brightness-0 invert" />
+                    </div>
+                    <h3 class="text-lg font-bold text-[#2b4f93]">Visa Processing</h3>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Fast and reliable visa assistance for overseas employment.
+                    </p>
+                    <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                        Get More →
+                    </a>
+                </div>
+
+                <!-- Recruitment -->
+                <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                        <img src="{% static 'icons/requirment.png' %}"
+                            class="w-6 h-6 object-contain filter brightness-0 invert" />
+                    </div>
+                    <h3 class="text-lg font-bold text-[#2b4f93]">Recruitment</h3>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Skilled manpower sourcing and professional candidate screening.
+                    </p>
+                    <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                        Get More →
+                    </a>
+                </div>
+
+                <!-- Documentation -->
+                <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                        <img src="{% static 'icons/docs.png' %}"
+                            class="w-6 h-6 object-contain filter brightness-0 invert" />
+                    </div>
+                    <h3 class="text-lg font-bold text-[#2b4f93]">Documentation</h3>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Complete support for contracts, approvals and legal paperwork.
+                    </p>
+                    <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                        Get More →
+                    </a>
+                </div>
+
+                <!-- Ticketing & Travel -->
+                <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                        <img src="{% static 'icons/ticket.png' %}"
+                            class="w-6 h-6 object-contain filter brightness-0 invert" />
+                    </div>
+                    <h3 class="text-lg font-bold text-[#2b4f93]">Ticketing & Travel</h3>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Flight booking and deployment coordination for workers.
+                    </p>
+                    <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                        Get More →
+                    </a>
+                </div>
+
+                <!-- Pre-Departure Training -->
+                <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                        <img src="{% static 'icons/travel.png' %}"
+                            class="w-6 h-6 object-contain filter brightness-0 invert" />
+                    </div>
+                    <h3 class="text-lg font-bold text-[#2b4f93]">Pre-Departure Training</h3>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Orientation, safety training and job preparation programs.
+                    </p>
+                    <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                        Get More →
+                    </a>
+                </div>
+
+                <!-- 24/7 Support -->
+                <div class="bg-white rounded-2xl p-6 text-gray-900 shadow-md hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-full bg-[#2f6fd6] flex items-center justify-center mb-4">
+                        <img src="{% static 'icons/support.png' %}"
+                            class="w-6 h-6 object-contain filter brightness-0 invert" />
+                    </div>
+                    <h3 class="text-lg font-bold text-[#2b4f93]">24/7 Support</h3>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Continuous assistance for both employers and employees.
+                    </p>
+                    <a href="#" class="inline-flex items-center gap-2 mt-3 text-[#2b4f93] text-sm font-semibold">
+                        Get More →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator (Mobile Only) -->
+        <div class="md:hidden mt-6 flex justify-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-white/40"></div>
+            <div class="w-2 h-2 rounded-full bg-white/40"></div>
+            <div class="w-2 h-2 rounded-full bg-white/40"></div>
+            <div class="w-2 h-2 rounded-full bg-white/40"></div>
+            <div class="w-2 h-2 rounded-full bg-white/40"></div>
+            <div class="w-2 h-2 rounded-full bg-white/40"></div>
         </div>
     </div>
+
+    <!-- CSS for smooth scrolling -->
+    <style>
+        /* Hide scrollbar but keep functionality */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Smooth scroll behavior */
+        .snap-x {
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll snap for smooth card alignment */
+        .snap-center {
+            scroll-snap-align: center;
+        }
+    </style>
 </section>
