@@ -44,6 +44,12 @@ def company_edit(request):
         company.facebook = request.POST.get('facebook', '').strip() or None
         company.twitter = request.POST.get('twitter', '').strip() or None
         company.instagram = request.POST.get('instagram', '').strip() or None
+        company.tiktok = request.POST.get('tiktok', '').strip() or None
+        company.youtube = request.POST.get('youtube', '').strip() or None
+        company.whatsapp = request.POST.get('whatsapp', '').strip() or None
+
+        # Google Maps
+        company.google_maps_embed = request.POST.get('google_maps_embed', '').strip() or None
 
         # Logo
         if request.FILES.get('logo'):
