@@ -201,14 +201,17 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('BREVO_SMTP_LOGIN')
 EMAIL_HOST_PASSWORD = os.environ.get('BREVO_SMTP_PASSWORD')
 
-# Sender addresses — only no-reply@ is verified in Brevo right now.
-# Switch the others over once they are verified.
+# Sender addresses for Talent Solutions
+# All three addresses are verified in Brevo:
+# - no-reply@talentsolutions.com.np (one-way communications)
+# - hr@talentsolutions.com.np (displayed as "Talent Solutions HR")
+# - recruitment@talentsolutions.com.np (displayed as "Talent Solutions Recruitment")
 EMAIL_SENDERS = {
-    'welcome':       'no-reply@projekthub.com',       # application confirmation  → applicant
-    'hr':            'no-reply@projekthub.com',       # application status updates → applicant
-    'recruitment':   'no-reply@projekthub.com',       # new-application alert     → internal team
-    'support':       'no-reply@projekthub.com',       # account / login emails    → user  (verification later)
-    'notifications': 'notifications@projekthub.com',  # general notifications    → user
+    'welcome':       'no-reply@talentsolutions.com.np',       # application received confirmation → applicant
+    'hr':            'hr@talentsolutions.com.np',             # application status updates (rejection, shortlisted, etc.) → applicant
+    'recruitment':   'recruitment@talentsolutions.com.np',    # new application alerts → internal team
+    'support':       'no-reply@talentsolutions.com.np',       # OTP, password reset, verification → user
+    'notifications': 'no-reply@talentsolutions.com.np',       # general notifications → user
 }
 
 # Base URL used in email links (set SITE_URL in .env when deployed)

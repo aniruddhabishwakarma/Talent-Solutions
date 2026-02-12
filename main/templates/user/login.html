@@ -8,8 +8,8 @@
 <style>
     .login-card {
         background: white;
-        border-radius: 18px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
         position: relative;
         z-index: 10;
     }
@@ -17,10 +17,10 @@
     /* ===== INPUT FIELDS (FIXED) ===== */
     .input-field {
         width: 100%;
-        padding: 12px 14px;
+        padding: 10px 12px;
         border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        font-size: 14px;
+        border-radius: 8px;
+        font-size: 13px;
         background: #f9fafb;
         color: #111827;
         transition: all 0.2s ease;
@@ -40,12 +40,12 @@
     /* LOGIN BUTTON */
     .btn-login {
         width: 100%;
-        padding: 12px;
+        padding: 10px;
         background: linear-gradient(135deg, #0066cc 0%, #004A98 50%, #001832 100%);
         color: white;
         border: none;
-        border-radius: 10px;
-        font-size: 15px;
+        border-radius: 8px;
+        font-size: 14px;
         font-weight: 600;
         cursor: pointer;
         margin-top: 4px;
@@ -66,10 +66,10 @@
     .divider {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
         color: #9ca3af;
-        font-size: 13px;
-        margin: 14px 0;
+        font-size: 12px;
+        margin: 12px 0;
     }
 
     .divider::before,
@@ -83,11 +83,11 @@
     /* GOOGLE BUTTON */
     .btn-google {
         width: 100%;
-        padding: 11px;
+        padding: 9px;
         background: white;
         border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        font-size: 14px;
+        border-radius: 8px;
+        font-size: 13px;
         font-weight: 600;
         color: #374151;
         cursor: pointer;
@@ -106,25 +106,50 @@
 {% endblock %}
 
 {% block main_class %}
-min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28 pb-6
+min-h-screen pt-24 md:pt-28
 {% endblock %}
 
 {% block content %}
-<div class="w-full max-w-md">
-    <div class="login-card w-full p-7 md:p-8 max-h-[calc(100vh-140px)] overflow-auto">
+<div class="flex flex-col lg:flex-row min-h-[calc(100vh-120px)]">
+
+    <!-- Left Side - Marketing Text -->
+    <div class="hidden lg:flex lg:w-1/2 items-center justify-center p-12">
+        <div class="max-w-lg">
+            <!-- Epic Icon -->
+            <div class="mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 shadow-2xl shadow-blue-500/50 transform hover:scale-110 transition-transform duration-300">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <h1 class="text-5xl font-bold text-white mb-6 leading-tight">
+                Get Started
+            </h1>
+            <p class="text-lg text-white/90 leading-relaxed">
+                Seeking qualified apprentices or trainees? Talent Solutions simplifies recruitment for businesses. Get the best fit, fast.
+            </p>
+        </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
+        <div class="w-full max-w-sm">
+            <div class="login-card w-full p-5 md:p-6">
 
         <!-- Title -->
-        <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-6">
+        <h1 class="text-xl md:text-2xl font-bold text-center text-gray-900 mb-4">
             Login
         </h1>
 
         <!-- Login Form -->
-        <form method="POST" action="{% url 'user_login' %}" class="space-y-4">
+        <form method="POST" action="{% url 'user_login' %}" class="space-y-3">
             {% csrf_token %}
 
             <!-- Identifier -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
+                <label class="block text-xs font-medium text-gray-700 mb-1.5">
                     Email or Username
                 </label>
                 <input type="text" name="identifier" class="input-field" placeholder="Enter email or username" required>
@@ -132,7 +157,7 @@ min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28 pb-6
 
             <!-- Password -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
+                <label class="block text-xs font-medium text-gray-700 mb-1.5">
                     Password
                 </label>
                 <input type="password" name="password" class="input-field" placeholder="Enter password" required>
@@ -165,15 +190,15 @@ min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28 pb-6
         </a>
 
         <!-- Signup -->
-        <p class="text-center text-sm text-gray-600 mt-5">
-            Don’t have an account?
+        <p class="text-center text-xs text-gray-600 mt-4">
+            Don't have an account?
             <a href="{% url 'user_register' %}" class="font-semibold hover:underline" style="color:#49A7FF;">
                 Signup
             </a>
         </p>
-
+            </div>
+        </div>
     </div>
+
 </div>
 {% endblock %}
-
-{% block footer %}{% endblock %}

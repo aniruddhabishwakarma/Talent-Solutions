@@ -219,7 +219,7 @@
                             <img src="{{ application.passport_photo.url }}" alt="Passport photo" class="w-full h-full object-cover">
                         </button>
                         <!-- Modal -->
-                        <div id="passportModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm" onclick="this.classList.add('hidden')">
+                        <div id="passportModal" class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm" onclick="this.classList.add('hidden')">
                             <div class="relative max-w-lg w-full mx-4" onclick="event.stopPropagation()">
                                 <button type="button" onclick="document.getElementById('passportModal').classList.add('hidden')" class="absolute -top-3 -right-3 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-gray-900 z-10">&times;</button>
                                 <img src="{{ application.passport_photo.url }}" alt="Passport photo" class="w-full rounded-xl shadow-xl">

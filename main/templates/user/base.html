@@ -121,12 +121,15 @@
             background: #003670;
         }
 
+        /* Z-Index Hierarchy */
+        /* Base: 0-10, Info Bar: 60, Navbar: 50, Toasts: 200, Modals: 9999 */
+
         /* Toast Styles */
         .toast-container {
             position: fixed;
-            top: 100px;
+            top: 110px; /* Account for info bar (40px) + navbar (70px) */
             right: 20px;
-            z-index: 100;
+            z-index: 200;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -179,7 +182,7 @@
     {% include 'user/components/navbar.html' %}
     <!-- Contact Popup Modal -->
     <div id="contactPopup"
-        class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/50 backdrop-blur-md p-4">
+        class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/50 backdrop-blur-md p-4">
 
         <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl relative overflow-hidden transform transition-all duration-300 scale-100">
 
@@ -391,7 +394,7 @@
             function updateNavbar() {
                 // LOGIN / REGISTER pages (dark bg, no hero)
                 if (isAuthDark && !hasHero) {
-                    setNav('nav-on-hero');
+                    setNav('nav-dark');
                     return;
                 }
 
@@ -444,7 +447,8 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- Main Content -->
-    <main class="{% block main_class %}min-h-screen pt-20{% endblock %}">
+    <main class="{% block main_class %}min-h-screen pt-[110px]{% endblock %}">
+        <!-- pt-[110px] accounts for: info bar (40px) + navbar (70px) -->
         {% block content %}{% endblock %}
     </main>
     {% include 'user/components/footer.html' %}
