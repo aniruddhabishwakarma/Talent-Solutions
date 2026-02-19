@@ -20,7 +20,7 @@ class TeamMember(models.Model):
 
     name = models.CharField(max_length=100, help_text="Full name of the team member")
     position = models.CharField(max_length=150, help_text="Job title/role")
-    bio = models.TextField(max_length=300, help_text="Short bio (max 300 characters)")
+    bio = models.TextField(help_text="Biography")
     photo = models.ImageField(
         upload_to=upload_team_photo,
         help_text="Team member photo (recommended: square image, min 400x400px)"
