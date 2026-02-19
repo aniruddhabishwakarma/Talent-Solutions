@@ -14,16 +14,25 @@
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <!-- Left -->
             <div class="reveal max-w-full">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight break-words">
-                    Find the right<br />
-                    talent, without<br />
-                    the <span class="text-[#49A7FF]">hassle.</span>
+                <h1 id="hero-slogan" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight break-words">
+                    {% if company.hero_slogan %}{{ company.hero_slogan }}{% else %}Find the right talent, without the hassle.{% endif %}
                 </h1>
 
                 <p class="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg md:text-xl text-white/80">
-                    Seeking qualified apprentices or trainees? Talent Solutions simplifies recruitment for businesses.
-                    Get the best fit, fast.
+                    {% if company.hero_description %}{{ company.hero_description }}{% else %}We connect skilled Nepali workers with trusted employers worldwide — handling everything from recruitment and documentation to deployment.{% endif %}
                 </p>
+
+                <script>
+                    // Highlight the last word of the hero slogan in blue
+                    const sloganEl = document.getElementById('hero-slogan');
+                    if (sloganEl) {
+                        const text = sloganEl.textContent.trim();
+                        const lastSpace = text.lastIndexOf(' ');
+                        if (lastSpace !== -1) {
+                            sloganEl.innerHTML = text.slice(0, lastSpace + 1) + '<span class="text-[#49A7FF]">' + text.slice(lastSpace + 1) + '</span>';
+                        }
+                    }
+                </script>
 
                 <div class="mt-8 sm:mt-10">
                     <a href="#jobs" class="group inline-flex items-center justify-between gap-3 sm:gap-6
@@ -52,22 +61,56 @@
 
             </div>
 
-            <!-- Right (hidden on mobile, visible on lg+) -->
+            <!-- Right: Photo Gallery (hidden on mobile, visible on lg+) -->
             <div class="relative reveal hidden lg:flex justify-center lg:justify-end">
 
-                <!-- Top dotted (bigger + behind photo) -->
-                <!-- Top dotted (fixed position inside hero) -->
+                <!-- Decorative dots -->
                 <img src="{% static 'images/dotted.png' %}" alt=""
                     class="absolute left-0 w-56 opacity-80 pointer-events-none select-none z-0" />
-                <!-- Image Card -->
+
+                <!-- Gallery Card -->
                 <div class="relative w-full max-w-md z-10">
-                    <div class="rounded-[3rem] overflow-hidden shadow-2xl">
+                    <div class="rounded-[3rem] overflow-hidden shadow-2xl h-[460px] bg-white/10">
+
+                        {% if hero_photos %}
+                        <!-- Slides -->
+                        <div id="hero-gallery" class="relative w-full h-full">
+                            {% for photo in hero_photos %}
+                            <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out {% if not forloop.first %}opacity-0{% else %}opacity-100{% endif %}">
+                                <img src="{{ photo.image.url }}"
+                                    alt="{% if photo.caption %}{{ photo.caption }}{% else %}Gallery{% endif %}"
+                                    class="w-full h-full object-cover" />
+                                {% if photo.caption %}
+                                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent px-5 py-4">
+                                    <p class="text-white text-sm font-medium">{{ photo.caption }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+
+                            <!-- Navigation dots -->
+                            {% if hero_photos|length > 1 %}
+                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                {% for photo in hero_photos %}
+                                <button class="hero-dot w-2 h-2 rounded-full transition-all duration-300 {% if forloop.first %}bg-white scale-125{% else %}bg-white/50{% endif %}"
+                                    data-index="{{ forloop.counter0 }}"
+                                    onclick="goToSlide({{ forloop.counter0 }})">
+                                </button>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% else %}
+                        <!-- Fallback when no photos uploaded -->
                         <img src="{% static 'images/user.png' %}" alt="Professional"
-                            class="w-full h-[460px] object-cover" />
+                            class="w-full h-full object-cover" />
+                        {% endif %}
+
                     </div>
                 </div>
 
-                <!-- Bottom dotted (bigger + behind photo) -->
+                <!-- Decorative dots -->
                 <img src="{% static 'images/dotted.png' %}" alt=""
                     class="absolute -bottom-10 right-0 w-56 opacity-80 pointer-events-none select-none z-0" />
             </div>
@@ -75,3 +118,41 @@
         </div>
     </div>
 </section>
+
+<script>
+/* ── Hero Gallery Auto-Scroller ── */
+(function () {
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    if (slides.length <= 1) return;
+
+    let current = 0;
+    let timer;
+
+    function goToSlide(index) {
+        slides[current].classList.remove('opacity-100');
+        slides[current].classList.add('opacity-0');
+        dots[current].classList.remove('bg-white', 'scale-125');
+        dots[current].classList.add('bg-white/50');
+
+        current = index;
+
+        slides[current].classList.remove('opacity-0');
+        slides[current].classList.add('opacity-100');
+        dots[current].classList.remove('bg-white/50');
+        dots[current].classList.add('bg-white', 'scale-125');
+    }
+
+    window.goToSlide = function (index) {
+        clearInterval(timer);
+        goToSlide(index);
+        timer = setInterval(advance, 4000);
+    };
+
+    function advance() {
+        goToSlide((current + 1) % slides.length);
+    }
+
+    timer = setInterval(advance, 4000);
+})();
+</script>

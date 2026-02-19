@@ -10,46 +10,14 @@
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8 lg:gap-20 reveal">
-                <!-- Left - View Location Button -->
-                <div class="order-2 lg:order-1 flex items-center justify-center">
+                <!-- Left - Embedded Map -->
+                <div class="order-2 lg:order-1 w-full h-[350px] sm:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
                     {% if company.google_maps_embed %}
-                    <button onclick="openMapModal()"
-                        class="group relative flex flex-col items-center justify-center w-full h-[350px] sm:h-[400px] lg:h-[500px]
-                               rounded-2xl border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-cyan-50
-                               hover:from-blue-100 hover:to-cyan-100 transition-all duration-300
-                               hover:shadow-xl hover:border-[#49A7FF] overflow-hidden">
-
-                        <!-- Background decoration -->
-                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(73,167,255,0.1),transparent_70%)]"></div>
-
-                        <!-- Content -->
-                        <div class="relative text-center p-8">
-                            <!-- Map Icon -->
-                            <div class="mx-auto w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#49A7FF]/15 flex items-center justify-center mb-6
-                                        group-hover:bg-[#49A7FF]/25 transition-all duration-300 group-hover:scale-110">
-                                <svg class="w-10 h-10 sm:w-12 sm:h-12 text-[#49A7FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                            </div>
-
-                            <!-- Text -->
-                            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">View Our Location</h3>
-                            <p class="text-base sm:text-lg text-gray-600 mb-6">Find us on Google Maps</p>
-
-                            <!-- Arrow Icon -->
-                            <div class="inline-flex items-center gap-2 text-[#49A7FF] font-semibold">
-                                <span>Open Map</span>
-                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </button>
+                    <div class="w-full h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:border-0">
+                        {{ company.google_maps_embed|safe }}
+                    </div>
                     {% else %}
-                    <div class="w-full h-[350px] sm:h-[400px] lg:h-[500px] rounded-2xl bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <div class="w-full h-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
                         <div class="text-center p-8">
                             <svg class="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -119,61 +87,4 @@
         </div>
     </div>
 
-    <!-- Map Modal -->
-    {% if company.google_maps_embed %}
-    <div id="mapModal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="relative w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#2f6fd6] to-[#4f86e6] text-white">
-                <div class="flex items-center gap-3">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <h3 class="text-xl font-bold">Our Location</h3>
-                </div>
-                <button onclick="closeMapModal()" class="p-2 hover:bg-white/20 rounded-full transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Map Container -->
-            <div class="w-full h-[60vh] sm:h-[70vh] overflow-hidden">
-                {{ company.google_maps_embed|safe }}
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openMapModal() {
-            const modal = document.getElementById('mapModal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMapModal() {
-            const modal = document.getElementById('mapModal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = '';
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('mapModal')?.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeMapModal();
-            }
-        });
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeMapModal();
-            }
-        });
-    </script>
-    {% endif %}
 </section>

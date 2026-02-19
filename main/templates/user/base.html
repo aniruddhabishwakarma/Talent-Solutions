@@ -329,18 +329,20 @@
     </div>
 
     <script>
+        function closePopup() {
+            document.getElementById("contactPopup").classList.add("hidden");
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             if (!sessionStorage.getItem("popupShown")) {
                 setTimeout(() => {
                     document.getElementById("contactPopup").classList.remove("hidden");
                     sessionStorage.setItem("popupShown", "true");
+                    // Auto close 10 seconds after the popup appears
+                    setTimeout(closePopup, 10000);
                 }, 5000);
             }
         });
-
-        function closePopup() {
-            document.getElementById("contactPopup").classList.add("hidden");
-        }
         document.addEventListener('DOMContentLoaded', () => {
             const navbar = document.getElementById('navbar');
             if (!navbar) return;

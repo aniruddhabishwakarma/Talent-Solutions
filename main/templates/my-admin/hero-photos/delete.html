@@ -1,0 +1,77 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Delete Hero Photo{% endblock %}
+
+{% block extra_style %}
+<style>
+    .page-header { margin-bottom: 32px; }
+    .page-title { font-size: 28px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+    .breadcrumb { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--gray-500); }
+    .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    .confirm-card {
+        background: var(--white); border: 1px solid var(--gray-200);
+        border-radius: 12px; padding: 40px; max-width: 520px;
+    }
+    .confirm-icon { font-size: 48px; color: #ef4444; margin-bottom: 16px; }
+    .confirm-title { font-size: 22px; font-weight: 700; color: var(--black); margin-bottom: 10px; }
+    .confirm-text { color: var(--gray-600); font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
+
+    .photo-preview {
+        width: 100%; max-height: 220px; object-fit: cover;
+        border-radius: 10px; margin-bottom: 24px;
+        border: 1px solid var(--gray-200);
+    }
+
+    .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 24px; border-radius: 10px; font-size: 14px;
+        font-weight: 600; cursor: pointer; transition: all 0.2s;
+        text-decoration: none; border: none;
+    }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-secondary { background: var(--gray-100); color: var(--gray-700); }
+    .btn-secondary:hover { background: var(--gray-200); }
+    .btn-row { display: flex; gap: 12px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Delete Photo</h1>
+    <div class="breadcrumb">
+        <a href="{% url 'hero_photo_list' %}">Hero Photos</a>
+        <span>›</span>
+        <span>Delete</span>
+    </div>
+</div>
+
+<div class="confirm-card">
+    <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+    <h2 class="confirm-title">Delete this photo?</h2>
+
+    <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'Hero photo' }}" class="photo-preview">
+
+    {% if photo.caption %}
+    <p class="confirm-text">
+        You are about to delete <strong>"{{ photo.caption }}"</strong>. This action cannot be undone.
+    </p>
+    {% else %}
+    <p class="confirm-text">
+        You are about to delete this photo permanently. This action cannot be undone.
+    </p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="btn-row">
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-trash"></i> Yes, Delete
+            </button>
+            <a href="{% url 'hero_photo_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

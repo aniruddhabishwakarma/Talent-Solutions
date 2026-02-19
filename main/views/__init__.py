@@ -88,6 +88,13 @@ from .contact_admin_views import (
     contact_message_toggle_read,
 )
 
+from .hero_photo_views import (
+    hero_photo_list,
+    hero_photo_add,
+    hero_photo_delete,
+    hero_photo_toggle,
+)
+
 __all__ = [
     # Admin auth
     'admin_register',
@@ -158,4 +165,9 @@ __all__ = [
     'contact_message_detail',
     'contact_message_delete',
     'contact_message_toggle_read',
+    # Hero Photos
+    'hero_photo_list',
+    'hero_photo_add',
+    'hero_photo_delete',
+    'hero_photo_toggle',
 ]

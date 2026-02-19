@@ -57,7 +57,7 @@
                         </svg>
                     </div>
                     <span class="font-medium">Sun–Fri</span>
-                    <span class="text-blue-600 font-semibold">10AM–5PM</span>
+                    <span class="text-blue-600 font-semibold">9:30AM–5:30PM</span>
                     <!-- Live Status Badge -->
                     <span id="office-status" class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide transition-all">
                         <span class="status-dot inline-block w-1.5 h-1.5 rounded-full mr-1"></span>
@@ -100,6 +100,11 @@
 
             <!-- Right: Support (Mobile) -->
             <div class="md:hidden flex items-center gap-1.5">
+                <!-- Live Status Badge (Mobile) -->
+                <span id="office-status-mobile" class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide transition-all">
+                    <span class="status-dot inline-block w-1.5 h-1.5 rounded-full mr-1"></span>
+                    <span class="status-text">...</span>
+                </span>
                 {% if company.phone %}
                 <a href="tel:{{ company.phone }}"
                     class="flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 text-blue-600 text-[11px] font-semibold hover:bg-blue-200 transition-all whitespace-nowrap">
@@ -379,34 +384,36 @@
     // Business Hours: Sunday-Friday, 10:00 AM - 5:00 PM
     // ═══════════════════════════════════════════════════════════════
     function updateOfficeStatus() {
-        const statusBadge = document.getElementById('office-status');
-        if (!statusBadge) return;
-
         const now = new Date();
-        const day = now.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+        const day = now.getDay();
         const hour = now.getHours();
         const minute = now.getMinutes();
-        const currentTime = hour + minute / 60; // e.g., 10:30 = 10.5
+        const currentTime = hour + minute / 60;
 
-        // Business hours: Sunday (0) to Friday (5), 10:00 AM - 5:00 PM
-        const isWeekday = day >= 0 && day <= 5; // Sunday to Friday
-        const isBusinessHours = currentTime >= 10 && currentTime < 17; // 10 AM - 5 PM
+        // Business hours: Sunday (0) to Friday (5), 9:30 AM - 5:30 PM
+        const isWeekday = day >= 0 && day <= 5;
+        const isBusinessHours = currentTime >= 9.5 && currentTime < 17.5;
         const isOpen = isWeekday && isBusinessHours;
 
-        const statusDot = statusBadge.querySelector('.status-dot');
-        const statusText = statusBadge.querySelector('.status-text');
+        const badges = [
+            document.getElementById('office-status'),
+            document.getElementById('office-status-mobile'),
+        ];
 
-        if (isOpen) {
-            // OPEN - Green
-            statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700 transition-all';
-            statusDot.className = 'status-dot inline-block w-1.5 h-1.5 rounded-full mr-1 bg-green-500 animate-pulse';
-            statusText.textContent = 'Open';
-        } else {
-            // CLOSED - Red
-            statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700 transition-all';
-            statusDot.className = 'status-dot inline-block w-1.5 h-1.5 rounded-full mr-1 bg-red-500';
-            statusText.textContent = 'Closed';
-        }
+        badges.forEach(function(badge) {
+            if (!badge) return;
+            const dot = badge.querySelector('.status-dot');
+            const text = badge.querySelector('.status-text');
+            if (isOpen) {
+                badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700 transition-all';
+                dot.className = 'status-dot inline-block w-1.5 h-1.5 rounded-full mr-1 bg-green-500 animate-pulse';
+                text.textContent = 'Open';
+            } else {
+                badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700 transition-all';
+                dot.className = 'status-dot inline-block w-1.5 h-1.5 rounded-full mr-1 bg-red-500';
+                text.textContent = 'Closed';
+            }
+        });
     }
 
     // Update status immediately on page load

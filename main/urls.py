@@ -71,6 +71,11 @@ from main.views import (
     contact_message_detail,
     contact_message_delete,
     contact_message_toggle_read,
+    # Hero Photos
+    hero_photo_list,
+    hero_photo_add,
+    hero_photo_delete,
+    hero_photo_toggle,
 )
 
 urlpatterns = [
@@ -160,4 +165,10 @@ urlpatterns = [
     path('my-admin/contact-messages/<int:pk>/', contact_message_detail, name='contact_message_detail'),
     path('my-admin/contact-messages/<int:pk>/delete/', contact_message_delete, name='contact_message_delete'),
     path('my-admin/contact-messages/<int:pk>/toggle-read/', contact_message_toggle_read, name='contact_message_toggle_read'),
+
+    # Hero Photos
+    path('my-admin/hero-photos/', hero_photo_list, name='hero_photo_list'),
+    path('my-admin/hero-photos/add/', hero_photo_add, name='hero_photo_add'),
+    path('my-admin/hero-photos/<int:pk>/delete/', hero_photo_delete, name='hero_photo_delete'),
+    path('my-admin/hero-photos/<int:pk>/toggle/', hero_photo_toggle, name='hero_photo_toggle'),
 ]

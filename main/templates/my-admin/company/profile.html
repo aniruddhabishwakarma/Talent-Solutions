@@ -151,6 +151,48 @@
                     </div>
                     {% endif %}
 
+                    <!-- Legal Information -->
+                    {% if company.registration_number or company.license_number or company.pan_number %}
+                    <div class="pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Legal Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {% if company.registration_number %}
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Registration No.</label>
+                                <div class="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg">
+                                    <svg class="w-5 h-5 text-sky-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    <span class="text-gray-900 font-medium">{{ company.registration_number }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if company.license_number %}
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">Foreign Employment License No.</label>
+                                <div class="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg">
+                                    <svg class="w-5 h-5 text-sky-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                    <span class="text-gray-900 font-medium">{{ company.license_number }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if company.pan_number %}
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-600 mb-2">PAN Number</label>
+                                <div class="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-lg">
+                                    <svg class="w-5 h-5 text-sky-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0"/>
+                                    </svg>
+                                    <span class="text-gray-900 font-medium">{{ company.pan_number }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <!-- Timestamps -->
                     <div class="pt-6 border-t border-gray-200">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

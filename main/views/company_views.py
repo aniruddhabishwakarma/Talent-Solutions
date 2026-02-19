@@ -48,6 +48,11 @@ def company_edit(request):
         company.youtube = request.POST.get('youtube', '').strip() or None
         company.whatsapp = request.POST.get('whatsapp', '').strip() or None
 
+        # Legal Information
+        company.registration_number = request.POST.get('registration_number', '').strip() or None
+        company.license_number = request.POST.get('license_number', '').strip() or None
+        company.pan_number = request.POST.get('pan_number', '').strip() or None
+
         # Google Maps
         company.google_maps_embed = request.POST.get('google_maps_embed', '').strip() or None
 

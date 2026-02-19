@@ -43,7 +43,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('company_name', 'logo', 'tagline', 'website', 'industry')
+            'fields': ('company_name', 'logo', 'tagline', 'hero_slogan', 'hero_description', 'website', 'industry')
         }),
         ('Contact Details', {
             'fields': ('email', 'phone', 'alternate_phone')
@@ -56,6 +56,9 @@ class CompanyAdmin(admin.ModelAdmin):
         }),
         ('Social Media', {
             'fields': ('facebook', 'twitter', 'instagram', 'tiktok', 'youtube', 'whatsapp')
+        }),
+        ('Legal Information', {
+            'fields': ('registration_number', 'license_number', 'pan_number')
         }),
         ('Google Maps', {
             'fields': ('google_maps_embed',)

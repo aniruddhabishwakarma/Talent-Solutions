@@ -11,149 +11,108 @@
 
     <!-- Content -->
     <div class="relative">
+        <!-- Single unified row -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
-                <!-- Left: Logo, Description & Social -->
-                <div class="flex-1 max-w-xl">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div
-                            class="w-24 h-24 mb-4 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-white/10 shadow-xl flex items-center justify-center">
-                            {% if company and company.logo %}
-                            <img src="{{ company.logo.url }}" alt="{{ company.company_name }}"
-                                class="w-full h-full object-cover">
-                            {% else %}
-                            <img src="{% static 'images/logo.png' %}" alt="Talent Solutions"
-                                class="w-full h-full object-contain"
-                                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
-                            <div
-                                class="hidden w-full h-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
-                                <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                                </svg>
-                            </div>
-                            {% endif %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                <!-- Col 1: Logo, Description & Social -->
+                <div class="sm:col-span-2 lg:col-span-1 lg:pt-10">
+                    <div class="w-24 h-24 mb-4 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-white/10 shadow-xl flex items-center justify-center">
+                        {% if company and company.logo %}
+                        <img src="{{ company.logo.url }}" alt="{{ company.company_name }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <img src="{% static 'images/logo.png' %}" alt="Talent Solutions"
+                            class="w-full h-full object-contain"
+                            onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                        <div class="hidden w-full h-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
+                            <svg class="w-12 h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                            </svg>
                         </div>
+                        {% endif %}
                     </div>
 
-                    <p class="text-white/90 text-sm mb-4 leading-relaxed">
-                        Seeking qualified apprentices or trainees? Talent Solutions simplifies recruitment for
-                        Queensland Manpower. Get the best fit, fast.
+                    <p class="text-white/70 text-sm leading-relaxed">
+                        Connecting skilled Nepali workers with trusted employers worldwide. We handle recruitment, documentation, visa processing, and deployment — so every journey abroad begins with confidence.
                     </p>
-
-                    <!-- Social icons (unchanged) -->
-                    <div class="flex items-center gap-4">
-                        <span class="text-white font-medium">Follow us</span>
-
-                        {% for _ in "12345" %}
-                        {% endfor %}
-                        <!-- (icons remain exactly as before – unchanged) -->
-                        <!-- Facebook / Instagram / TikTok / YouTube / WhatsApp -->
-                        <!-- keeping your original SVG blocks -->
-                        <!-- NO logic changed -->
-                    </div>
                 </div>
 
-                <!-- Right: Head Office -->
-                <div class="lg:text-right">
-                    <h3 class="text-2xl font-bold text-white mb-4">Head Office</h3>
-                    {% if company %}
-                    <p class="text-white/90 mb-3">{{ company.address }}, {{ company.city }}, {{ company.country }}</p>
-                    <p class="text-white/90 mb-2">Need Help? Call us</p>
-                    {% if company.phone %}
-                    <p class="text-cyan-300 text-xl font-semibold mb-1">{{ company.phone }}</p>
-                    {% endif %}
-                    {% if company.alternate_phone %}
-                    <p class="text-cyan-300 text-lg font-medium mb-3">{{ company.alternate_phone }}</p>
-                    {% endif %}
-                    {% if company.email %}
-                    <p class="text-cyan-300">{{ company.email }}</p>
-                    {% endif %}
-                    {% else %}
-                    <p class="text-white/90 mb-3">Kalimati, Kathmandu Nepal</p>
-                    <p class="text-white/90 mb-2">Need Help? Call us</p>
-                    <p class="text-cyan-300 text-xl font-semibold mb-3">+9779800000000</p>
-                    <p class="text-cyan-300">talentsolutions@gmail.com</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="border-t border-white/20"></div>
-        </div>
-
-        <!-- Middle Section -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Subscribe -->
-                <div>
-                    <h4 class="text-xl font-bold text-white mb-4">Talentsolutions Subscribe</h4>
-                    <form class="space-y-3">
-                        <input type="email" placeholder="Enter your email address..."
-                            class="w-full px-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-                        <button type="submit" class="group inline-flex items-center justify-center gap-3
-           px-6 py-3 rounded-full
-           bg-gradient-to-r from-[#2f6fd6] via-[#4f86e6] to-[#9aa8b8]
-           text-white font-semibold
-           shadow-lg shadow-blue-900/40
-           transition-all duration-300
-           hover:scale-[1.04] hover:shadow-blue-800/60">
-
-                            <span>Subscribe</span>
-
-                            <!-- Arrow bubble -->
-                            <span class="flex items-center justify-center
-                 w-8 h-8 rounded-full
-                 bg-white/20
-                 transition-transform duration-300
-                 group-hover:translate-x-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </span>
-                        </button>
-
-                    </form>
-                </div>
-
-                <!-- Link columns (unchanged) -->
-                <div>
+                <!-- Col 2: Our Services -->
+                <div class="lg:pt-14">
                     <h4 class="text-xl font-bold text-white mb-4">Our Services</h4>
                     <ul class="space-y-3">
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Solutions</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Pricing</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Team</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Outsourcing</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Privacy Policy</a>
-                        </li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Privacy Policy</a></li>
                     </ul>
                 </div>
 
-                <div>
-                    <h4 class="text-xl font-bold text-white mb-4">Our Work</h4>
-                    <ul class="space-y-3">
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Solutions</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Pricing</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Team</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Outsourcing</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Privacy Policy</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div>
+                <!-- Col 3: About us -->
+                <div class="lg:pt-14">
                     <h4 class="text-xl font-bold text-white mb-4">About us</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Services</a>
-                        </li>
+                        <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Our Services</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">HR Training</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Careers</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Events</a></li>
                         <li><a href="#" class="text-white/80 hover:text-cyan-300 transition-colors">Contact Us</a></li>
                     </ul>
                 </div>
+
+                <!-- Col 4: Head Office -->
+                <div class="lg:pt-14">
+                    <h4 class="text-xl font-bold text-white mb-4">Head Office</h4>
+                    {% if company %}
+                    <p class="text-white/90 text-sm mb-3 leading-relaxed">{{ company.address }}, {{ company.city }}, {{ company.country }}</p>
+                    <p class="text-white/90 text-sm mb-2">Need Help? Call us</p>
+                    {% if company.phone %}
+                    <p class="text-cyan-300 text-lg font-semibold mb-1">{{ company.phone }}</p>
+                    {% endif %}
+                    {% if company.alternate_phone %}
+                    <p class="text-cyan-300 mb-3">{{ company.alternate_phone }}</p>
+                    {% endif %}
+                    {% if company.email %}
+                    <p class="text-cyan-300 text-sm">{{ company.email }}</p>
+                    {% endif %}
+                    {% else %}
+                    <p class="text-white/90 text-sm mb-3">Kalimati, Kathmandu Nepal</p>
+                    <p class="text-white/90 text-sm mb-2">Need Help? Call us</p>
+                    <p class="text-cyan-300 text-lg font-semibold mb-3">+9779800000000</p>
+                    <p class="text-cyan-300 text-sm">talentsolutions@gmail.com</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <!-- Follow us — sits below the grid, starting from col 2 -->
+            <div class="mt-8 flex items-center justify-center gap-5 flex-wrap">
+                <span class="text-white font-medium text-sm">Follow us</span>
+                <a {% if company.facebook %}href="{{ company.facebook }}" target="_blank" rel="noopener noreferrer"{% else %}href="javascript:void(0)"{% endif %}
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#1877F2] text-white/70 hover:text-white transition-all duration-300 hover:scale-110">
+                    <i class="fab fa-facebook-f text-xs"></i>
+                </a>
+                <a {% if company.instagram %}href="{{ company.instagram }}" target="_blank" rel="noopener noreferrer"{% else %}href="javascript:void(0)"{% endif %}
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-gradient-to-br hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] text-white/70 hover:text-white transition-all duration-300 hover:scale-110">
+                    <i class="fab fa-instagram text-xs"></i>
+                </a>
+                <a {% if company.tiktok %}href="{{ company.tiktok }}" target="_blank" rel="noopener noreferrer"{% else %}href="javascript:void(0)"{% endif %}
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-black text-white/70 hover:text-white transition-all duration-300 hover:scale-110">
+                    <i class="fab fa-tiktok text-xs"></i>
+                </a>
+                <a {% if company.youtube %}href="{{ company.youtube }}" target="_blank" rel="noopener noreferrer"{% else %}href="javascript:void(0)"{% endif %}
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#FF0000] text-white/70 hover:text-white transition-all duration-300 hover:scale-110">
+                    <i class="fab fa-youtube text-xs"></i>
+                </a>
+                <a {% if company.whatsapp %}href="{{ company.whatsapp }}" target="_blank" rel="noopener noreferrer"{% else %}href="javascript:void(0)"{% endif %}
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#25D366] text-white/70 hover:text-white transition-all duration-300 hover:scale-110">
+                    <i class="fab fa-whatsapp text-xs"></i>
+                </a>
+                <a {% if company.twitter %}href="{{ company.twitter }}" target="_blank" rel="noopener noreferrer"{% else %}href="javascript:void(0)"{% endif %}
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-black text-white/70 hover:text-white transition-all duration-300 hover:scale-110">
+                    <i class="fab fa-x-twitter text-xs"></i>
+                </a>
             </div>
         </div>
 
@@ -161,6 +120,49 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="border-t border-white/20"></div>
         </div>
+
+        <!-- Legal Info Bar -->
+        {% if company and company.registration_number or company.license_number or company.pan_number %}
+        <div class="py-4 text-center">
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-white/60">
+                {% if company.registration_number %}
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span class="text-white/40">Reg. No:</span>
+                    <span class="text-white/70 font-medium">{{ company.registration_number }}</span>
+                </span>
+                {% endif %}
+                {% if company.license_number %}
+                <span class="hidden sm:inline text-white/20">|</span>
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span class="text-white/40">License No:</span>
+                    <span class="text-white/70 font-medium">{{ company.license_number }}</span>
+                </span>
+                {% endif %}
+                {% if company.pan_number %}
+                <span class="hidden sm:inline text-white/20">|</span>
+                <span class="flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2"/>
+                    </svg>
+                    <span class="text-white/40">PAN:</span>
+                    <span class="text-white/70 font-medium">{{ company.pan_number }}</span>
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t border-white/10"></div>
+        </div>
+        {% endif %}
 
         <!-- Bottom bar -->
         <div class="py-6 text-center">

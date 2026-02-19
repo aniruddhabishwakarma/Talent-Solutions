@@ -1,0 +1,241 @@
+{% extends 'my-admin/base.html' %}
+
+{% block title %}Hero Gallery Photos{% endblock %}
+
+{% block extra_style %}
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--black);
+    }
+
+    .page-subtitle {
+        color: var(--gray-500);
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .stats-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        flex: 1;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: var(--gray-500);
+        margin-bottom: 4px;
+    }
+
+    .stat-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--black);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .photo-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .photo-thumb {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .photo-body {
+        padding: 14px 16px;
+    }
+
+    .photo-caption {
+        font-weight: 600;
+        color: var(--black);
+        font-size: 14px;
+        margin-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .photo-order {
+        font-size: 12px;
+        color: var(--gray-500);
+        margin-bottom: 12px;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .badge-danger {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .action-btns {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .btn-icon {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        border: none;
+    }
+
+    .btn-delete {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .btn-delete:hover {
+        background: #fecaca;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--gray-400);
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+    }
+
+    .empty-state i {
+        font-size: 64px;
+        margin-bottom: 16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Hero Gallery Photos</h1>
+        <p class="page-subtitle">Manage photos shown in the auto-scrolling gallery on the homepage hero section</p>
+    </div>
+    <a href="{% url 'hero_photo_add' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Add Photo
+    </a>
+</div>
+
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-label">Total Photos</div>
+        <div class="stat-value">{{ photos.count }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Active</div>
+        <div class="stat-value" style="color: #22c55e;">{{ active_count }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Inactive</div>
+        <div class="stat-value" style="color: #ef4444;">{{ inactive_count }}</div>
+    </div>
+</div>
+
+{% if photos %}
+<div class="photo-grid">
+    {% for photo in photos %}
+    <div class="photo-card">
+        <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:'Gallery photo' }}" class="photo-thumb">
+        <div class="photo-body">
+            <div class="photo-caption">{{ photo.caption|default:"(No caption)" }}</div>
+            <div class="photo-order">Order: {{ photo.display_order }}</div>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <form method="POST" action="{% url 'hero_photo_toggle' photo.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="badge {% if photo.is_active %}badge-success{% else %}badge-danger{% endif %}" style="cursor: pointer; border: none;">
+                        {% if photo.is_active %}Active{% else %}Inactive{% endif %}
+                    </button>
+                </form>
+                <div class="action-btns">
+                    <a href="{% url 'hero_photo_delete' photo.pk %}" class="btn-icon btn-delete" title="Delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <i class="fa-solid fa-images"></i>
+    <p style="font-size: 16px; margin-bottom: 8px;">No gallery photos yet.</p>
+    <p style="font-size: 13px; margin-bottom: 20px;">Upload office, event, or team photos to display in the hero gallery.</p>
+    <a href="{% url 'hero_photo_add' %}" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Add Your First Photo
+    </a>
+</div>
+{% endif %}
+{% endblock %}

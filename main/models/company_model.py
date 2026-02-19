@@ -27,6 +27,8 @@ class Company(models.Model):
     company_name = models.CharField(max_length=255, help_text='Official company name')
     logo = models.ImageField(upload_to='company/', blank=True, null=True, help_text='Company logo')
     tagline = models.CharField(max_length=255, blank=True, null=True, help_text='Short slogan or motto')
+    hero_slogan = models.CharField(max_length=300, blank=True, null=True, help_text='Hero section heading (e.g. "Find the right talent, without the hassle.")')
+    hero_description = models.TextField(blank=True, null=True, help_text='Hero section subtext paragraph')
     website = models.URLField(blank=True, null=True, help_text='Company website URL')
     industry = models.CharField(max_length=100, blank=True, null=True, help_text='Industry type')
 
@@ -53,6 +55,11 @@ class Company(models.Model):
     tiktok = models.URLField(blank=True, null=True, help_text='TikTok profile URL')
     youtube = models.URLField(blank=True, null=True, help_text='YouTube channel URL')
     whatsapp = models.URLField(blank=True, null=True, help_text='WhatsApp business URL')
+
+    # Legal Information
+    registration_number = models.CharField(max_length=100, blank=True, null=True, help_text='Company Registration Number')
+    license_number = models.CharField(max_length=100, blank=True, null=True, help_text='Foreign Employment License Number (DOFE)')
+    pan_number = models.CharField(max_length=50, blank=True, null=True, help_text='PAN / Tax Identification Number')
 
     # Google Maps
     google_maps_embed = models.TextField(blank=True, null=True, help_text='Google Maps embed iframe code')
