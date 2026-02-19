@@ -22,7 +22,10 @@ RUN mkdir -p db_data media
 # Collect static files so whitenoise can serve them
 RUN python manage.py collectstatic --noinput
 
+# Entrypoint: validates volumes are mounted, then migrates + starts gunicorn
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8000
 
-# Run migrations then start gunicorn
-CMD ["sh", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 --workers 3 talent_solutions.wsgi:application"]
+CMD ["/entrypoint.sh"]

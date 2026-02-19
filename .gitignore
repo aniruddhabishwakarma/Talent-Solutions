@@ -19,6 +19,9 @@ media/
 # Docker runtime data (db + uploads live here on the host)
 data/
 
+# Local backups (server-side only)
+backups/
+
 # Collected static (built inside Docker image)
 staticfiles/
 
