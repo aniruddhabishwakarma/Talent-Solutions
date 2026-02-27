@@ -125,6 +125,18 @@
 <nav class="fixed top-10 left-0 right-0 z-50 transition-all duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 md:h-20">
+            <!-- Left: Hamburger (mobile) + Logo -->
+            <div class="flex items-center gap-2">
+            <!-- Mobile Menu Button -->
+            <button type="button" class="md:hidden p-2 rounded-lg nav-mobile-btn transition-colors" id="mobile-menu-btn"
+                onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6" id="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <svg class="w-6 h-6 hidden" id="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
             <!-- Logo -->
             <a href="{% url 'home' %}" class="flex items-center gap-2 flex-shrink-0">
                 {% if company and company.logo %}
@@ -143,6 +155,7 @@
                     {{ company.company_name|default:"Talent Solutions" }}
                 </span>
             </a>
+            </div>
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center gap-6 lg:gap-8">
@@ -246,23 +259,13 @@
                 {% endif %}
             </div>
 
-            <!-- Mobile Menu Button -->
-            <button type="button" class="md:hidden p-2 rounded-lg nav-mobile-btn transition-colors" id="mobile-menu-btn"
-                onclick="toggleMobileMenu()">
-                <svg class="w-6 h-6" id="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                <svg class="w-6 h-6 hidden" id="close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
         </div>
     </div>
 
     <!-- Mobile Menu -->
     <div class="md:hidden hidden bg-[#001832]/95 backdrop-blur-lg border-t border-white/10" id="mobile-menu">
         <div class="px-4 py-4 space-y-1">
-            <!-- Authentication Section (Top of Mobile Menu) -->
+            <!-- Authenticated user section (top) -->
             {% if user.is_authenticated %}
             <div class="mb-4 pb-4 border-b border-white/20">
                 <!-- User Profile Info -->
@@ -285,8 +288,6 @@
                         <p class="text-white/60 text-xs">{{ user.email }}</p>
                     </div>
                 </div>
-
-                <!-- User Menu Links -->
                 <a href="{% url 'user_profile' %}"
                     class="block px-4 py-2.5 text-white/90 hover:bg-white/10 rounded-lg transition-colors flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -312,30 +313,6 @@
                     Logout
                 </a>
             </div>
-            {% else %}
-            <div class="mb-4 pb-4 border-b border-white/20">
-                <div class="flex gap-2">
-                    <!-- Login Button -->
-                    <a href="{% url 'user_login' %}"
-                        class="flex-1 px-4 py-3 text-center text-white font-semibold bg-white/10 hover:bg-white/20 rounded-lg transition-all flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                        </svg>
-                        Login
-                    </a>
-
-                    <!-- Register Button -->
-                    <a href="{% url 'user_register' %}"
-                        class="flex-1 px-4 py-3 text-center text-white font-semibold bg-gradient-to-r from-[#2f6fd6] to-[#4f86e6] hover:from-[#2563c7] hover:to-[#3d75d7] rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-900/30">
-                        <span>Register</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
             {% endif %}
 
             <!-- Navigation Links -->
@@ -351,6 +328,16 @@
                 class="mobile-nav-link block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Services</a>
             <a href="{% url 'home' %}#contact" data-section="contact"
                 class="mobile-nav-link block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Contact</a>
+
+            <!-- Login / Register (bottom, unauthenticated only) -->
+            {% if not user.is_authenticated %}
+            <div class="pt-2 border-t border-white/20">
+                <a href="{% url 'user_login' %}"
+                    class="mobile-nav-link block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Login</a>
+                <a href="{% url 'user_register' %}"
+                    class="mobile-nav-link block px-4 py-3 text-white font-medium hover:bg-white/10 rounded-lg transition-colors">Register</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </nav>
@@ -421,4 +408,5 @@
 
     // Update every minute (in case user keeps page open)
     setInterval(updateOfficeStatus, 60000);
+
 </script>
